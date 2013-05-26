@@ -1,0 +1,37 @@
+#set($beanType=$TableBean.getClass().getSimpleName())
+#set($beanName=$beanType.toLowerCase())
+#set($primaryType=$TableBean.getPrimaryField().getType().getSimpleName())
+<div class="page">
+	<div class="pageContent">
+		<form method="post" action="../${beanType}!add.action"  class="pageForm" name="${beanType}Form" onsubmit="return validateCallback(this, saveAjaxDone);">
+			<div class="pageFormContent" layoutH="56">
+				#foreach($field in $fields)
+					#set($type=$field.getType().getSimpleName())
+					#set($filedName=$field.getFieldName())
+				<p>
+					<label>$filedName:</label>
+					#if($type=="String"||$type=="Integer"||$type=="Double"||$type=="Decimal"||$type=="Float")
+		<input name="${beanName}Form.${filedName}" class="textInputRequired"  type="text" size="30" value=""/>
+					#elseif($type=="Timestamp"||$type=="Date")
+		<input type="text" name="${beanName}Form.${filedName}" readOnly="readOnly" class="date" size="30" />
+					<a class="inputDateButton" href="#">选择</a>
+					#else
+		<input name="${beanName}Form.${filedName}" type="text" size="30" value=""/>
+                    #end
+				</p>
+				#end
+			</div>
+			<div class="formBar">
+				<ul>
+				<li>
+						<div class="button"><div class="buttonContent"><button type="reset">重置</button></div></div>
+					</li>
+					<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+					<li>
+						<div class="button"><div class="buttonContent"><button type="Button" onclick="jQuery.pdialog.closeCurrent()">取消</button></div></div>
+					</li>
+				</ul>
+			</div>
+		</form>
+	</div>
+</div>

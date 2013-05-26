@@ -1,0 +1,156 @@
+#set($findMouldSizeUrl=$link.setRelative('/CommonAction/findAllMouldSize.json'))
+#set($editMouldSizeUrl=$link.setRelative('/CommonAction/eidtMouldSize.json'))
+#set($deleteMouldSizeUrl=$link.setRelative('/CommonAction/deleteMouldSize.json'))
+#set($adminsUrl=$link.setRelative('/AdminAction/findAll.json'))
+<style type="text/css">
+    body{
+        margin:0;padding:0;border:0;width:100%;height:100%;overflow:visible;
+    }
+    .New_Button, .Edit_Button, .Delete_Button, .Update_Button, .Cancel_Button
+    {
+        font-size:11px;color:#1B3F91;font-family:Verdana;
+        margin-right:5px;
+    }
+</style>
+<body>
+<div class="mini-toolbar"  style="text-align:center;line-height:30px;" borderStyle="border:0;">
+    <label >关键字：</label>
+    <input id="name" class="mini-textbox" emptyText="关键字" onenter="search" style="width:150px;" />
+    <a class="mini-button" style="width:60px;" onclick="search()">查询</a>
+</div>
+<div class="mini-fit">
+<div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%;"
+     onrowdblclick="onRowDblClick"
+     url="$findMouldSizeUrl"  idField="dbId" >
+
+    <div property="columns">
+        <div field="size" width="80" headerAlign="center" align="center"  >规格
+            <input property="editor" class="mini-textbox" style="width:100%;"/>
+        </div>
+        <div field="mouldType.name" width="100" align="center" headerAlign="center" >类型
+            <input property="editor" class="mini-textbox" style="width:100%;"/>
+        </div>
+        <div field="price" width="50" vtype="required;int" width="100"  >模具定价(元)
+            <input property="editor" class="mini-spinner" minValue="0" maxValue="200" value="25" style="width:100%;"/>
+        </div>
+        <div field="pmprice" width="50" vtype="required;int" align="center" headerAlign="center" >配模价(元)
+            <input property="editor" class="mini-spinner" minValue="0"  value="0" style="width:100%;"/>
+        </div>
+        <div field="bcdw" width="50" align="center" headerAlign="center" >包产吨位
+            <input property="editor" class="mini-textbox" style="width:100%;"/>
+        </div>
+        <div name="action" width="120" headerAlign="center" align="center" renderer="onActionRenderer" cellStyle="padding:0;">#</div>
+    </div>
+</div>
+</div>
+
+<script type="text/javascript">
+    mini.parse();
+
+    var grid = mini.get("datagrid1");
+    grid.load();
+    grid.sortBy("createtime", "desc");
+
+
+    function onActionRenderer(e) {
+        var grid = e.sender;
+        var record = e.record;
+        var uid = record._uid;
+        var rowIndex = e.rowIndex;
+
+        var s = '<a class="New_Button" href="javascript:newRow()">新建</a>'
+                + ' <a class="Edit_Button" href="javascript:editRow(\'' + uid + '\')">编辑</a>'
+                + ' <a class="Delete_Button" href="javascript:delRow(\'' + uid + '\')">删除</a>';
+
+        if (grid.isEditingRow(record)) {
+            s = '<a class="Update_Button" href="javascript:updateRow(\'' + uid + '\')">保存</a>'
+                    + '<a class="Cancel_Button" href="javascript:cancelRow(\'' + uid + '\')">取消</a>'
+        }
+        return s;
+    }
+
+    function newRow() {
+        var row = {};
+        grid.addRow(row, 0);
+
+        grid.cancelEdit();
+        grid.beginEditRow(row);
+    }
+    function editRow(row_uid) {
+        var row = grid.getRowByUID(row_uid);
+        if (row) {
+            grid.cancelEdit();
+            grid.beginEditRow(row);
+        }
+    }
+
+    function cancelRow(row_uid) {
+        grid.reload();
+    }
+
+    function delRow(row_uid) {
+        var row = grid.getRowByUID(row_uid);
+        if (row) {
+            if (confirm("确定删除此记录？")) {
+                grid.loading("删除中，请稍后......");
+                $.ajax({
+                    url: "$deleteMouldSizeUrl",
+                    data: { dbId: row.dbId },
+                    success: function (text) {
+                        grid.reload();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert(jqXHR.responseText);
+                    }
+                });
+            }
+        }
+    }
+
+    function updateRow(row_uid) {
+        var row = grid.getRowByUID(row_uid);
+        grid.commitEdit();
+        var rowData = grid.getChanges();
+
+        grid.loading("保存中，请稍后......");
+        var json = mini.encode(rowData);
+        $.ajax({
+            url: "$editMouldSizeUrl",
+            data: { data: json },
+            success: function (text) {
+                grid.reload();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseText);
+            }
+        });
+
+    }
+
+    function search() {
+        var key = mini.get("name").getValue();
+        grid.load({ key: key });
+    }
+
+    function GetData() {
+        return grid.getSelected();
+    }
+
+    function onRowDblClick(e) {
+        onOk();
+    }
+
+    function onOk() {
+        CloseWindow("ok");
+    }
+    function onCancel() {
+        CloseWindow("cancel");
+    }
+
+    function CloseWindow(action) {
+        if (window.CloseOwnerWindow)
+            return window.CloseOwnerWindow(action);
+        else window.close();
+    }
+</script>
+</body>

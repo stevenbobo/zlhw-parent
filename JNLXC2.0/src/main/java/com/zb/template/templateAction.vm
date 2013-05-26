@@ -1,0 +1,166 @@
+#set($beanType=$TableBean.getClass().getSimpleName())
+#set($beanName=$beanType.toLowerCase())
+#set($primaryType=$TableBean.getPrimaryField().getType().getSimpleName())
+package com.zb.template;
+import java.io.IOException;
+import java.util.List;
+
+import com.zb.actionBean.BaseAction;
+import com.zb.base.Form.FuzzySearchForm;
+import com.zb.base.Form.PageForm;
+import com.zb.bean.${beanType};
+import com.zb.serviceInterfaces.IService;
+import com.zb.util.PageService;
+
+public class ${beanType}Action extends BaseAction {
+	private FuzzySearchForm searchFrom = new FuzzySearchForm();
+	private PageForm pageForm = new PageForm();
+	private ${beanType}Form ${beanName}Form;
+	private IService<${beanType}, ${primaryType}> ${beanName}Service;
+
+	public FuzzySearchForm getSearchFrom() {
+		return searchFrom;
+	}
+
+	public void setSearchFrom(FuzzySearchForm searchFrom) {
+		this.searchFrom = searchFrom;
+	}
+
+	public PageForm getPageForm() {
+		return pageForm;
+	}
+
+	public void setPageForm(PageForm pageForm) {
+		this.pageForm = pageForm;
+	}
+
+	public ${beanType}Form get${beanType}Form() {
+		return ${beanName}Form;
+	}
+
+	public void set${beanType}Form(${beanType}Form ${beanName}Form) {
+		this.${beanName}Form = ${beanName}Form;
+	}
+
+	public IService get${beanName}Service() {
+		return ${beanName}Service;
+	}
+
+	public void set${beanType}Service(IService ${beanName}Service) {
+		this.${beanName}Service = ${beanName}Service;
+	}
+
+	/**
+	 * 增加记录
+	 * @throws Exception
+	 */
+	public void add() throws Exception {
+		try {
+			${beanName}Service.create(${beanName}Form.getBean());
+			getResponse().getWriter().write(
+					com.zb.util.DWZJson.getInstance("${beanType}",
+							"operate success").toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+			getResponse().getWriter().write(
+					com.zb.util.DWZJson.getInstance("${beanType}", "operate error")
+							.toString());
+		}
+	}
+
+	/**
+	 * 更新记录
+	 * @throws Exception
+	 */
+	public void update() throws Exception {
+		try {
+			${beanName}Service.update(${beanName}Form.getBean());
+			getResponse().getWriter().write(
+					com.zb.util.DWZJson.getInstance("${beanType}",
+							"operate success").toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+			getResponse().getWriter().write(
+					com.zb.util.DWZJson.getInstance("${beanType}", "operate error")
+							.toString());
+		}
+	}
+
+	/**
+	 * 获取单条记录
+	 * @return
+	 */
+	public String getA${beanType}() {
+		${beanType} c = ${beanName}Service.getById(${beanName}Form.getId());
+		getRequest().setAttribute("${beanName}", c);
+		return "update";
+	}
+
+	/**
+	 * 刷分页列表
+	 * @return
+	 */
+	public String list() {
+		int numPerPage = pageForm.getNumPerPage();
+		int pageNum = pageForm.getPageNum();
+		int pageStart = numPerPage * pageNum - numPerPage;
+		String searchedId = searchFrom.getSearchedId();
+		String orderField = searchFrom.getOrderField();
+		String searchField = searchFrom.getSearchField();
+		StringBuffer hql = new StringBuffer("from ${beanType} a where 1=1");
+		if (!searchedId.equals(""))
+			hql.append(" and a." + searchField + " like ").append(
+					"'%" + searchedId + "%'");
+		String totalHql = "select count(*) " + hql.toString();
+		Integer total = (Integer) ${beanName}Service.getCountOfAll(totalHql);
+		if (!orderField.equals(""))
+			hql.append(" order by ").append(orderField).append(" desc");
+		List l = ${beanName}Service.findHql(hql.toString(), pageStart, numPerPage);
+		PageService page = new PageService(pageNum, numPerPage, total);
+		getRequest().setAttribute("page", page);
+		getRequest().setAttribute("${beanName}List", l);
+		return "list";
+	}
+
+	/**
+	 * 删除单条记录
+	 * @throws Exception
+	 */
+	public void deleteOne() throws Exception {
+		try {
+			${beanName}Service.delete(${beanName}Form.getBean());
+			getResponse().getWriter().write(
+					com.zb.util.DWZJson.getInstance("${beanType}",
+							"operate success").toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+			getResponse().getWriter().write(
+					com.zb.util.DWZJson.getInstance("${beanType}", "operate error")
+							.toString());
+		}
+	}
+	/**
+	 * 批量删除记录
+	 * @throws Exception
+	 */
+	public void delete() throws Exception {
+		try {
+			String[] SIds=this.getRequest().getParameterValues("ids");
+			Integer[] ids = new Integer[SIds.length];
+			for(int a=0;a<SIds.length;a++) {
+				ids[a]=Integer.parseInt(SIds[a]);
+			}
+				${beanName}Service.deleteById(ids);
+			getResponse().getWriter().write(
+					com.zb.util.DWZJson.getInstance("${beanType}",
+							"operate success").toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+			getResponse().getWriter().write(
+					com.zb.util.DWZJson.getInstance("${beanType}", "operate error")
+							.toString());
+		}
+	}
+
+}
+

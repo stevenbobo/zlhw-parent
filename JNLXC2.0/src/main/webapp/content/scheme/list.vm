@@ -1,0 +1,266 @@
+#set($loadSchemeUrl=$link.setRelative('/SchemeAction/loadScheme.json'))
+#set($editVm=$link.setRelative('/content/scheme/edit.vm'))
+#set($showMouldListVm=$link.setRelative('/content/scheme/showMouldList.vm'))
+#set($showOrderListVm=$link.setRelative('/content/scheme/showOrderList.vm'))
+#set($flowImgVm=$link.setRelative('/content/flow/flowImg.vm'))
+#set($showProductListVm=$link.setRelative('/content/scheme/showProductList.vm'))
+#set($deliveryDetailPanelVm=$link.setRelative('/content/delivery/deliveryDetailPanel.vm'))
+#set($getBmpUrl=$link.setRelative('/SchemeAction/downImg.do'))
+#set($downDwgUrl=$link.setRelative('/SchemeAction/downDwg.do'))
+#set($deleteSchemeUrl=$link.setRelative('/SchemeAction/deleteScheme.json'))
+#set($productTypeUrl=$link.setRelative('/DataDictAction/findDictList.json?code=productType'))
+<style type="text/css">
+
+</style>
+<body>
+<div class="mini-toolbar">
+    <form id="form1" method="post">
+    <a class="mini-button" iconCls="icon-add" onclick="addScheme">增加</a>
+    <a class="mini-button" iconCls="icon-edit" onclick="editScheme">修改</a>
+    <a class="mini-button" iconCls="icon-remove" onclick="deleteScheme">删除</a>
+    <span class="separator"></span>
+    <input name="productType" property="editor" class="mini-combobox" showNullItem="true"  nullItemText="请选择..."
+           url="$productTypeUrl" textField="name" valueField="dbId" />
+    <input name="name" class="mini-textbox" emptyText="名称或编号" onenter="search" />
+    <a class="mini-button" iconCls="icon-search" plain="true" onclick="search()">查询</a>
+        <div id="schemePage" class="mini-pager" style="float: right    "
+             onpagechanged="onPageChanged" sizeList="[12]" pageSize="12" totalCount="19827"
+             showPageSize="true" showPageIndex="true" showPageInfo="true"
+                >
+        </div>
+    </form>
+
+</div>
+<table  class="form-table" id="damicTable" border="0" cellpadding="1" cellspacing="2">
+</table>
+
+
+<ul id="contextMenu" class="mini-contextmenu" >
+    <li>
+        <span >操作</span>
+        <ul>
+            <li iconCls="icon-add" onclick="addScheme">增加</li>
+            <li iconCls="icon-edit" onclick="editScheme">修改</li>
+            <li iconCls="icon-remove" onclick="deleteScheme">删除</li>
+        </ul>
+    </li>
+    <li class="separator"></li>
+    <li iconCls="icon-ok" onclick="lookForStore" >查看存货记录</li>
+    <li iconCls="icon-ok" onclick="lookForMould" >查看模具记录</li>
+    <li iconCls="icon-ok" onclick="lookForOrder" >查看订单记录</li>
+    <li iconCls="icon-ok" onclick="lookForProduct" >查看生产记录</li>
+    <li iconCls="icon-ok" onclick="lookForFlow" >查看图纸流程</li>
+    <li iconCls="icon-download" onclick="downLoadScheme" >下载图纸</li>
+
+</ul>
+
+</body>
+<script type="text/javascript">
+    mini.parse();
+    var selectedScheme;
+    var page = mini.get("schemePage");
+    var loadSchemeUrl =  "$loadSchemeUrl";
+    var lastsearchData={};
+
+    function downLoadScheme(){
+        window.location.href="${downDwgUrl}"+"?schemeId="+selectedScheme.dbId;
+    }
+
+    function lookForFlow(){
+        var excutionId = "schemeFlow."+selectedScheme.code;
+        mini.open({
+            url: "$flowImgVm",
+            title: "流程进度", width: 400, height: 430,
+            onload: function () {
+                var iframe = this.getIFrameEl();
+                iframe.contentWindow.setData(excutionId);
+            }
+        });
+    }
+
+    function lookForMould(){
+        mini.open({
+            url: "$showMouldListVm",
+            title: "模具记录", width: 600, height: 300,
+            onload: function () {
+                var iframe = this.getIFrameEl();
+                iframe.contentWindow.setData(selectedScheme.dbId);
+            }
+        });
+    }
+
+    function lookForOrder(){
+        mini.open({
+            url: "$showOrderListVm",
+            title: "订单记录", width: 600, height: 300,
+            onload: function () {
+                var iframe = this.getIFrameEl();
+                iframe.contentWindow.setData(selectedScheme.dbId);
+            }
+        });
+    }
+
+    function lookForProduct(){
+        mini.open({
+            url: "$showProductListVm",
+            title: "生产记录", width: 600, height: 300,
+            onload: function () {
+                var iframe = this.getIFrameEl();
+                iframe.contentWindow.setData(selectedScheme.dbId);
+            }
+        });
+    }
+
+    function lookForStore(){
+        mini.open({
+            url: "$deliveryDetailPanelVm",
+            title: "存货记录", width: 600, height: 600,
+            onload: function () {
+                var iframe = this.getIFrameEl();
+                iframe.contentWindow.setData(selectedScheme);
+            }
+        });
+    }
+
+    function search(){
+        var form = new mini.Form("form1");
+        lastsearchData = $.extend({},form.getData(),{
+            pageIndex:0,
+            pageSize:12
+        });
+        $.ajax({
+            url: loadSchemeUrl,
+            data: lastsearchData,
+            success: function (nodes) {
+                page.setTotalCount(nodes.total);
+                appendTable(nodes.data)
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseText);
+            }
+        });
+    }
+
+    function loadSchemeList(pageIndex,pageSize){
+        lastsearchData = $.extend(lastsearchData,{
+            pageIndex:pageIndex,
+            pageSize:pageSize
+        });
+        $.ajax({
+            url: loadSchemeUrl,
+            data:lastsearchData,
+            success: function (nodes) {
+                page.setTotalCount(nodes.total);
+                appendTable(nodes.data)
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseText);
+            }
+        });
+    }
+    loadSchemeList(0,12);
+
+    function appendTable(arg){
+
+        var tbBody = "" ;
+        for(var i =0;i<arg.length;i++) {
+            if (i % 4 == 0) {
+                tbBody += "<tr>" ;
+            }
+            tbBody +="<td class=\"form-label\" style=\"width:60px;\">"+
+                    "<div id=\"region"+i+"\" class=\"imgdiv\"  style=\"width:250px;height:200px;border:solid 2px #bbb;font-size:13px;color:#999;text-align:center;font-weight:bold;cursor:default;\">"+
+                    "<img src=\"${getBmpUrl}?schemeId="+arg[i].dbId+"\" style=\"width:250px;\"/>"+
+                    "<div  style='text-align:left;font-size: 14px;padding-top: 15px;padding-left:20px;color:#daa520'>"+arg[i].code+"     "+arg[i].name+"</div>"+
+                    "</div>"+
+                    "</td>"
+
+            if (i % 4 == 3) {
+                tbBody += "</tr>" ;
+            }
+        }
+        $("#damicTable").html(tbBody);
+        for(var i =0;i<arg.length;i++) {
+            bindContenMenu("region"+i,arg[i]);
+            imgClick("region"+i,arg[i])
+        }
+    }
+
+    function onItemClick(e) {
+        var item = e.sender;
+        alert(item.getText());
+    }
+    function onPageChanged(e) {
+        loadSchemeList(e.pageIndex, e.pageSize);
+    }
+
+    function imgClick(divId,json){
+        $("#"+divId).click(function(){
+            $(".imgdiv").each(function(index){
+                $(this).css({'border-color':'#bbb'})
+            });
+            $("#"+divId).css({'border-color':'#f00'});
+            selectedScheme=json;
+        });
+    }
+
+    function bindContenMenu(divId,json){
+        $("#"+divId).bind("contextmenu", function (e) {
+            $(".imgdiv").each(function(index){
+                $(this).css({'border-color':'#bbb'})
+            });
+            $("#"+divId).css({'border-color':'#f00'});
+            selectedScheme=json;
+            var menu = mini.get("contextMenu");
+            menu.showAtPos(e.pageX, e.pageY);
+            return false;
+        });
+    }
+
+    function addScheme(){
+        mini.open({
+            url: "$editVm",
+            title: "新增图纸", width: 600, height: 560,
+            onload: function () {
+                var iframe = this.getIFrameEl();
+                iframe.contentWindow.setData("add",selectedScheme);
+            },
+            ondestroy: function (action) {
+                if(action=="save")
+                    loadSchemeList(page.pageIndex, page.pageSize)
+            }
+        });
+    }
+
+    function editScheme(){
+        if(selectedScheme)
+        mini.open({
+            url: "$editVm",
+            title: "编辑图纸", width: 600, height: 560,
+            onload: function () {
+                var iframe = this.getIFrameEl();
+                iframe.contentWindow.setData("edit",selectedScheme);
+            },
+            ondestroy: function (action) {
+                if(action=="save")
+                    loadSchemeList(page.pageIndex, page.pageSize)            }
+        });
+    }
+
+    function deleteScheme(){
+            if (confirm("确定删除此记录？")) {
+                $.ajax({
+                    url: "$deleteSchemeUrl",
+                    data: { schemeId: selectedScheme.dbId },
+                    success: function (text) {
+                        loadSchemeList(page.pageIndex, page.pageSize)
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert(jqXHR.responseText);
+                    }
+                });
+            }
+    }
+
+
+</script>
+

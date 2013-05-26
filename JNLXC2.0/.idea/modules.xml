@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/JNLXC.iml" filepath="$PROJECT_DIR$/JNLXC.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../log4aop/log4aop.iml" filepath="$PROJECT_DIR$/../log4aop/log4aop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../zlhw-bussiness/zlhw-bussiness.iml" filepath="$PROJECT_DIR$/../zlhw-bussiness/zlhw-bussiness.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../zlhw-common/zlhw-common.iml" filepath="$PROJECT_DIR$/../zlhw-common/zlhw-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../zlhw-core/zlhw-core.iml" filepath="$PROJECT_DIR$/../zlhw-core/zlhw-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../zlhw-parent/zlhw-parent.iml" filepath="$PROJECT_DIR$/../zlhw-parent/zlhw-parent.iml" />
+    </modules>
+  </component>
+</project>
+

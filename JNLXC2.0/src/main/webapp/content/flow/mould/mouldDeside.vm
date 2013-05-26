@@ -1,0 +1,71 @@
+#set($doTaskUrl=$link.setRelative('MouldAction/deside.do'))
+#set($scrapUrl=$link.setRelative('/DataDictAction/findDictList.json?code=scrap'))
+
+
+#parse("content/flow/mould/mouldInfo.vm")
+<fieldset id="fd1">
+    <legend><span> 报废信息</span></legend>
+    <div class="fieldset-body">
+        <form id="taskform" method="post">
+            <table style="table-layout:fixed;">
+                <tr>
+                    <td>报废原因</td>
+                    <td >
+                        <input id="scrapId" name="scrapId" property="editor" class="mini-combobox" showNullItem="true"  nullItemText="请选择..."
+                               url="$scrapUrl" textField="name" valueField="dbId" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</fieldset>
+<div style="text-align:center;padding:10px;">
+    <a class="mini-button" onclick="doTask('成功')" style="width:60px;margin-right:20px;">成功</a>
+    <a class="mini-button" onclick="doTask('失败')" style="width:60px;margin-right:20px;">失败</a>
+    <a class="mini-button" onclick="doTask('完全报废')" style="width:60px;margin-right:20px;">完全报废</a>
+    <a class="mini-button" onclick="onCancel" style="width:60px;">取消</a>
+</div>
+<script type="text/javascript">
+    mini.parse();
+    var originalData;
+    var taskId;
+    ////////////////////
+    //标准方法接口定义
+    function setData(taskIdParm,openWindow) {
+        openWindow.setWidth(525);
+        openWindow.setHeight(490);
+        taskId = mini.clone(taskIdParm);
+        initMouldInfo(taskId);
+    }
+
+    function doTask(nextStep){
+        var scrapId=mini.get("scrapId").getValue();
+        if(scrapId==""&&nextStep=="完全报废"){
+            mini.alert("请选择报废原因");
+            return;
+        }
+        var remarks=mini.get("mould_mcomment").getValue();
+        $.ajax({
+            url: "$doTaskUrl",
+            data:{taskId:taskId,nextStep:nextStep,remarks:remarks,scrapId:scrapId},
+            cache: false,
+            success: function () {
+                mini.alert("操作成功");
+                CloseWindow("save");
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                mini.alert("操作失败");
+            }
+        });
+    }
+
+    function onCancel(e) {
+        CloseWindow("cancel");
+    }
+
+    function CloseWindow(action) {
+        if (window.CloseOwnerWindow)
+            return window.CloseOwnerWindow(action);
+        else window.close();
+    }
+</script>

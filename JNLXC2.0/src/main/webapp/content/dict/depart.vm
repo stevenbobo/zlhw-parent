@@ -1,0 +1,117 @@
+#set($findDepartUrl=$link.setRelative('/CommonAction/findAllDepart.json'))
+#set($editDepartUrl=$link.setRelative('/CommonAction/eidtDepart.json'))
+#set($deleteDepartUrl=$link.setRelative('/CommonAction/deleteDepart.json'))
+#set($adminsUrl=$link.setRelative('/AdminAction/findAll.json'))
+<style type="text/css">
+    body{
+        margin:0;padding:0;border:0;width:100%;height:100%;overflow:visible;
+    }
+    .New_Button, .Edit_Button, .Delete_Button, .Update_Button, .Cancel_Button
+    {
+        font-size:11px;color:#1B3F91;font-family:Verdana;
+        margin-right:5px;
+    }
+</style>
+<body>
+<div class="mini-fit">
+<div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%;"  allowResize="true"
+     url="$findDepartUrl"  idField="dbId" >
+
+    <div property="columns">
+        <div field="dbId" width="120" headerAlign="center" align="center" allowSort="true" >编号
+            <input class="mini-textbox" />
+        </div>
+        <div field="name" width="120" align="center" headerAlign="center" allowSort="true">名称
+            <input property="editor" class="mini-textbox" style="width:100%;"/>
+        </div>
+        <div field="charge_dbId" type="comboboxcolumn" width="100" allowSort="true" align="center" headerAlign="center">负责人
+            <input property="editor"  class="mini-combobox" style="width:100%;"  url="$adminsUrl" textField="name" valueField="dbId" />
+        </div>
+        <div name="action" width="120" headerAlign="center" align="center" renderer="onActionRenderer" cellStyle="padding:0;">#</div>
+    </div>
+</div>
+</div>
+
+<script type="text/javascript">
+    mini.parse();
+
+    var grid = mini.get("datagrid1");
+    grid.load();
+    grid.sortBy("createtime", "desc");
+
+
+    function onActionRenderer(e) {
+        var grid = e.sender;
+        var record = e.record;
+        var uid = record._uid;
+        var rowIndex = e.rowIndex;
+
+        var s = '<a class="New_Button" href="javascript:newRow()">新建</a>'
+                + ' <a class="Edit_Button" href="javascript:editRow(\'' + uid + '\')">编辑</a>'
+                + ' <a class="Delete_Button" href="javascript:delRow(\'' + uid + '\')">删除</a>';
+
+        if (grid.isEditingRow(record)) {
+            s = '<a class="Update_Button" href="javascript:updateRow(\'' + uid + '\')">保存</a>'
+                    + '<a class="Cancel_Button" href="javascript:cancelRow(\'' + uid + '\')">取消</a>'
+        }
+        return s;
+    }
+
+    function newRow() {
+        var row = {};
+        grid.addRow(row, 0);
+
+        grid.cancelEdit();
+        grid.beginEditRow(row);
+    }
+    function editRow(row_uid) {
+        var row = grid.getRowByUID(row_uid);
+        if (row) {
+            grid.cancelEdit();
+            grid.beginEditRow(row);
+        }
+    }
+
+    function cancelRow(row_uid) {
+        grid.reload();
+    }
+
+    function delRow(row_uid) {
+        var row = grid.getRowByUID(row_uid);
+        if (row) {
+            if (confirm("确定删除此记录？")) {
+                $.ajax({
+                    url: "$deleteDepartUrl",
+                    data: { dbId: row.dbId },
+                    success: function (text) {
+                        grid.reload();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert(jqXHR.responseText);
+                    }
+                });
+            }
+        }
+    }
+
+    function updateRow(row_uid) {
+        var row = grid.getRowByUID(row_uid);
+        grid.commitEdit();
+        var rowData = grid.getChanges();
+
+        grid.loading("保存中，请稍后......");
+        var json = mini.encode(rowData);
+        $.ajax({
+            url: "$editDepartUrl",
+            data: { data: json },
+            success: function (text) {
+                grid.reload();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseText);
+            }
+        });
+
+    }
+</script>
+</body>

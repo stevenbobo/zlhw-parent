@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process name="paidan" xmlns="http://jbpm.org/4.4/jpdl">
+   <start g="146,19,48,48" name="start1">
+      <transition g="12,-4" name="to 分配(仓管)" to="分配(仓管)"/>
+   </start>
+   <task g="109,98,113,52" name="分配(仓管)" form="/content/flow/paidan/distributionPanel.vm">
+   		<assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
+	      <field name="powerId">
+	        <int value="737"/>
+	      </field>
+	      </assignment-handler>
+      <transition g="-10,-19" name="next" to="记录模具记录(模具工)"/>
+   </task>
+   <task assignee="#{moulder}" g="301,94,131,52" name="记录模具记录(模具工)" form="/content/flow/paidan/recordMouldPanel.vm">
+      <transition g="-53,-13" name="模具主管" to="(判定)模具主管"/>
+      <transition g="-15,-19" name="氮化" to="氮化(氮化工)"/>
+      <transition g="-38,-10" name="仓库入库" to="仓库入库"/>
+   </task>
+   <task g="532,93,92,52" name="氮化(氮化工)" form="/content/flow/paidan/danHuaPanel.vm">
+         <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
+	      <field name="powerId">
+	        <int value="735"/>
+	      </field>
+	   </assignment-handler>
+      <transition g="-29,-9" name="to 仓库入库" to="仓库入库"/>
+   </task>
+   <task g="414,191,92,52" name="仓库入库" form="/content/flow/paidan/storePanel.vm">
+        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
+	      <field name="powerId">
+	        <int value="736"/>
+	      </field>
+	   </assignment-handler>
+      <transition g="-14,-26" name="to end1" to="end1"/>
+   </task>
+   <task g="212,192,105,52" name="(判定)模具主管" form="/content/flow/paidan/pandingPanel.vm">
+       <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
+	      <field name="powerId">
+	        <int value="734"/>
+	      </field>
+	   </assignment-handler>
+      <transition g="-47,-17" name="彻底报废" to="end1"/>
+      <transition g="-14,-18" name="正常入库" to="仓库入库"/>
+   </task>
+   <end g="246,331,48,48" name="end1"/>
+</process>

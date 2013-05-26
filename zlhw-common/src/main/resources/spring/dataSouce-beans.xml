@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+	         http://www.springframework.org/schema/beans         
+	         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd         
+	         http://www.springframework.org/schema/context         
+	         http://www.springframework.org/schema/context/spring-context-3.0.xsd         
+	         http://www.springframework.org/schema/mvc         
+	         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+	         http://www.springframework.org/schema/tx
+             http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!-- 启用对事务注解的支持 -->
+	<tx:annotation-driven transaction-manager="transactionManager"
+		proxy-target-class="true" />
+
+	<!-- 多数据源的配置，在此配置两个数据源DataSource1作为默认数据源,DataSource作为切换用的数据源 -->
+	<bean id="DataSource1"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<value>${db.DataSource1.driverClassName}</value>
+		</property>
+		<property name="url">
+			<value>${db.DataSource1.url}</value>
+		</property>
+		<property name="username" value="${db.DataSource1.username}" />
+		<property name="password" value="${db.DataSource1.password}" />
+	</bean>
+	<!--  
+	<bean id="DataSource2"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<value>${db.DataSource2.driverClassName}</value>
+		</property>
+		<property name="url">
+			<value>${db.DataSource2.url}</value>
+		</property>
+		<property name="username" value="${db.DataSource2.username}" />
+		<property name="password" value="${db.DataSource2.password}" />
+	</bean>
+ 
+	<bean id="dataSource" class="com.ZLHW.base.factory.DynamicDataSource">
+		<property name="targetDataSources">
+			<map>
+				<entry key="DataSource1" value-ref="DataSource1" />
+				<entry key="DataSource2" value-ref="DataSource2" />
+			</map>
+		</property>
+		<property name="defaultTargetDataSource" ref="DataSource1" />
+	</bean>
+	-->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="DataSource1" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${db.data.dialect}</prop>
+				<prop key="hibernate.show_sql">${db.data.show_sql}</prop>
+				<prop key="hibernate.jdbc.batch_size">50</prop>
+				<prop key="hibernate.jdbc.fetch_size">50</prop>
+				<prop key="hibernate.connection.pool_size">20</prop>
+				<prop key="hibernate.connection.autocommit">false</prop>
+				<prop key="hibernate.hbm2ddl.auto">${db.data.model}</prop>
+			</props>
+		</property>
+		<!--  -->
+		<property name="packagesToScan">
+			<list>
+			     <!-- <value>com.ZLHW.base.HTable</value>  -->
+			     <value>com.ZLHW.common.model</value>
+			     <value>com.ZLHW.bussiness.model</value> 
+			</list>
+		</property>
+		<!--  
+		<property name="mappingResources">
+			<list>
+				<value>jbpm.repository.hbm.xml</value>
+				<value>jbpm.execution.hbm.xml</value>
+				<value>jbpm.history.hbm.xml</value>
+				<value>jbpm.task.hbm.xml</value>
+			</list>
+		</property>
+		-->
+	</bean> 
+	<!-- JDBC事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+</beans>

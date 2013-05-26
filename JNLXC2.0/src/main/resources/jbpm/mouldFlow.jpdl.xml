@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process name="mouldFlow" xmlns="http://jbpm.org/4.4/jpdl">
+   
+   <on event="end">
+		<event-listener class="com.zb.jnlxc.JBPM.MouldFlowEndListener">
+		</event-listener>
+	</on>
+   <start g="186,3,48,48" name="start1">
+      <transition g="-55,-8" name="从模具主管添加模具订购单开始" to="外协购买模具（模具处于订制状态）"/>
+   </start>
+   <end g="542,344,48,48" name="end1"/>
+
+   <task assignee="#{association}" form="/content/flow/mould/associationBuyPanel.vm" g="88,85,240,32" name="外协购买模具（模具处于订制状态）">
+          <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
+	      <field name="powerId">
+	        <int value="707"/>
+	      </field>
+	      </assignment-handler>
+      <transition g="-11,-9" name="to 收模" to="收模"/>
+   </task>
+   <task g="159,151,92,52" name="收模" form="/content/flow/mould/shouMuPanel.vm">
+         <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler" >
+	      <field name="powerId">
+	        <int value="733"/>
+	      </field>
+	      </assignment-handler>
+      <transition g="-52,-17" name="to 添加试模记录" to="添加试模记录"/>
+   </task>
+   <task g="363,148,92,52" name="添加试模记录" form="/content/flow/mould/testModelRecordPanel.vm">
+         <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
+	      <field name="powerId">
+	        <int value="709"/>
+	      </field>
+	      </assignment-handler>
+      <transition g="-20,-13" name="to 判定" to="判定"/>
+   </task>
+   <task g="160,238,92,52" name="判定" form="/content/flow/mould/mouldDeside.vm">
+         <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
+	      <field name="powerId">
+	        <int value="734"/>
+	      </field>
+	      </assignment-handler>
+      <transition g="-28,-11" name="失败" to="收模"/>
+      <transition g="-10,-18" name="成功" to="氮化"/>
+      <transition g="-32,9" name="完全报废" to="end1"/>
+   </task>
+   <task g="368,232,92,52" name="氮化" form="/content/flow/paidan/danHuaPanel.vm">
+   		<assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
+	      <field name="powerId">
+	        <int value="735"/>
+	      </field>
+	      </assignment-handler>
+      <transition g="-23,-15" name="to 仓管" to="仓管确认入库"/>
+   </task>
+   <task g="514,227,92,52" name="仓管确认入库" form="/content/flow/paidan/storePanel.vm">
+   		<assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
+	      <field name="powerId">
+	        <int value="736"/>
+	      </field>
+	      </assignment-handler>
+      <transition g="-13,-9" name="待产" to="end1"/>
+   </task>
+
+</process>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<process name="schemeFlow" xmlns="http://jbpm.org/4.4/jpdl">
+	<on event="end">
+		<event-listener class="com.zb.jnlxc.JBPM.SchemeFlowEndListener">
+		</event-listener>
+	</on>
+	<start g="160,55,48,48" name="start1">
+		<transition to="模具主管开订购单(发起模具订购流程)"/>
+	</start>
+	<task form="/content/flow/scheme/startMould.vm" g="58,195,241,41" name="模具主管开订购单(发起模具订购流程)">
+		<assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
+	      <field name="powerId">
+	        <int value="706"/>
+	      </field>
+	   </assignment-handler>
+		<transition to="end1"/>
+	</task>
+
+	<end g="139,349,48,48" name="end1">
+	</end>
+
+</process>

@@ -1,0 +1,150 @@
+#set($agentsUrl=$link.setRelative('/AdminAction/findAll.json'))
+#set($productTypeUrl=$link.setRelative('/DataDictAction/findDictList.json?code=productType'))
+<style type="text/css">
+
+    body{
+        margin:0;padding:0;border:0;width:100%;height:100%;overflow:hidden;
+    }
+</style>
+<body>
+        <div class="mini-toolbar"  style="text-align:center;line-height:30px;" borderStyle="border:0;">
+            <label >名称：</label>
+            <input id="name" class="mini-textbox" emptyText="请输入姓名" onenter="search" style="width:150px;" />
+            <a class="mini-button" style="width:60px;" onclick="search()">查询</a>
+        </div>
+
+    <div class="mini-fit">
+    <div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%;"
+         borderStyle="border-left:0;border-right:0;"
+         url="$link.setRelative('/ClientAction/loadClient.json')"  idField="dbId" pageSize="20"
+         onrowdblclick="onRowDblClick">
+        <div property="columns">
+
+            <div field="clientCode" width="120" headerAlign="center" align="center" >客户编号
+            </div>
+            <div field="name" width="120" align="center" headerAlign="center" >客户名称
+            </div>
+            <div field="agent.name" width="120" align="center" headerAlign="center" >业务员
+            </div>
+            <div field="productType.name"  width="100"  align="center" headerAlign="center">产品类型
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="mini-toolbar" style="text-align:center;padding-top:8px;padding-bottom:8px;" borderStyle="border:0;">
+        <a class="mini-button" style="width:60px;" onclick="onOk()">确定</a>
+        <span style="display:inline-block;width:25px;"></span>
+        <a class="mini-button" style="width:60px;" onclick="onCancel()">取消</a>
+    </div>
+
+<script type="text/javascript">
+    mini.parse();
+
+    var grid = mini.get("datagrid1");
+    grid.load();
+    grid.sortBy("dbId", "desc");
+
+    function GetData() {
+        return grid.getSelected();
+    }
+
+    function onRowDblClick(e) {
+        onOk();
+    }
+
+    function onOk() {
+        CloseWindow("ok");
+    }
+    function onCancel() {
+        CloseWindow("cancel");
+    }
+
+    function CloseWindow(action) {
+        if (window.CloseOwnerWindow)
+            return window.CloseOwnerWindow(action);
+        else window.close();
+    }
+
+
+    function onActionRenderer(e) {
+        var grid = e.sender;
+        var record = e.record;
+        var uid = record._uid;
+        var rowIndex = e.rowIndex;
+
+        var s = '<a class="New_Button" href="javascript:newRow()">新建</a>'
+                + ' <a class="Edit_Button" href="javascript:editRow(\'' + uid + '\')">编辑</a>'
+                + ' <a class="Delete_Button" href="javascript:delRow(\'' + uid + '\')">删除</a>';
+
+        if (grid.isEditingRow(record)) {
+            s = '<a class="Update_Button" href="javascript:updateRow(\'' + uid + '\')">保存</a>'
+                    + '<a class="Cancel_Button" href="javascript:cancelRow(\'' + uid + '\')">取消</a>'
+        }
+        return s;
+    }
+
+    function newRow() {
+        var row = {"dataDictCatalog":{"code":"pack"}};
+        grid.addRow(row, 0);
+
+        grid.cancelEdit();
+        grid.beginEditRow(row);
+    }
+    function editRow(row_uid) {
+        var row = grid.getRowByUID(row_uid);
+        if (row) {
+            grid.cancelEdit();
+            grid.beginEditRow(row);
+        }
+    }
+
+    function cancelRow(row_uid) {
+        grid.reload();
+    }
+
+    function delRow(row_uid) {
+        var row = grid.getRowByUID(row_uid);
+        if (row) {
+            if (confirm("确定删除此记录？")) {
+                grid.loading("删除中，请稍后......");
+                $.ajax({
+                    url: "$link.setRelative('/ClientAction/deleteClient.json')",
+                    data: { dbId: row.dbId },
+                    success: function (text) {
+                        grid.reload();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert(jqXHR.responseText);
+                    }
+                });
+            }
+        }
+    }
+
+    function updateRow(row_uid) {
+        var row = grid.getRowByUID(row_uid);
+        grid.commitEdit();
+        var rowData = grid.getChanges();
+
+        grid.loading("保存中，请稍后......");
+        var json = mini.encode(rowData);
+        $.ajax({
+            url: "$link.setRelative('/ClientAction/editClient.json')",
+            data: { jsonData: json },
+            success: function (text) {
+                grid.reload();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseText);
+            }
+        });
+
+    }
+
+    function search() {
+        var name = mini.get("name").getValue();
+        grid.load({ name: name });
+    }
+</script>
+</body>

@@ -1,0 +1,95 @@
+#set($indexUrl=$link.setRelative('content/index.vm'))
+#set($loginUrl=$link.setRelative('AdminAction/login.do'))
+<body >
+<div id="loginWindow" class="mini-window" title="用户登录" style="width:350px;height:165px;"
+     showModal="true" showCloseButton="false"
+        >
+
+    <div id="loginForm" style="padding:15px;padding-top:10px;">
+        <table >
+            <tr>
+                <td style="width:60px;"><label for="account$text">帐号：</label></td>
+                <td>
+                    <input id="account" name="account" onvalidation="onUserNameValidation" class="mini-textbox" required="true" style="width:150px;"/>
+                </td>
+            </tr>
+            <tr>
+                <td style="width:60px;"><label for="password$text">密码：</label></td>
+                <td>
+                    <input id="password" name="password" onvalidation="onPwdValidation" class="mini-password" requiredErrorText="密码不能为空" required="true" style="width:150px;" onenter="onLoginClick"/>
+                    &nbsp;&nbsp;<a href="#" >忘记密码?</a>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="padding-top:5px;">
+                    <a onclick="onLoginClick" class="mini-button" style="width:60px;">登录</a>
+                    <a onclick="onResetClick" class="mini-button" style="width:60px;">重置</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+
+
+
+
+<script type="text/javascript">
+    mini.parse();
+
+    var loginWindow = mini.get("loginWindow");
+    loginWindow.show();
+
+    window.onresize = function () {
+        loginWindow.show();
+    }
+
+    function onLoginClick(e) {
+        var form = new mini.Form("#loginWindow");
+
+        form.validate();
+        if (form.isValid() == false) return;
+
+
+        $.ajax({
+            type: 'POST',
+            url: '$loginUrl',
+            data: form.getData(),
+            success: function(data) {
+                if(data.success==false){
+                    alert(data.errorMessage);
+                }
+                else{
+                    loginWindow.hide();
+                    mini.loading("登录成功，马上转到系统...", "登录成功");
+                    window.location = "$indexUrl";
+                }
+            }
+        });
+    }
+    function onResetClick(e) {
+        var form = new mini.Form("#loginWindow");
+        form.clear();
+    }
+
+    function onUserNameValidation(e) {
+        if (e.isValid) {
+            if (e.value.length < 2) {
+                e.errorText = "帐号不能少于2个字符";
+                e.isValid = false;
+            }
+        }
+    }
+    function onPwdValidation(e) {
+        if (e.isValid) {
+            if (e.value.length < 2) {
+                e.errorText = "密码不能少于2个字符";
+                e.isValid = false;
+            }
+        }
+    }
+</script>
+
+</body>

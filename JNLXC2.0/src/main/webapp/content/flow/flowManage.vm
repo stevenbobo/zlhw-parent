@@ -1,0 +1,192 @@
+#set($loadTaskUrl=$link.setRelative('/FlowAction/loadTask.json'))
+#set($takeTaskUrl=$link.setRelative('/FlowAction/takeTask.json'))
+#set($deleteProcessInstanceUrl=$link.setRelative('/FlowAction/deleteProcessInstanceCascade.json'))
+#set($cancleTakeTaskUrl=$link.setRelative('/FlowAction/cancleTakeTask.json'))
+#set($flowImgVm=$link.setRelative('/content/flow/flowImg.vm'))
+#set($rootUrl=$link.setRelative('/'))
+
+<style type="text/css">
+    body{
+        margin:0;padding:0;border:0;width:100%;height:100%;overflow:visible;
+    }
+</style>
+<body>
+
+    <div class="mini-toolbar" style="border-bottom:0;padding:0px;">
+        <form id="searchForm">
+        <table style="width:100%;">
+            <tr>
+                <td style="white-space:nowrap;">
+                    <input id="workFlowType" name="workFlowType" class="mini-combobox" valueField="id"
+                           emptyText="请选择流程类型"  showNullItem="true" nullItemText="请选择..."
+                           data="[{id:'schemeFlow', text: '图纸流程'}, {id:'mouldFlow', text: '模具流程'}, {id:'orderFlow', text: '订单流程'}, {id:'productRecordFlow', text: '跟踪单流程'}, {id:'paidan', text: '排单流程'}]"/>
+                    <span class="separator"></span>
+                    选择时间:<input id="startDate" name="startDate" class="mini-datepicker"/>
+                    -<input id="endDate" name="endDate" class="mini-datepicker"/>
+                    <span class="separator"></span>
+                    编号:<input id="key" name="excutionkey" class="mini-textbox" emptyText="请输入编号" onenter="search" style="width:150px;"/>
+                    <a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+                    <a class="mini-button" iconCls="icon-goto" plain="true" onclick="lookForFlow()">查看流程图</a>
+                    <a class="mini-button" iconCls="icon-remove" onclick="deleteProcessInstance">删除流程</a>
+
+
+                </td>
+            </tr>
+        </table>
+        </form>
+</div>
+    <div class="mini-fit">
+    <div id="datagrid1" class="mini-datagrid" style="width:100%;height: 100%;"
+         url="$loadTaskUrl" allowCellSelect="true"
+         onrowdblclick="onRowDblClick">
+        <div property="columns">
+            <div type="checkcolumn"></div>
+            <div field="id"  width="120" headerAlign="center" >任务编号
+            </div>
+            <div field="executionId"  width="120" renderer="onGenderRenderer" headerAlign="center" >流程名
+            </div>
+            <div field="name"  width="120" headerAlign="center" >任务名称
+            </div>
+            <div field="createTime"  width="120" headerAlign="center" >创建时间
+            </div>
+            <div field="assingnee"  width="120" headerAlign="center" >任务接受人
+            </div>
+            <div name="action" width="100" headerAlign="center">锁定任务</div>
+        </div>
+    </div>
+    </div>
+
+<script type="text/javascript">
+    mini.parse();
+    var grid = mini.get("datagrid1");
+    grid.load({data:{}});
+    var searchForm = new mini.Form("searchForm");
+    var startDate = mini.get("startDate");
+    var endDate = mini.get("endDate");
+
+    function search() {
+        var formData = searchForm.getData();
+        var searchContent = $.extend({},formData);
+        searchContent.startDate=startDate.getText()==""?null:startDate.getText();
+        searchContent.endDate=endDate.getText()==""?null:endDate.getText();
+        grid.load({data:mini.encode(searchContent)});
+    }
+
+    function lookForFlow(){
+        var task = grid.getSelected();
+        if(task)
+        mini.open({
+            url: "$flowImgVm",
+            title: "模具流程进度", width: 650, height: 600,
+            onload: function () {
+                var iframe = this.getIFrameEl();
+                iframe.contentWindow.setData(task.executionId);
+            }
+        });
+    }
+
+
+    function onGenderRenderer(e) {
+
+        var arr = e.value.split(".");
+        if (arr[0] == "schemeFlow") {
+            return "图纸流程_" + arr[1];
+        } else if (arr[0] == "orderFlow") {
+            return "订单流程_" + arr[1];
+        } else if (arr[0] == "productRecordFlow") {
+            return "跟踪单流程_" + arr[1];
+        } else if (arr[0] == "mouldFlow") {
+            return "模具流程_" + arr[1];
+        } else if (arr[0] == "paidan"){
+            return "排单流程_" + arr[1];
+        } else {
+            return "";
+        }
+    }
+
+    function takeTask(taskId){
+        $.ajax({
+            url: "${takeTaskUrl}",
+            data: {
+                taskId:taskId
+            },
+            cache: false,
+            success: function (text) {
+                grid.load();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                mini.alert(jqXHR.responseText);
+            }
+        });
+    }
+
+    function cancleTakeTask(taskId){
+        $.ajax({
+            url: "${cancleTakeTaskUrl}",
+            data: {
+                taskId:taskId
+            },
+            cache: false,
+            success: function (text) {
+                grid.load();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                mini.alert(jqXHR.responseText);
+            }
+        });
+    }
+
+    grid.on("drawcell", function (e) {
+        var task = e.record;
+        //action列，超连接操作按钮
+        if (e.column.name == "action") {
+            e.cellStyle = "text-align:center";
+            if(task.assingnee)
+                e.cellHtml = '<a href="javascript:cancleTakeTask(\'' + task.id + '\')">取消任务</a>&nbsp; ';
+            else
+                e.cellHtml = '<a href="javascript:takeTask(\'' + task.id + '\')">接受任务</a>&nbsp; ';
+        }
+    });
+
+
+    function onRowDblClick(e) {
+        var task = grid.getSelected();
+        mini.open({
+            url: "$rootUrl"+task.formResourceName,
+            title: task.name,
+            width: 800,
+            height: 560,
+            onload: function () {
+                var iframe = this.getIFrameEl();
+                iframe.contentWindow.setData(task.id,this);
+            },
+            ondestroy: function (action) {
+                grid.load();
+            }
+        });
+    }
+
+    function deleteProcessInstance(){
+        var task = grid.getSelected();
+        if(task){
+        if (confirm("确定删除此流程？")) {
+            $.ajax({
+                url: "$deleteProcessInstanceUrl",
+                data: { id: task.executionId },
+                success: function (text) {
+                    grid.load();
+                    mini.alert("操作成功");
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    mini.alert(jqXHR.responseText);
+                }
+            });
+        }
+        }else{
+            mini.alert("请先选中流程");
+        }
+    }
+
+
+</script>
+</body>

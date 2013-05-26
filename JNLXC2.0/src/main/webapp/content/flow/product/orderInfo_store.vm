@@ -1,0 +1,139 @@
+#set($adminsUrl=$link.setRelative('/AdminAction/findAll.json'))
+#set($surfaceListUrl=$link.setRelative('/DataDictAction/findDictList.json?code=surface'))
+#set($materialListUrl=$link.setRelative('/DataDictAction/findDictList.json?code=material'))
+#set($productTypeUrl=$link.setRelative('/DataDictAction/findDictList.json?code=productType'))
+#set($packListUrl=$link.setRelative('/DataDictAction/findDictList.json?code=pack'))
+#set($user=$session.getAttribute("user"))
+#set($findAssociationUrl=$link.setRelative('/CommonAction/findAllAssociation.json'))
+#set($addUpdateOrderUrl=$link.setRelative('/BussinessAction/saveUpdateOrder.json'))
+#set($generateCodeUrl=$link.setRelative('/MouldAction/generateCode.json'))
+#set($loadOrderDeatilURL=$link.setRelative('/BussinessAction/getOrderDetail.json'))
+#set($getOrderFormInfoUrl=$link.setRelative('/BussinessAction/getOrderFormInfo.json'))
+#set($schemeSelectedUrl=$link.setRelative('/content/scheme/select.vm'))
+#set($clientSelectedUrl=$link.setRelative('/content/dict/clientSelecte.vm'))
+#set($citySelectedUrl=$link.setRelative('/content/dict/citySelecte.vm'))
+#set($lvdingPriceSelectedUrl=$link.setRelative('/content/dict/lvdingPriceSelecte.vm'))
+#set($generateCodeUrl=$link.setRelative('/BussinessAction/generateCode.json'))
+
+<div title="订单信息"  >
+    <form id="form1" method="post">
+        <table style="table-layout:fixed;">
+            <tr>
+                <td style="width:110px;">订单编号：</td>
+                <td style="width:150px;">
+                    <input name="code" id="code" readonly="true" class="mini-textbox" required="true"  />
+                </td>
+                <td style="width:110px;">所属客户：</td>
+                <td style="width:150px;">
+                    <input id="clientSelector"  required="true" class="mini-buttonedit" onbuttonclick="onClientSlecte" name="client.dbId" textName="client.name"/>
+                </td>
+            </tr>
+            <tr>
+                <td>付款方式：</td>
+                <td>
+                    <input name="payWay" required="true" class="mini-combobox"  data="[{id:0,text:'现金'}, {id:1, text: '月结'},{id:1, text: '特殊月结'}]"/>
+                </td>
+                <td>提货方式：</td>
+                <td>
+                    <input name="pickWay" required="true" class="mini-combobox"   data="[{id:0,text:'送货上门'}, {id:1, text: '自提货'}]"/>
+                </td>
+            </tr>
+            <tr>
+                <td >送货地址：</td>
+                <td >
+                    <input id="citySelector" allowInput="false" class="mini-buttonedit" onbuttonclick="onCitySlecte" name="city.dbId" textName="city.name"/>
+                </td>
+                <td class="form-label">详细地址：</td>
+                <td >
+                    <input name="address" class="mini-textbox" />
+                </td>
+            </tr>
+            <tr>
+                <td>业务员　：</td>
+                <td>
+                    <input name="client.agent.name" id="agentName" readonly="true" class="mini-textbox"  />
+                </td>
+            </tr>
+            <tr>
+                <td class="form-label">相关图纸：</td>
+                <td>
+                    <input id="schemeSelector" required="true" class="mini-buttonedit" onbuttonclick="onSchemeSlecte" name="scheme.dbId" textName="scheme.name"/>
+                </td>
+                <td>包装方式</td>
+                <td>
+                    <input name="pack.dbId" required="true" property="editor" class="mini-combobox"   url="$packListUrl"
+                           textField="name" valueField="dbId" />
+                </td>
+            </tr>
+            <tr>
+                <td style="width:90px;">材料类型：</td>
+                <td style="width:150px;">
+                    <input name="material.dbId" property="editor" required="true" class="mini-combobox"   url="$materialListUrl"
+                           textField="name" valueField="dbId" value="401" />
+                </td>
+                <td>米量(克/米)：</td>
+                <td style="width:150px;">
+                    <input id="kpm" name="kpm" class="mini-spinner" minValue="1" maxValue="100000000" value="1" required="true"/>
+                </td>
+
+            </tr>
+            <tr>
+
+                <td>材料硬度</td>
+                <td>
+                    <input name="hardness" class="mini-textbox" required="true"/>
+                </td>
+                <td>是否时效</td>
+                <td>
+                    <input  name="shixiao" required="true" class="mini-combobox" value="0"  data="[{id:0,text:'不需要'}, {id:1, text: '需要'}]"/>
+                </td>
+            </tr>
+            <tr>
+
+                <td>表面处理</td>
+                <td>
+                    <input name="surfaceProcess.dbId" property="editor" class="mini-combobox"  required="true"  url="$surfaceListUrl"
+                           textField="name" valueField="dbId" />
+                </td>
+                <td>氧化膜　：</td>
+                <td >
+                    <input name="oxideFilm" class="mini-textbox" required="true"/>
+                </td>
+            </tr>
+
+            <tr>
+                <td>订货日期</td>
+                <td >
+                    <input id="registerDate" readonly="true"  required="true" name="registerDate" format="yyyy-MM-dd"  class="mini-datepicker"  />
+                </td>
+                <td>拟定发货日期：</td>
+                <td>
+                    <input id="preSendDate" required="true" ondrawdate="onDrawDate" name="preSendDate" format="yyyy-MM-dd"  class="mini-datepicker"  />
+                </td>
+            </tr>
+
+        </table>
+    </form>
+    <div title="订单明细">
+        <div id="datagrid1" class="mini-datagrid" style="width:100%;height:100px;"
+             idField="dbId" url="$loadOrderDeatilURL"  pageSize="10" showFooter="false"
+             allowCellEdit="true" allowCellSelect="true" multiSelect="true"
+                >
+            <div property="columns">
+                <div type="checkcolumn"></div>
+                <div field="setSize" name="setSize" >规格尺寸(mm)
+                    <input property="editor" onvaluechanged="onGenderChanged(e,'setSize')" class="mini-spinner" minValue="0" maxValue="9999999" value="0" style="width:100%;"/>
+                </div>
+                <div field="orderQuantity" name="orderQuantity"  >订货数量（条）
+                    <input property="editor" onvaluechanged="onGenderChanged(e,'orderQuantity')"  class="mini-spinner" minValue="1" maxValue="99999999" value="1"  style="width:100%;"/>
+                </div>
+                <div field="orderWeight" name="orderWeight" >订货重量（千克）
+                    <input property="editor" onvaluechanged="onGenderChanged(e,'orderWeight')" class="mini-textbox"  style="width:100%;"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div title="备注">
+    <input width="100%" height="100%" emptyText="备注信息" id="mcomment" name="mcomment" class="mini-textarea"/>
+</div>
