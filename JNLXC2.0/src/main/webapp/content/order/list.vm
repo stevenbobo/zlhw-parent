@@ -1,0 +1,320 @@
+#set($loadOrderURL=$link.setRelative('/BussinessAction/loadOrderForm.json'))
+#set($loadOrderDeatilURL=$link.setRelative('/BussinessAction/getOrderDetail.json'))
+#set($findCityUrl=$link.setRelative('/CommonAction/findAllCity.json'))
+#set($editVm=$link.setRelative('/content/order/edit.vm'))
+#set($productPanelVm=$link.setRelative('/content/product/list.vm'))
+#set($deleteOrderURL=$link.setRelative('/BussinessAction/deleteOrder.json'))
+#set($findTeamUrl=$link.setRelative('/CommonAction/findAllTeam.json'))
+#set($startProductRecordFlowUrl=$link.setRelative('/ProductAction/startProductRecordFlow.json'))
+#set($flowImgVm=$link.setRelative('/content/flow/flowImg.vm'))
+#set($clientSelectedUrl=$link.setRelative('/content/dict/clientSelecte.vm'))
+
+
+
+<script src="$link.setRelative('scripts/dateUtils.js')" type="text/javascript"></script>
+
+<style type="text/css">
+    body{
+        margin:0;padding:0;border:0;width:100%;height:100%;overflow:hidden;
+    }
+</style>
+<body>
+        <div class="mini-toolbar" style="padding:2px;border-top:0;border-left:0;border-right:0;">
+        <form id="searchForm" method="post">
+            <table style="width:100%;">
+                <tr>
+                    <td style="width:100%;">
+                        <a class="mini-button" iconCls="icon-add" plain="true" onclick="addRow()">新增</a>
+                        <a class="mini-button" iconCls="icon-edit" plain="true" onclick="viewRow()">查看</a>
+                        <a class="mini-button" iconCls="icon-remove" plain="true" onclick="removeRow()">删除</a>
+                        <span class="separator"></span>
+						#if($beanFactory.LookUp("adminService").havePower($user,"开启跟踪单"))
+							<a class="mini-button" iconCls="icon-goto" plain="true" onclick="openOrderFlow()">开启生产流程</a>
+						#end
+                        <a class="mini-button" iconCls="icon-goto" plain="true" onclick="lookForFlow()">查看订单流程</a>
+                        <div id="pager1" class="mini-pager" style="float: right"
+                             sizeList="[10,20,50]">
+                        </div>
+                        <span class="separator"></span>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        起始日期:
+                        <input id="startDate" class="mini-datepicker" />
+                        <span class="separator"></span>
+                        截止日期:<input id="endDate" class="mini-datepicker" />
+                        <span class="separator"></span>
+                        排序方式:<input id="orderType"   allowInput="flase" showNullItem="true" nullItemText="选择排序方式..." class="mini-combobox"   data="[{id:0,text:'下单时间'}, {id:1, text: '交货期剩余天数'},{id:2,text:'订单重量'}, {id:3, text: '订单数量'}]"/>
+                        所属客户:<input id="clientSelector"  required="true" class="mini-buttonedit" onbuttonclick="onClientSlecte" />
+                    </td>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        选择城市:
+                        <input id="citySelecter" nullItemText="选择城市..."  class="mini-treeselect" url="$findCityUrl" multiSelect="false"  valueFromSelect="false"
+                               textField="name" valueField="dbId" parentField="father_dbId"   allowInput="true" />
+                        <span class="separator"></span>
+                        订单状态:<input id="compStatus"  allowInput="flase" showNullItem="true" nullItemText="选择订单状态..." class="mini-combobox"  data="[{id:0,text:'未完成'}, {id:1, text: '已完成'}]"/>
+                        <span class="separator"></span>
+                        订单编号:<input id="code" class="mini-textbox" emptyText="订单编号" onenter="search" />
+
+                        <a class="mini-button" plain="true" iconCls="icon-search" onclick="search()">查询</a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        </div>
+        <div class="mini-fit" >
+            <div id="orderGrid" class="mini-datagrid" style="width:100%;height:70%;"
+                 borderStyle="border:0;" onselectionchanged="onOrderChanged"
+                 onrowdblclick="onRowDblClick" pager="#pager1" showFooter="false"
+                 url="$loadOrderURL" allowCellSelect="true"  >
+                <div property="columns">
+                    <div field="code"  headerAlign="center" >订单编号
+                    </div>
+                    <div field="client.name"  headerAlign="center" >客户名
+                    </div>
+                    <div field="material.name"  headerAlign="center" >材质
+                    </div>
+                    <div field="client.agent.name"  headerAlign="center" >业务员
+                    </div>
+                    <div field="scheme.name"  headerAlign="center" >图纸
+                    </div>
+                    <div field="kpm"  headerAlign="center" >米重
+                    </div>
+                    <div field="compNum"  headerAlign="center" >已完成重量
+                    </div>
+                    <div field="totalWeight"  headerAlign="center" >总重量
+                    </div>
+                    <div field="compStatus"  headerAlign="center" renderer="onGenderRenderer" >是否完成
+                    </div>
+                    <div field="orderDate" width="100"  dateFormat="yyyy-MM-dd">下订单日期
+                    </div>
+                </div>
+            </div>
+            <div id="detailGrid" class="mini-datagrid" style="width:100%;height:30%;"
+                 url="$loadOrderDeatilURL"  idField="dbId"
+                 showFooter="false" pageSize="20"
+                    >
+                <div property="columns">
+                    <div field="setSize"  headerAlign="center" >尺寸</div>
+                    <div field="orderWeight"  headerAlign="center" >订货重量</div>
+                    <div field="compWeight"  headerAlign="center" >完成重量</div>
+                    <div field="orderQuantity"  headerAlign="center" >订货数量</div>
+                    <div field="compQuantity"  headerAlign="center" >完成数量</div>
+                    <div field="compStatus"  headerAlign="center" >完成状态</div>
+                </div>
+            </div>
+        </div>
+
+
+
+<script type="text/javascript">
+    mini.parse();
+    var searchForm =new mini.Form("searchForm");
+    var adminGrid = mini.get("adminGrid");
+    var clientGrid = mini.get("clientGrid");
+    var orderGrid = mini.get("orderGrid");
+    var detailGrid = mini.get("detailGrid");
+    var startFlowWindow = mini.get("startFlowWindow");
+
+    orderGrid.load();
+    detailGrid.load();
+
+    function onClientSlecte(e){
+        mini.open({
+            url: "$clientSelectedUrl",
+            title: "选择客户",
+            width: 800,
+            height: 500,
+            ondestroy: function (action) {
+                //if (action == "close") return false;
+                if (action == "ok") {
+                    var iframe = this.getIFrameEl();
+                    var client = iframe.contentWindow.GetData();
+                    client = mini.clone(client);    //必须
+                    if (client) {
+                        mini.get("clientSelector").setValue(client.dbId);
+                        mini.get("clientSelector").setText(client.name);
+                    }
+                }
+
+            }
+        });
+    }
+
+    function lookForFlow(){
+        var order = orderGrid.getSelected();
+
+        var excutionId = "orderFlow."+order.code;
+        mini.open({
+            url: "$flowImgVm",
+            title: "模具流程进度", width: 650, height: 550,
+            onload: function () {
+                var iframe = this.getIFrameEl();
+                iframe.contentWindow.setData(excutionId);
+            }
+        });
+    }
+
+
+    function openOrderFlow(){
+        var order = orderGrid.getSelected();
+        if(!order){
+            mini.alert('请先选择订单');
+            return;
+        }
+        var order = orderGrid.getSelected();
+        $.ajax({
+            url: "$startProductRecordFlowUrl",
+            data: {
+                orderFormId:order.dbId
+            },
+            success: function (text) {
+                mini.alert('操作成功');
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                mini.alert(jqXHR.responseText);
+            }
+        });
+    }
+
+    function onCancel() {
+        startFlowWindow.hide();
+    }
+
+
+    function onNameFilterChanged(e) {
+        var textbox = e.sender;
+        var key = textbox.getValue();
+
+        var node = tree.getSelectedNode();
+        if (node) {
+            grid.load({ dept_id: node.id, key: key });
+        }
+    }
+    function onGenderRenderer(e) {
+        return e.value==0?"未完成":"已完成";
+    }
+    function onGenderRenderer2(e) {
+        return e.value==0?"开票":"不开票";
+    }
+    function addRow() {
+            mini.open({
+                url: "$editVm",
+                title: "新增订单", width: 530, height: 590,
+                onload: function () {
+                    var iframe = this.getIFrameEl();
+                    iframe.contentWindow.setData("add",{});
+                },
+                ondestroy: function (action) {
+                    orderGrid.load();
+                }
+            });
+
+    }
+    function viewRow() {
+        var order = orderGrid.getSelected();
+        if(order)
+        mini.open({
+            url: "$editVm",
+            title: "查看订单", width: 530, height: 590,
+            onload: function () {
+                var iframe = this.getIFrameEl();
+                iframe.contentWindow.setData("view",order);
+            }
+        });
+
+    }
+    function removeRow() {
+        var order = orderGrid.getSelected();
+        if (confirm("确定删除选中订单?")) {
+            $.ajax({
+                url: "$deleteOrderURL",
+                data: { orderId:order.dbId },
+                success: function (text) {
+                    orderGrid.reload();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    mini.alert(jqXHR.responseText);
+                }
+            });
+
+        }
+    }
+
+
+    function onOrderChanged(e){
+        var grid = e.sender;
+        var order = grid.getSelected();
+        if (order) {
+            detailGrid.load({orderId:order.dbId});
+        }
+    }
+
+
+    function search() {
+        var startDate = mini.get("startDate");
+        var endDate = mini.get("endDate");
+        var code = mini.get("code");
+        var citySelecter = mini.get("citySelecter");
+        var compStatus = mini.get("compStatus");
+        var orderType = mini.get("orderType");
+        var clientSelector = mini.get("clientSelector");
+        var parm = {
+            startDate:startDate.getText(),
+            endDate:endDate.getText(),
+            code:code.getValue(),
+            cityId:citySelecter.getValue(),
+            compStatus:compStatus.getValue(),
+            orderType:orderType.getValue(),
+            clientId:clientSelector.getValue()
+        };
+        orderGrid.load(parm);
+    }
+
+    function onCloseClick(e) {
+        var obj = e.sender;
+        obj.setText("");
+        obj.setValue("");
+    }
+
+    function onRowDblClick(e) {
+        var order = orderGrid.getSelected();
+        mini.open({
+            url: "$productPanelVm",
+            title: "选择列表",
+            width: 600,
+            height: 400,
+            onload: function () {
+                var iframe = this.getIFrameEl();
+                iframe.contentWindow.setData(order.dbId);
+            }
+        });
+    }
+
+    /**
+     * 离制定的时间较近（交货期不到两天和模具交期不到一天）的流程自动置顶（次优先）并显黄色字体，超过制定时间的流程自动置顶（最优先）并显红色字体。
+     */
+    orderGrid.on("drawcell", function (e) {
+        var record = e.record,
+                column = e.column,
+                field = e.field,
+                value = e.value;
+
+        var remainTime;
+        var result = new Date().DateDiff('d',record.preSendDate);
+        if(result>0&&result<=2){
+            e.rowCls = "yellowrow";
+        }
+        if(result<=0){
+            e.rowCls = "redrow";
+        }
+
+    });
+</script>
+
+</body>

@@ -1,0 +1,68 @@
+#set($doTaskUrl=$link.setRelative('BussinessAction/moulderAudit.do'))
+#set($findAllNormalMouldsBySchemeUrl=$link.setRelative('MouldAction/findAllNormalMouldsByScheme.do'))
+
+
+<div  class="mini-tabs" style="width:100%;height:400px" activeIndex="0">
+    <div title="模具信息" style="width:100%;height:100%">
+        <div  id="datagrid2" class="mini-datagrid" style="width:100%;height:100%"
+              url="$findAllNormalMouldsBySchemeUrl"  idField="dbId" allowResize="true"
+              sizeList="[20,30,50,100]" pageSize="20"
+                >
+            <div property="columns">
+                <div field="code" width="120" headerAlign="center" allowSort="true">模具编号</div>
+                <div field="name" width="120" headerAlign="center" allowSort="true">模具名</div>
+                <div field="factProNum"  width="120" headerAlign="center" allowSort="true">已生产数量</div>
+                <div field="preProNum"  width="120" headerAlign="center" allowSort="true">预计生产数量</div>
+            </div>
+        </div>
+    </div>
+    <div title="订单信息" style="width:100%;height:100%">
+    #parse("content/flow/order/orderInfo_least.vm")
+    </div>
+
+</div>
+
+<div style="text-align:center;padding:10px;">
+    <a class="mini-button" onclick="doTaskYes(true)" style="width:60px;margin-right:20px;"> 有库存</a>
+    <a class="mini-button" onclick="doTaskYes(false)" style="margin-right:20px;">无库存(添加模具订单)</a>
+    <a class="mini-button" onclick="onCancel" >等待新模具入库</a>
+</div>
+<script type="text/javascript">
+    mini.parse();
+    var taskId;
+    ////////////////////
+    //标准方法接口定义
+    function setData(taskIdParm,openWindow) {
+        openWindow.setWidth(580);
+        openWindow.setHeight(500);
+        taskId = mini.clone(taskIdParm);
+        initOrderInfo(taskId);
+    }
+
+    function doTaskYes(val){
+        var remarks = mini.get("mcomment").getValue();
+        $.ajax({
+            url: "$doTaskUrl",
+            data:{taskId:taskId,success:val,remarks:remarks},
+            cache: false,
+            success: function () {
+                mini.alert("操作成功");
+                CloseWindow("save");
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                mini.alert("操作失败");
+            }
+        });
+    }
+
+    function onCancel(e) {
+        CloseWindow("cancel");
+    }
+
+    function CloseWindow(action) {
+        if (window.CloseOwnerWindow)
+            return window.CloseOwnerWindow(action);
+        else window.close();
+    }
+</script>
+

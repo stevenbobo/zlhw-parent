@@ -1,0 +1,41 @@
+#set($getOrderFormsBySchemeUrl=$link.setRelative('/BussinessAction/getOrderFormsByScheme.json'))
+<style type="text/css">
+    html, body
+    {
+        font-size:12px;
+        padding:0;
+        margin:0;
+        border:0;
+        height:100%;
+        overflow:hidden;
+    }
+</style>
+<body>
+<div id="detailGrid" class="mini-datagrid" style="width:100%;height:100%;"
+     url="$getOrderFormsBySchemeUrl"  idField="dbId"
+     showFooter="false" pageSize="20" pager="#pager1"
+        >
+    <div property="columns">
+        <div field="code"  width="100"  headerAlign="center" >订单编号</div>
+        <div field="material.name" width="50"  headerAlign="center" >材质</div>
+        <div field="agent.name" width="50"  headerAlign="center" >业务员</div>
+        <div field="scheme.name" width="50"  headerAlign="center" >图纸</div>
+        <div field="oxideFilm" width="50"  headerAlign="center" >氧化膜</div>
+        <div field="kpm" width="50"  headerAlign="center" >米重</div>
+        <div field="totalWeight" width="50"  headerAlign="center" >总重量</div>
+        <div field="hardness" width="50"  headerAlign="center" >材料硬度</div>
+        <div field="surfaceProcess.name" width="50"  headerAlign="center" >表面处理</div>
+        <div field="orderDate" width="50"  headerAlign="center" >下订单日期</div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    ////////////////////
+    //标准方法接口定义
+    function setData(schemeId) {
+        var grid = mini.get("detailGrid");
+        grid.load({schemeId:schemeId});
+    }
+</script>
+</body>
+

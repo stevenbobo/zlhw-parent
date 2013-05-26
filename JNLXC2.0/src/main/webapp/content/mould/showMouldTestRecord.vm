@@ -1,0 +1,35 @@
+#set($getMouldTestRecordsUrl=$link.setRelative('/MouldAction/getMouldTestRecords.json'))
+<style type="text/css">
+    html, body
+    {
+        font-size:12px;
+        padding:0;
+        margin:0;
+        border:0;
+        height:100%;
+        overflow:hidden;
+    }
+</style>
+<body>
+<div id="detailGrid" class="mini-datagrid" style="width:100%;height:100%;"
+     url="$getMouldTestRecordsUrl"  idField="dbId"
+     showFooter="false" pageSize="20" pager="#pager1"
+        >
+    <div property="columns">
+        <div field="mould.code"  width="50"  headerAlign="center" >模具编号</div>
+        <div field="useStickNum" width="50"  headerAlign="center" >用棒数量</div>
+        <div field="productTeam.name" width="50"  headerAlign="center" >机台</div>
+        <div field="createTime" width="50"  headerAlign="center" >创建日期</div>
+        <div field="conclusion" width="50"  headerAlign="center" >试模结论</div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    ////////////////////
+    //标准方法接口定义
+    function setData(mouldId) {
+        var grid = mini.get("detailGrid");
+        grid.load({mouldId:mouldId});
+    }
+</script>
+</body>

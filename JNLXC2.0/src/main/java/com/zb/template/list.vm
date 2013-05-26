@@ -1,0 +1,166 @@
+#set($beanType=$TableBean.getClass().getSimpleName())
+#set($beanName=$beanType.toLowerCase())
+#set($primaryType=$TableBean.getPrimaryField().getType().getSimpleName())
+#set($primaryName=$TableBean.getPrimaryField().getFieldName())
+#set($dollar='$')
+<form id="pagerForm" method="post" action="../${beanType}!list.action">
+	<input type="hidden" name="status" value="$dollar!{param.status}">
+	<input type="hidden" name="keywords" value="$dollar!{param.keywords}" />
+	<input type="hidden" name="pageNum" value="1" />
+	<input type="hidden" name="numPerPage" value="$dollar!{page.numPerPage}" />
+	<input type="hidden" name="orderField" value="$dollar!{param.orderField}" />
+	<input type="hidden" name="searchField" value="$dollar!{param.searchField}" />
+</form>
+
+<div class="page">
+	<div class="pageHeader">
+		<form onsubmit="return navTabSearch(this);"
+			action="../${beanType}!list.action" method="post">
+			<div class="searchBar">
+				<ul class="searchContent">
+					模糊查询:
+					<select name="searchField">
+						<option value="id" selected>
+							按编号
+						</option>
+						<option value="">
+							按名称
+						</option>
+						<option value="power">
+							按权限
+						</option>
+					</select>
+
+
+					<input type="text" name="searchedId" />
+
+					排序字段:
+					
+					<select name="OrderField">
+						<option value="10"  selected>
+							按管理员账号
+						</option>
+						<option value="20">
+							按密码
+						</option>
+						<option value="50">
+							按权限
+						</option>
+					</select>
+				</ul>
+				<div class="subBar">
+					<ul>
+						<li>
+							<div class="buttonActive">
+								<div class="buttonContent">
+									<button type="submit">
+										检索
+									</button>
+								</div>
+							</div>
+						</li>
+						<li>
+							<a class="button" href="demo_page6.html" target="dialog"
+								rel="dlg_page1" title="查询框"><span>高级检索</span> </a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</form>
+	</div>
+	<form action="../${beanType}!delete.action" method="post" name="${beanType}Delete"
+		  id="${beanType}Delete">
+	<div class="pageContent">
+		<form action="../admin.do?method=delete" method="post"
+			name="deleteForm">
+			<div class="panelBar">
+				<ul class="toolBar">
+					<li>
+						<a class="add" href="../${beanType}/add.vm" target="dialog"
+							rel="${beanType}Add"><span>添加</span> </a>
+					</li>
+					<li>
+						<a class="delete" href="#" onclick="delete_confirm('${beanType}');"><span>删除</span>
+						</a>
+					</li>
+					<li class="line">
+						line
+					</li>
+					<li>
+						<a class="icon" href="../admin.do?method=exportXLS"><span>导出EXCEL</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<table class="table" layouth="142">
+				<thead>
+					<tr>
+						<th style="width: 80px;">
+							<input type="checkbox" id="checkall" name="checkall" onclick=selectAll(this,'${beanType}'); />
+					    </th>
+						#foreach($field in $fields)
+							#set($type=$field.getType().getSimpleName())
+					        #set($filedName=$field.getFieldName())
+						<th style="width: 120px;">
+							$filedName
+						</th>
+						#end
+						<th style="width: 100px;">
+							修改/删除
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					\#foreach($${beanName} in $${beanName}List)
+						<tr>
+						<td>
+							<input type='checkbox' name='ids' value=$!${beanName}.${primaryName} />
+						</td>
+						#foreach($field in $fields)
+							#set($type=$field.getType().getSimpleName())
+					        #set($filedName=$field.getFieldName())
+						<td>
+								${${beanName}.${filedName}}
+						</td>
+						#end
+							<td>
+								<a target="dialog" rel="${beanType}Update" title="${beanType}更新"
+									href="../${beanType}!getA${beanType}.action?${beanName}Form.${primaryName}=${${beanName}.${primaryName}}">修改</a>
+								/
+									<a href="../${beanType}!deleteOne.action?${beanName}Form.${primaryName}=${${beanName}.${primaryName}}" target="navTabTodo" title="确定要删除吗?">删除</a>
+							</td>
+						</tr>
+					\#end
+				</tbody>
+			</table>
+        </form>
+			<div class="panelBar">
+				<div class="pages">
+					<span>显示</span>
+					<select name="numPerPage"
+						onchange="navTabPageBreak({numPerPage:this.value})">
+						<option value="10">
+							10
+						</option>
+						<option value="20" selected>
+							20
+						</option>
+						<option value="50">
+							50
+						</option>
+						<option value="100">
+							100
+						</option>
+					</select>
+					<span>条，共${page.totalCount}条</span>
+				</div>
+
+				<div class="pagination" targetType="navTab"
+					totalCount="${page.totalCount}" numPerPage="${page.numPerPage}"
+					pageNumShown="10" currentPage="${page.currentPage}"></div>
+
+			</div>
+		</form>
+	</div>
+</div>

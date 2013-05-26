@@ -1,0 +1,72 @@
+#set($doTaskUrl=$link.setRelative('ProductAction/dianYong.do'))
+<style type="text/css">
+    html, body
+    {
+        font-size:12px;
+        padding:0;
+        margin:0;
+        border:0;
+        height:100%;
+        width: 100%;
+        overflow:hidden;
+    }
+</style>
+<body>
+<div class="mini-tabs" style="width:100%;height:90%" activeIndex="0">
+
+    <div title="生产记录信息"  >
+        #parse("content/flow/product/productInfo.vm")
+    </div>
+    #parse("content/flow/product/orderInfo_least.vm")
+
+</div>
+
+<div style="text-align:center;padding:10px;">
+    <a class="mini-button" onclick="doTaskYes()" style="width:60px;margin-right:20px;"> 通过</a>
+    <a class="mini-button" onclick="onCancel" style="width:60px;">取消</a>
+</div>
+    #parse("content/flow/product/initJs.vm")
+<script type="text/javascript">
+    mini.parse();
+    var taskId;
+    var productTracegrid = mini.get("productTracegrid");
+
+    ////////////////////
+    //标准方法接口定义
+    function setData(taskIdParm, openWindow) {
+        openWindow.setWidth(1000);
+        openWindow.setHeight(400);
+        taskId = mini.clone(taskIdParm);
+        initOrderInfo(taskId);
+        initProductInfo(taskId);
+    }
+
+    function doTaskYes(){
+        var productTraceDatail = mini.encode(productTracegrid.getData());
+        var remarks = mini.get("remarks").getValue();
+        $.ajax({
+            url: "$doTaskUrl",
+            data:{taskId:taskId,productTraceDatail:productTraceDatail,remarks:remarks},
+            cache: false,
+            type: 'POST',
+            success: function () {
+                mini.alert("操作成功");
+                CloseWindow("save");
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                mini.alert("操作失败");
+            }
+        });
+    }
+
+    function onCancel(e) {
+        CloseWindow("cancel");
+    }
+
+    function CloseWindow(action) {
+        if (window.CloseOwnerWindow)
+            return window.CloseOwnerWindow(action);
+        else window.close();
+    }
+</script>
+</body>

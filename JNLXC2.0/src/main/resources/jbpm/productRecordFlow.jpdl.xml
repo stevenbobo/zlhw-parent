@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process name="productRecordFlow" xmlns="http://jbpm.org/4.4/jpdl">
+    <on event="end">
+        <event-listener class="com.zb.jnlxc.JBPM.ProductRecordEndListener">
+        </event-listener>
+    </on>
+    <start g="10,19,48,48" name="start1">
+        <transition g="-17,5" name="生产" to="生产部核对(712)"/>
+    </start>
+
+    <task form="/content/flow/product/printProductRecordPanel.vm" g="376,18,181,52" name="机台负责人打印生产跟踪单">
+        <assignment-handler class="com.zb.jnlxc.JBPM.PrintProductAssignTask">
+        </assignment-handler>
+        <transition to="挤压(719)"/>
+    </task>
+
+    <task form="/content/flow/product/productionPanel.vm" g="88,20,117,52" name="生产部核对(712)">
+        <transition to="车间分配机台(715)"/>
+        <assignment-handler class="com.zb.jnlxc.JBPM.ProductionCheckAssignTask">
+            <field name="powerId">
+                <int value="712"/>
+            </field>
+        </assignment-handler>
+    </task>
+
+    <task form="/content/flow/product/workshopDistributionPanel.vm" g="225,17,119,52" name="车间分配机台(715)">
+        <transition to="机台负责人打印生产跟踪单"/>
+        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
+            <field name="powerId">
+                <int value="715"/>
+            </field>
+        </assignment-handler>
+    </task>
+
+    <task form="/content/flow/product/weighingPanel.vm" g="29,83,92,52" name="挤压(719)">
+        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
+            <field name="powerId">
+                <int value="719"/>
+            </field>
+        </assignment-handler>
+        <transition to="时效(721)" name="时效" g="4,-19"/>
+        <transition g="-157,-77" name="喷涂" to="喷涂（728）"/>
+        <transition g="-122,-51" name="氧化" to="氧化(723)"/>
+        <transition g="-28,-84" name="打包" to="打包(722)"/>
+        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
+            <field name="powerId">
+                <int value="719"/>
+            </field>
+        </assignment-handler>
+        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
+            <field name="powerId">
+                <int value="719"/>
+            </field>
+        </assignment-handler>
+    </task>
+
+
+    <task form="/content/flow/product/agingPanel.vm" g="251,91,92,52" name="时效(721)">
+        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
+            <field name="powerId">
+                <int value="721"/>
+            </field>
+        </assignment-handler>
+        <transition g="-47,-55" name="氧化" to="氧化(723)"/>
+        <transition g="-87,-59" name="喷涂" to="喷涂（728）"/>
+        <transition g="-86,62" name="打包" to="打包(722)"/>
+    </task>
+    <end g="594,485,48,48" name="end1"/>
+    <task form="/content/flow/product/packagePanel.vm" g="28,409,92,52" name="打包(722)">
+        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
+            <field name="powerId">
+                <int value="722"/>
+            </field>
+        </assignment-handler>
+        <transition to="仓管记录存放位置(725)"/>
+    </task>
+    <task form="/content/flow/product/oxidationPanel.vm" g="360,270,92,52" name="氧化(723)">
+        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
+            <field name="powerId">
+                <int value="723"/>
+            </field>
+        </assignment-handler>
+        <transition g="4,-24" name="打包" to="打包(722)"/>
+        <transition g="-3,3" name="电泳" to="电泳(724)"/>
+    </task>
+    <task form="/content/flow/product/electrophoresisPanel.vm" g="182,268,92,52" name="电泳(724)">
+        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
+            <field name="powerId">
+                <int value="724"/>
+            </field>
+        </assignment-handler>
+        <transition g="21,-24" name="打包" to="打包(722)"/>
+    </task>
+    <task form="/content/flow/product/platingPanel.vm" g="539,275,92,52" name="喷涂（728）">
+        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
+            <field name="powerId">
+                <int value="724"/>
+            </field>
+        </assignment-handler>
+        <transition g="6,-25" name="打包" to="打包(722)"/>
+    </task>
+    <task form="/content/flow/product/warehousePanel.vm" g="5,484,141,52" name="仓管记录存放位置(725)">
+        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
+            <field name="powerId">
+                <int value="725"/>
+            </field>
+        </assignment-handler>
+        <transition to="发货员记录重量(726)"/>
+    </task>
+    <task form="/content/flow/product/deliveryPanel.vm" g="218,482,133,52" name="发货员记录重量(726)">
+        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
+            <field name="powerId">
+                <int value="726"/>
+            </field>
+        </assignment-handler>
+        <transition to="财务记录价格(727)"/>
+    </task>
+    <task form="/content/flow/product/financePanel.vm" g="425,484,132,52" name="财务记录价格(727)">
+        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
+            <field name="powerId">
+                <int value="727"/>
+            </field>
+        </assignment-handler>
+        <transition to="end1"/>
+    </task>
+</process>

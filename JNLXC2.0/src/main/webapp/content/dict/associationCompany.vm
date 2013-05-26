@@ -1,0 +1,159 @@
+#set($agentsUrl=$link.setRelative('/AdminAction/findAllAgent.json'))
+#set($productTypeUrl=$link.setRelative('/DataDictAction/findDictList.json?code=productType'))
+#set($loadAssociationUrl=$link.setRelative('/AssociationCompanyAction/loadAssociation.json'))
+#set($editAssociationUrl=$link.setRelative('/AssociationCompanyAction/editAssociation.json'))
+#set($deleteAssociationUrl=$link.setRelative('/AssociationCompanyAction/deleteAssociation.json'))
+<style type="text/css">
+    body{
+        margin:0;padding:0;border:0;width:100%;height:100%;overflow:hidden;
+    }
+    .New_Button, .Edit_Button, .Delete_Button, .Update_Button, .Cancel_Button
+    {
+        font-size:11px;color:#1B3F91;font-family:Verdana;
+        margin-right:5px;
+    }
+</style>
+<body>
+<div class="mini-toolbar"  style="text-align:center;line-height:30px;" borderStyle="border:0;">
+    <label >名称：</label>
+    <input id="name" class="mini-textbox" emptyText="请输入姓名" onenter="search" style="width:150px;" />
+    <a class="mini-button" style="width:60px;" onclick="search()">查询</a>
+</div>
+<div id="datagrid1" class="mini-datagrid" style="width:100%;"
+     url="$loadAssociationUrl"  idField="dbId" pageSize="20"
+        >
+
+    <div property="columns">
+
+        <div field="name" width="80" align="center" headerAlign="center" allowSort="true">外协名称
+            <input property="editor" class="mini-textbox" style="width:100%;"/>
+        </div>
+        <div field="clientPhone" width="80" headerAlign="center" allowSort="true">电话
+            <input property="editor" class="mini-textbox" style="width:100%;"/>
+        </div>
+        <div field="clientFax" width="80" headerAlign="center" allowSort="true">传真
+            <input property="editor" class="mini-textbox" style="width:100%;"/>
+        </div>
+        <div field="clientAddr" width="80" headerAlign="center" allowSort="true">地址
+            <input property="editor" class="mini-textbox" />
+        </div>
+        <div field="clientPc" width="80" headerAlign="center" allowSort="true">邮编
+            <input property="editor" class="mini-textbox" />
+        </div>
+        <div field="saleType" type="comboboxcolumn" width="100" allowSort="true" align="center" headerAlign="center">出口/内销
+            <input property="editor" class="mini-combobox" style="width:100%;" data="[{id:1,text:'出口'}, {id:2, text: '内销'}]"/>
+        </div>
+        <div field="agent.dbId" type="comboboxcolumn" width="100" allowSort="true" align="center" headerAlign="center">外协负责人
+            <input property="editor" class="mini-combobox" style="width:100%;"  url="$agentsUrl" textField="name" valueField="dbId" />
+        </div>
+        <div field="productType.dbId" type="comboboxcolumn" width="100" allowSort="true" align="center" headerAlign="center">产品类型
+            <input property="editor" class="mini-combobox" style="width:100%;"  url="$productTypeUrl" textField="name" valueField="dbId" />
+        </div>
+        <div field="asset" width="80" headerAlign="center" allowSort="true">固定资产评估
+            <input property="editor" class="mini-textbox" />
+        </div>
+        <div field="credit" width="80" headerAlign="center" allowSort="true">信誉评级
+            <input property="editor" class="mini-spinner" minValue="0" maxValue="10" value="0" style="width:100%;"/>
+        </div>
+        <div field="taxNum" width="80" headerAlign="center" allowSort="true">税号
+            <input property="editor" class="mini-textbox" />
+        </div>
+        <div field="bankName" width="80" headerAlign="center" allowSort="true">开户银行
+            <input property="editor" class="mini-textbox" />
+        </div>
+        <div field="remarks" width="80" headerAlign="center" allowSort="true">备注
+            <input property="editor" class="mini-textarea" style="width:100%;" minHeight="80"/>
+        </div>
+        <div name="action" width="80" headerAlign="center" align="center" renderer="onActionRenderer" cellStyle="padding:0;">#</div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    mini.parse();
+
+    var grid = mini.get("datagrid1");
+    grid.load();
+    grid.sortBy("dbId", "desc");
+
+
+    function onActionRenderer(e) {
+        var grid = e.sender;
+        var record = e.record;
+        var uid = record._uid;
+        var rowIndex = e.rowIndex;
+
+        var s = '<a class="New_Button" href="javascript:newRow()">新建</a>'
+                + ' <a class="Edit_Button" href="javascript:editRow(\'' + uid + '\')">编辑</a>'
+                + ' <a class="Delete_Button" href="javascript:delRow(\'' + uid + '\')">删除</a>';
+
+        if (grid.isEditingRow(record)) {
+            s = '<a class="Update_Button" href="javascript:updateRow(\'' + uid + '\')">保存</a>'
+                    + '<a class="Cancel_Button" href="javascript:cancelRow(\'' + uid + '\')">取消</a>'
+        }
+        return s;
+    }
+
+    function newRow() {
+        var row = {"dataDictCatalog":{"code":"pack"}};
+        grid.addRow(row, 0);
+
+        grid.cancelEdit();
+        grid.beginEditRow(row);
+    }
+    function editRow(row_uid) {
+        var row = grid.getRowByUID(row_uid);
+        if (row) {
+            grid.cancelEdit();
+            grid.beginEditRow(row);
+        }
+    }
+
+    function cancelRow(row_uid) {
+        grid.reload();
+    }
+
+    function delRow(row_uid) {
+        var row = grid.getRowByUID(row_uid);
+        if (row) {
+            if (confirm("确定删除此记录？")) {
+                grid.loading("删除中，请稍后......");
+                $.ajax({
+                    url: "$deleteAssociationUrl",
+                    data: { dbId: row.dbId },
+                    success: function (text) {
+                        grid.reload();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert(jqXHR.responseText);
+                    }
+                });
+            }
+        }
+    }
+
+    function updateRow(row_uid) {
+        var row = grid.getRowByUID(row_uid);
+        grid.commitEdit();
+        var rowData = grid.getChanges();
+
+        grid.loading("保存中，请稍后......");
+        var json = mini.encode(rowData);
+        $.ajax({
+            url: "$editAssociationUrl",
+            data: { jsonData: json },
+            success: function (text) {
+                grid.reload();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseText);
+            }
+        });
+
+    }
+
+    function search() {
+        var name = mini.get("name").getValue();
+        grid.load({ name: name });
+    }
+</script>
+</body>

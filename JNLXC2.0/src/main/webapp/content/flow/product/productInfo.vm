@@ -1,0 +1,122 @@
+#set($getProductTraceUrl=$link.setRelative('/ProductAction/getProductTrace.json'))
+
+<div id="productTracegrid" class="mini-datagrid" style="width:100%;"
+     url="$getProductTraceUrl" idField="dbId"  showFooter="false"
+     onrowdblclick="onRowDblClick"
+        >
+    <div property="columns">
+        <div field="setSize" width="60">规定尺寸
+        </div>
+        <div field="uncompleteQuantity" renderer="uncompleteQuantityRenderer" width="90">待完成数量
+        </div>
+        <div field="uncompleteWeight" renderer="uncompleteWeightRenderer" width="90">待完成重量
+        </div>
+        <div field="isEnough" width="60" type="comboboxcolumn" renderer="onEnoughRenderer">是否足够
+        </div>
+        <div field="preSendDate" width="80">预计发货日期
+        </div>
+        <div field="pack.name" width="60">打包方式
+        </div>
+        <div field="orderDetail.orderForm.surfaceProcess.name" width="60">表面处理
+        </div>
+        <div field="orderDetail.orderForm.oxideFilm" width="60">氧化膜
+        </div>
+        <div field="orderDetail.orderForm.aginghardness" width="60">时效硬度
+        </div>
+        <div field="orderDetail.orderForm.alHeatNum" width="60">铝棒
+        </div>
+        <div field="finishQuantiy" width="60">完成数量
+            <input property="editor" class="mini-textbox" style="width:100%;"/>
+        </div>
+        <div field="finishWeight" width="60">完成重量
+            <input property="editor" class="mini-textbox" style="width:100%;"/>
+        </div>
+        <div name="action" headerAlign="center" align="center" renderer="onActionRenderer" cellStyle="padding:0;">#
+        </div>
+    </div>
+</div>
+<fieldset id="fd1">
+    <legend><span>  图纸&备注</span></legend>
+    <div class="fieldset-body">
+        <form method="post">
+            <table style="table-layout:fixed;width: 100%;height: 100%">
+                <tr>
+                    <td >
+                        <img id="tempBmp" height="200"/>
+                    </td>
+                    <td >
+                        <input width="100%" height="200" emptyText="备注信息" id="remarks"  class="mini-textarea"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</fieldset>
+<script type="text/javascript">
+    function onActionRenderer(e) {
+        var grid = e.sender;
+        var record = e.record;
+        var uid = record._uid;
+        var rowIndex = e.rowIndex;
+        var s = ' <a class="Edit_Button" href="javascript:editRow(\'' + uid + '\')">更新</a>';
+
+        if (grid.isEditingRow(record)) {
+            s = '<a class="Update_Button" href="javascript:updateRow(\'' + uid + '\')">保存</a>   '
+                    + '<a class="Cancel_Button" href="javascript:cancelRow(\'' + uid + '\')">取消</a>'
+        }
+        return s;
+    }
+    function cancelRow(row_uid) {
+        productTracegrid.reload();
+    }
+
+    function onRowDblClick() {
+        var productTrace = productTracegrid.getSelected();
+        if (productTrace) {
+            productTracegrid.commitEdit();
+            productTracegrid.beginEditRow(productTrace);
+        }
+    }
+    function editRow(row_uid) {
+        var row = productTracegrid.getRowByUID(row_uid);
+        if (row) {
+            productTracegrid.cancelEdit();
+            productTracegrid.beginEditRow(row);
+        }
+    }
+
+    function updateRow(row_uid) {
+        var productTrace = productTracegrid.getRowByUID(row_uid);
+        productTracegrid.commitEdit();
+    }
+
+    function onEnoughRenderer(e) {
+        var productTrace = e.row;
+        var totelWeight  = parseInt(productTrace.orderDetail.orderWeight);
+        var totelQuantity  = parseInt(productTrace.orderDetail.orderQuantity);
+        productTrace.isEnough=0;
+        if(productTrace.uncompleteWeight<=productTrace.finishWeight||productTrace.uncompleteQuantity<=productTrace.finishQuantiy)
+            productTrace.isEnough=1;
+        if(parseFloat(productTrace.finishWeight-productTrace.uncompleteWeight)/parseFloat(totelWeight)>=0.1)
+            productTrace.isEnough=2;
+        if (productTrace.isEnough == 0)
+            return "不足";
+        else if (productTrace.isEnough == 1)
+            return "足够";
+        else if (productTrace.isEnough == 2)
+            return "过量";
+    }
+
+    function uncompleteQuantityRenderer(e) {
+        if (e.record.finishQuantiy == undefined)
+            e.record.finishQuantiy = 0;
+        return "<font color=red>" + (e.value - e.record.finishQuantiy) + "</font>/" + e.record.orderDetail.orderQuantity;
+    }
+    function uncompleteWeightRenderer(e) {
+        if (e.record.finishWeight == undefined)
+            e.record.finishWeight = 0;
+        return "<font color=red>" + (e.value - e.record.finishWeight) + "</font>/" + e.record.orderDetail.orderWeight;
+    }
+
+</script>
+

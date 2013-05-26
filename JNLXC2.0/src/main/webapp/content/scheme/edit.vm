@@ -1,0 +1,244 @@
+#set($getSchemeUrl=$link.setRelative('/SchemeAction/getScheme.json'))
+#set($adminsUrl=$link.setRelative('/AdminAction/findAll.json'))
+#set($swfLocation=$link.setRelative('/content/fileupload/swfupload/swfupload.swf'))
+#set($tempBmpUrl=$link.setRelative('SchemeAction/downTempImg.do'))
+#set($uploadUrl=$link.setRelative('/SchemeAction/mapUpload.json'))
+#set($getBmpUrl=$link.setRelative('/SchemeAction/downImg.do'))
+#set($addUpdateSchemeUrl=$link.setRelative('/SchemeAction/addUpdateScheme.json'))
+#set($productTypeUrl=$link.setRelative('/DataDictAction/findDictList.json?code=productType'))
+#set($user=$session.getAttribute("user"))
+<style type="text/css">
+    html, body
+    {
+        font-size:12px;
+        padding:0;
+        margin:0;
+        border:0;
+        height:600;
+        overflow:hidden;
+    }
+</style>
+<script src="$link.setRelative('/content/fileupload/swfupload/swfupload.js')" type="text/javascript"></script>
+<body>
+<form id="form1" method="post">
+    <fieldset id="fd1" >
+        <legend><span> 图纸信息</span></legend>
+        <div class="fieldset-body">
+            <table style="table-layout:fixed;">
+                <tr>
+                    <td style="width:90px;">图纸编码：</td>
+                    <td style="width:150px;">
+                        <input name="code" emptyText="后台自动生成" class="mini-textbox" readonly="true"  />
+                    </td>
+                    <td style="width:90px;">图纸描述：</td>
+                    <td style="width:150px;">
+                        <input name="name" class="mini-textbox" required="true"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>　设计人：</td>
+                    <td>
+                        <input name="designer.dbId" property="editor" class="mini-combobox" url="$adminsUrl"
+                               textField="name" valueField="dbId" value="$user.getDbId()" readonly="true"/>
+                    </td>
+                    <td class="form-label">设计日期：</td>
+                    <td>
+                        <input id="designDate" name="designDate" format="yyyy-MM-dd" readonly="true" class="mini-datepicker"  />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>产品类别：</td>
+                    <td>
+                        <input name="productType.dbId" property="editor" class="mini-combobox" required="true"   url="$productTypeUrl"
+                               textField="name" valueField="dbId" />
+                    </td>
+                    <td class="form-label">是否开模：</td>
+                    <td colspan=>
+                        <select id="rbl1" name="gender" class="mini-radiobuttonlist" valueField="id" textField="text" >
+                            <option selected value="0">开模</option>
+                            <option value="1">不开模</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr id="payTypeTr">
+                    <td class="form-label">支付方式：</td>
+                    <td>
+                        <select id="rbl2" name="payType" class="mini-radiobuttonlist">
+                            <option value="0">厂方负担</option>
+                            <option value="1">客户负担</option>
+                        </select>
+                    </td>
+                    <td class="form-label" id="chargeTd1">厂方负责人：</td>
+                    <td id="chargeTd2">
+                        <input id="combo1" name="chargerName" class="mini-combobox" textField="name" valueField="name"
+                               url="$adminsUrl" value="cn" required="true" allowInput="true" showNullItem="true" nullItemText="请选择..."/>
+                    </td>
+                    <td id="mouldFeeTd1" class="form-label">客户负责费用：</td>
+                    <td id="mouldFeeTd2">
+                        <input name="mouldFee" class="mini-textbox" required="true"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="text-align: center">
+                        <input id="fileupload1" class="mini-fileupload" name="file" limitType="*.dwg"
+                               flashUrl="$swfLocation"
+                               uploadUrl="$uploadUrl"
+                               onuploadsuccess="onUploadSuccess"
+                               onuploaderror="onUploadError"
+                                />
+                        <a class="mini-button" iconCls="icon-upload" onclick="startUpload">上传</a>
+                    </td>
+                </tr>
+                <tr >
+                    <td colspan="4" style="text-align: center">
+                         <img id="tempBmp"  width="500" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        </div>
+    </fieldset>
+    <div style="text-align:center;padding:10px;">
+        <a class="mini-button" onclick="onOk" style="width:60px;margin-right:20px;">确定</a>
+        <a class="mini-button" onclick="onCancel" style="width:60px;">取消</a>
+    </div>
+</form>
+
+
+</body>
+
+<script type="text/javascript">
+    var operateName;
+    mini.parse();
+    $("#mouldFeeTd1").hide();
+    $("#mouldFeeTd2").hide();
+    var designDate = mini.get("designDate");
+    designDate.setValue(new Date());
+    var fileupload = mini.get("fileupload1");
+    var uniqid;
+    var originalScheme;
+    var form = new mini.Form("form1");
+    function onUploadSuccess(e) {
+        var json = mini.decode(e.serverData);
+        uniqid = json.uniqid;
+        $("#tempBmp").attr("src","${tempBmpUrl}?uniqid="+json.uniqid);
+    }
+    function onUploadError(e) {
+        alert("上传失败：");
+
+    }
+
+    function startUpload() {
+        fileupload.startUpload();
+    }
+
+    function saveData() {
+        form.validate();
+        if (form.isValid() == false) return;
+        var o = form.getData();
+        var schemeAfterEdit = $.extend({},originalScheme,o);
+        schemeAfterEdit.designDate=designDate.getText()==""?null:designDate.getText();
+        var operate="addScheme";
+        if(operateName=="add"&&o.gender=="0")
+            operate="addSchemeStartSchemeFlow";
+        else if(operateName=="add"&&o.gender=="1")
+            operate="addSchemeWithOutFlow";
+        else if(operateName=="edit"&&o.gender=="1")
+            operate="editSchemeWithOutFlow";
+        else if(operateName=="edit"&&o.gender=="0"&& o.payType=="1")
+            operate="editSchemeStartSchemeFlow";
+        else if(operateName=="edit"&&o.gender=="2")
+            operate="editSchemeStartEditMouldFlow";
+        else
+            operate="editSchemeWithOutFlow";
+        $.ajax({
+            url: "${addUpdateSchemeUrl}",
+            data: {
+                    schemeData:mini.encode(schemeAfterEdit),
+                    operate:operate,
+                    uniqid:uniqid
+                  },
+            cache: false,
+            success: function (text) {
+                CloseWindow("save");
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseText);
+            }
+        });
+    }
+
+
+    ////////////////////
+    //标准方法接口定义
+    function setData(operate,data) {
+        operateName = operate;
+        if (operate == "edit") {
+            rbl1.setData([{id:0,text:'开模'}, {id:1, text: '不开模'}, {id:2, text: '修模'}]);
+            rbl1.setValue(1);
+            //跨页面传递的数据对象，克隆后才可以安全使用
+            originalScheme = mini.clone(data);
+            $.ajax({
+                url: "${getSchemeUrl}?schemeId=" + originalScheme.dbId,
+                cache: false,
+                success: function (scheme) {
+                    form.setData(scheme);
+                    form.setChanged(false);
+                    $("#tempBmp").attr("src","${getBmpUrl}?schemeId="+ scheme.dbId);
+                    if(scheme.payType)
+//                        rbl2.setValue(scheme.payType);
+                        rbl2Changed(scheme.payType);
+                }
+            });
+        }
+    }
+
+    function getData() {
+        var o = form.getData();
+        return o;
+    }
+    function CloseWindow(action) {
+        if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+        else window.close();
+    }
+
+    function onOk(e) {
+        saveData();
+    }
+    function onCancel(e) {
+        CloseWindow("cancel");
+    }
+
+    var rbl1 = mini.get("rbl1");
+    rbl1.on("valuechanged", function (e) {
+        if(this.getValue()==1){
+            $("#payTypeTr").hide();
+        }else{
+            $("#payTypeTr").show();
+        }
+    });
+    var rbl2 = mini.get("rbl2");
+    rbl2.on("valuechanged", function (e) {
+        rbl2Changed(this.getValue());
+    });
+
+    function rbl2Changed(val){
+        if(val==1){
+            $("#chargeTd1").hide();
+            $("#chargeTd2").hide();
+            $("#mouldFeeTd1").show();
+            $("#mouldFeeTd2").show();
+        }else{
+            $("#mouldFeeTd1").hide();
+            $("#mouldFeeTd2").hide();
+            $("#chargeTd1").show();
+            $("#chargeTd2").show();
+        }
+    }
+
+
+
+
+
+</script>

@@ -1,0 +1,127 @@
+#set($loadDeliveryUrl=$link.setRelative('/DeliveryAction/loadDelivery.json'))
+#set($getOrderDetailBySchemeUrl=$link.setRelative('/BussinessAction/getOrderDetailByScheme.json'))
+#set($editDeliveryUrl=$link.setRelative('/DeliveryAction/editDelivery.json'))
+#set($deleteDeliveryUrl=$link.setRelative('/DeliveryAction/deleteDelivery.json'))
+<style type="text/css">
+    body{
+        margin:0;padding:0;border:0;width:100%;height:100%;overflow:visible;
+    }
+    .New_Button, .Edit_Button, .Delete_Button, .Update_Button, .Cancel_Button
+    {
+        font-size:11px;color:#1B3F91;font-family:Verdana;
+        margin-right:5px;
+    }
+</style>
+<body>
+<div class="mini-fit">
+    <div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%;"  allowResize="true"
+         url="$loadDeliveryUrl"  idField="dbId" >
+
+        <div property="columns">
+            <div field="setSize" width="120" headerAlign="center" align="center" allowSort="true" >尺寸
+            </div>
+            <div field="deliveryQuantity" width="120" align="center" headerAlign="center" allowSort="true">发货数量
+                <input property="editor" class="mini-textbox" style="width:100%;"/>
+            </div>
+            <div field="deliveryWeight" width="120" align="center" headerAlign="center" allowSort="true">发货重量
+                <input property="editor" class="mini-textbox" style="width:100%;"/>
+            </div>
+            <div field="deliveryDate" width="120" align="center" headerAlign="center" allowSort="true">发货时间
+            </div>
+            <div field="deliver.name" width="120" align="center" headerAlign="center" allowSort="true">发货员
+            </div>
+            <div name="action" width="120" headerAlign="center" align="center" renderer="onActionRenderer" cellStyle="padding:0;">#</div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    mini.parse();
+
+    var grid = mini.get("datagrid1");
+    var originalscheme;
+
+
+    function onActionRenderer(e) {
+        var grid = e.sender;
+        var record = e.record;
+        var uid = record._uid;
+        var rowIndex = e.rowIndex;
+
+        var s = '<a class="New_Button" href="javascript:newRow()">新建</a>'
+                + ' <a class="Edit_Button" href="javascript:editRow(\'' + uid + '\')">编辑</a>'
+                + ' <a class="Delete_Button" href="javascript:delRow(\'' + uid + '\')">删除</a>';
+
+        if (grid.isEditingRow(record)) {
+            s = '<a class="Update_Button" href="javascript:updateRow(\'' + uid + '\')">保存</a>'
+                    + '<a class="Cancel_Button" href="javascript:cancelRow(\'' + uid + '\')">取消</a>'
+        }
+        return s;
+    }
+
+    function newRow() {
+        var row = {};
+        grid.addRow(row, 0);
+
+        grid.cancelEdit();
+        grid.beginEditRow(row);
+    }
+    function editRow(row_uid) {
+        var row = grid.getRowByUID(row_uid);
+        if (row) {
+            grid.cancelEdit();
+            grid.beginEditRow(row);
+        }
+    }
+
+    function cancelRow(row_uid) {
+        grid.reload();
+    }
+
+    function delRow(row_uid) {
+        var row = grid.getRowByUID(row_uid);
+        if (row) {
+            if (confirm("确定删除此记录？")) {
+                grid.loading("删除中，请稍后......");
+                $.ajax({
+                    url: "$deleteDeliveryUrl",
+                    data: { dbId: row.dbId },
+                    success: function (text) {
+                        grid.reload();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert(jqXHR.responseText);
+                    }
+                });
+            }
+        }
+    }
+
+    function updateRow(row_uid) {
+        var row = grid.getRowByUID(row_uid);
+        grid.commitEdit();
+        var rowData = grid.getChanges();
+
+        grid.loading("保存中，请稍后......");
+        var json = mini.encode(rowData);
+        $.ajax({
+            url: "$editDeliveryUrl",
+            data: { data: json },
+            success: function (text) {
+                grid.reload();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseText);
+            }
+        });
+
+    }
+    ////////////////////
+    //标准方法接口定义
+    function setData(scheme) {
+        originalscheme = mini.clone(scheme);
+        var grid = mini.get("datagrid1");
+        grid.load({schemeId:scheme.dbId});
+    }
+</script>
+</body>

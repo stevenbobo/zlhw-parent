@@ -1,0 +1,136 @@
+#set($getProcessInstanceUrl=$link.setRelative('/FlowAction/getProcessInstanceByPage.json'))
+#set($getTaskHistoryDetailUrl=$link.setRelative('/FlowAction/getTaskHistoryDetail.json'))
+
+
+
+<style type="text/css">
+    body {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        overflow: hidden;
+    }
+</style>
+<body style="width:100%;height:100%;">
+<div style="width:100%;height:100%;">
+    <div class="mini-splitter" style="width:100%;height:70%;">
+        <div showCollapseButton="true" size="250">
+            <form id="form1" method="post">
+                <table style="table-layout:fixed;">
+                    <tr>
+                        <td style="width:90px;">类别：</td>
+                        <td style="width:150px;">
+                            <select id="flowOwner" name="flowOwner" class="mini-radiobuttonlist"
+                                    textField="text">
+                                <option selected value="0">所有流程</option>
+                                <option value="1">我经手的</option>
+                            </select>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td style="width:90px;">流程类型：</td>
+                        <td style="width:150px;">
+                            <input id="workFlowType" name="workFlowType" class="mini-combobox" valueField="id"
+                                   emptyText="请选择流程类型"  showNullItem="true" nullItemText="请选择..."
+                                   data="[{id:'schemeFlow', text: '图纸流程'}, {id:'mouldFlow', text: '模具流程'}, {id:'orderFlow', text: '订单流程'}, {id:'productRecordFlow', text: '跟踪单流程'}, {id:'paidan', text: '排单流程'}]"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:90px;">流程状态：</td>
+                        <td style="width:150px;">
+                            <input id="state" name="state" class="mini-combobox" valueField="id"
+                                   emptyText="请选择流程状态"  showNullItem="true" nullItemText="请选择..."
+                                   data="[{id:'active', text: '活动的'}, {id:'ended', text: '结束的'}]"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:90px;">关键词：</td>
+                        <td style="width:150px;">
+                            <input id="keyWords"  name="keyWords" class="mini-textbox"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:90px;">起始时间：</td>
+                        <td style="width:150px;">
+                            <input id="startDate" name="startDate" class="mini-datepicker"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:90px;">结束时间：</td>
+                        <td style="width:150px;">
+                            <input id="endDate" name="endDate" class="mini-datepicker"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:90px;">查询：</td>
+                        <td style="width:150px;">
+                            <a class="mini-button" iconCls="icon-search" plain="true" onclick="search()">查询</a>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div>
+            <div id="flowGrid" class="mini-datagrid" style="width:100%;height:100%;"
+                 borderStyle="border:0;" onselectionchanged="onselectioncChanged"
+                 url="$getProcessInstanceUrl" allowCellSelect="true">
+                <div property="columns">
+                    <div field="dbId" width="120" headerAlign="center">流程号
+                    </div>
+                    <div field="processInstanceId" width="120" headerAlign="center">流程名称
+                    </div>
+                    <div field="startTime" width="120" headerAlign="center">创建时间
+                    </div>
+                    <div field="endTime" width="120" headerAlign="center">结束时间
+                    </div>
+                    <div field="state" width="120" headerAlign="center">流程状态
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="flowDetailGrid" class="mini-datagrid" style="width:100%;height:30%;"
+         borderStyle="border:0;" onselectionchanged="onOrderChanged"
+         url="$getTaskHistoryDetailUrl" allowCellSelect="true">
+        <div property="columns">
+            <div field="dbId" width="120" headerAlign="center">任务号
+            </div>
+            <div field="activityName" width="120" headerAlign="center">任务名称
+            </div>
+            <div field="endTime" width="120" headerAlign="center">处理时间
+            </div>
+            <div field="assignee" width="120" headerAlign="center">处理人
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+</div>
+
+<script type="text/javascript">
+    mini.parse();
+    var flowGrid = mini.get("flowGrid");
+    var flowDetailGrid = mini.get("flowDetailGrid");
+    var form = new mini.Form("form1");
+    var startDate = mini.get("startDate");
+    var endDate = mini.get("endDate");
+
+    function search(){
+        var o = form.getData();
+        var searchContent = $.extend({},o);
+        searchContent.startDate=startDate.getText()==""?null:startDate.getText();
+        searchContent.endDate=endDate.getText()==""?null:endDate.getText();
+        flowGrid.load({data:mini.encode(searchContent)});
+    }
+
+    function onselectioncChanged(e){
+        var grid = e.sender;
+        var excution = grid.getSelected();
+        if (excution) {
+            flowDetailGrid.load({processInstanceId:excution.dbId});
+        }
+    }
+
+
+</script>
