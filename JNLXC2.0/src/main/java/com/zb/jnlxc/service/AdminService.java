@@ -207,6 +207,14 @@ public class AdminService extends BaseService<AdminDAO,Admin, Integer> {
         return havePower(user,"开单");
     }
 
-
-
+    /**
+     * 修改用户密码
+     * @param dbId
+     * @param newPassword
+     */
+    public void changePassword(Integer dbId, String newPassword) {
+        Admin admin = this.loadById(dbId);
+        admin.setPassword(newPassword);
+        this.update(admin);
+    }
 }

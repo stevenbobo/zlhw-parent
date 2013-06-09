@@ -1,5 +1,6 @@
 #set($agentsUrl=$link.setRelative('/AdminAction/findAll.json'))
 #set($productTypeUrl=$link.setRelative('/DataDictAction/findDictList.json?code=productType'))
+#set($loadClientUrl=$link.setRelative('/ClientAction/loadClient.json'))
 <style type="text/css">
 
     body{
@@ -16,7 +17,7 @@
     <div class="mini-fit">
     <div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%;"
          borderStyle="border-left:0;border-right:0;"
-         url="$link.setRelative('/ClientAction/loadClient.json')"  idField="dbId" pageSize="20"
+         url="$loadClientUrl"  idField="dbId" pageSize="20"
          onrowdblclick="onRowDblClick">
         <div property="columns">
 

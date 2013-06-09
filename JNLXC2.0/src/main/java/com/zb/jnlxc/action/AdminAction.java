@@ -61,6 +61,8 @@ public class AdminAction {
         }
     }
 
+
+
     @ResponseBody
     @RequestMapping("/removeUserGroup")
     public void removeUserGroup(Integer userGroupId)  {
@@ -155,6 +157,19 @@ public class AdminAction {
             }
         }
         return userMap;
+    }
+
+    @ResponseBody
+    @RequestMapping("/changePassword")
+    public void changePassword(@ModelAttribute("user") Admin user,String oldPassword,String newPassword,String rePassword){
+        Admin admin = adminService.getById(user.getDbId());
+        if(!admin.getPassword().equals(oldPassword))
+             throw new BaseErrorModel("您输入的原始密码错误","baseview");
+        if(StringUtils.isEmpty(newPassword)||!newPassword.equals(rePassword))
+            throw new BaseErrorModel("两次输入的新密码不一致","baseview");
+
+        adminService.changePassword(user.getDbId(),newPassword);
+        user.setPassword(newPassword);
     }
 
     @ResponseBody

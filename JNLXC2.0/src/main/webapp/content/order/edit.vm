@@ -140,6 +140,10 @@
                     <td>
                         <input id="workFee" required="true" name="workFee"   class="mini-textbox"  value="0" required="true"/>
                     </td>
+                    <td>开单时间</td>
+                    <td>
+                        <input id="orderDate" readonly=true  required="true" name="orderDate" format="yyyy-MM-dd"  class="mini-datepicker"  />
+                    </td>
                 </tr>
                 <tr>
                     <td>是否含税：</td>
@@ -221,6 +225,8 @@
     preSendDate.setValue(new Date());
     var registerDate = mini.get("registerDate");
     registerDate.setValue(new Date());
+    var orderDate = mini.get("orderDate");
+    orderDate.setValue(new Date());
     var path1 = mini.get("path1");
     var path2 = mini.get("path2");
     var grid = mini.get("datagrid1");

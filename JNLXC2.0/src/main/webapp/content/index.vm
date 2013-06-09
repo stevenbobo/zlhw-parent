@@ -1,4 +1,6 @@
 ﻿#set($menuUrl=$link.setRelative('./AdminAction/getViewTablesByAdmin.json'))
+#set($changePasswordVM=$link.setRelative('/content/user/changePassword.vm'))
+
 <style type="text/css">
     html, html body
     {
@@ -10,7 +12,6 @@
     }
     .header
     {
-        background:url(../demo/header.gif) repeat-x 0 -1px;
     }
     body .header .topNav
     {
@@ -42,7 +43,8 @@
         <h1 style="margin:0;padding:0px;cursor:default;font-family:'Trebuchet MS',Arial,sans-serif;">江南铝型材管理软件</h1>
         <div class="topNav">
             <a href="./index.vm">首页</a> |
-            <a href="../AdminAction/loginOut.do">重新登录</a>
+            <a href="../AdminAction/loginOut.do">重新登录</a> |
+            <a href="javascript:void(0)" onclick="changePassword()">修改密码</a> |
             <a href="../chrome_installer.exe">下载chrome</a>
         </div>
     </div>
@@ -99,6 +101,20 @@
         if (isLeaf) {
             showTab(item);
         }
+    }
+
+    function changePassword(){
+            mini.open({
+                url: "$changePasswordVM",
+                title: "修改密码",
+                width: 300,
+                height: 200,
+                onload: function () {
+                    var iframe = this.getIFrameEl();
+                },
+                ondestroy: function (action) {
+                }
+            });
     }
 </script>
 

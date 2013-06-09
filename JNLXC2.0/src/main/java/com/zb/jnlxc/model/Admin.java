@@ -14,23 +14,23 @@ import java.util.Date;
 @TableDeclare(comment = "用户表", tableName = "Admin")
 public class Admin extends HIntTable implements User{
     @Column(length=40)
-	private String account; //账号
-	@Column(length=50)
-	private String name; //姓名
-	@Column(length=40)
-	private String password; //密码
-	private Integer nextClientNum=1;//下一个客户号
+    private String account; //账号
+    @Column(length=50)
+    private String name; //姓名
+    @Column(length=40)
+    private String password; //密码
+    private Integer nextClientNum=1;//下一个客户号
 
     private String userGroups; //用户组
-	private Byte state;//1:正常上班2:离职
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date addDate; //添加日期
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date lastlogin; //上次登录时间
-	@ManyToOne
-	private Depart depart; //部门表
-	@Column(length=60)
-	private String email; //电子邮件
+    private Byte state;//1:正常上班2:离职
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date addDate; //添加日期
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastlogin; //上次登录时间
+    @ManyToOne
+    private Depart depart; //部门表
+    @Column(length=60)
+    private String email; //电子邮件
 	public Integer getNextClientNum(){
 		return this.nextClientNum;
 	}

@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Maven: batik:batik-svg-dom:1.6-1">
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/batik/batik-svg-dom/1.6-1/batik-svg-dom-1.6-1.jar!/" />
+      <root url="jar://G:/apache-maven-3.0.4/repository/batik/batik-svg-dom/1.6-1/batik-svg-dom-1.6-1.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$MAVEN_REPOSITORY$/batik/batik-svg-dom/1.6-1/batik-svg-dom-1.6-1-javadoc.jar!/" />
+      <root url="jar://G:/apache-maven-3.0.4/repository/batik/batik-svg-dom/1.6-1/batik-svg-dom-1.6-1-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$MAVEN_REPOSITORY$/batik/batik-svg-dom/1.6-1/batik-svg-dom-1.6-1-sources.jar!/" />
+      <root url="jar://G:/apache-maven-3.0.4/repository/batik/batik-svg-dom/1.6-1/batik-svg-dom-1.6-1-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
