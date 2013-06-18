@@ -19,4 +19,14 @@ public class UserGroupDAO extends DAO<UserGroup,Integer> {
     public List<UserGroup> getUserGroupsByAdmin(Admin admin){
         return this.findByHQL("select t.userGroup from AdminUserGroup t where t.admin=?", admin);
     }
+
+    public List<UserGroup> findAllUserGroup(Admin user){
+        List<UserGroup> userGroups = getUserGroupsByAdmin(user);
+        byte lever =10;
+        for (UserGroup userGroup:userGroups){
+            if(userGroup.getGroupLever()<lever)
+                lever=userGroup.getGroupLever();
+        }
+        return this.findByHQL("from UserGroup u where u.groupLever>=?", lever);
+    }
 }

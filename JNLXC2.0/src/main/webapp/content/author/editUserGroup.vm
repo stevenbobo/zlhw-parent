@@ -13,7 +13,7 @@
 </style>
 <body>
 <div class="mini-splitter" style="width:100%;height:100%;">
-    <div size="240" showCollapseButton="true">
+    <div size="300" showCollapseButton="true">
         <div style="width:100%;">
             <div class="mini-toolbar" style="border-bottom:0;padding:0px;">
                 <a class="mini-button" iconCls="icon-add" onclick="addRow()" plain="true">增加</a>
@@ -26,12 +26,15 @@
             <div id="dept_grid" class="mini-datagrid" style="width:100%;height:100%;"
                  url="$userGroupsUrl"  idField="dbId" pageSize="30"
                  allowCellEdit="true" allowCellSelect="true"
-                 onselectionchanged="onSelectionChanged"
+                 onselectionchanged="onSelectionChanged"  showPager="false"
                     >
                 <div property="columns">
                     <div type="checkcolumn" ></div>
                     <div field="name" allowResize="false"  headerAlign="center" >组名
                         <input property="editor" class="mini-textbox" style="width:100%;" />
+                    </div>
+                    <div field="groupLever" allowResize="false"  headerAlign="center" >等级
+                        <input property="editor" class="mini-spinner" value="1" minValue="1" maxValue="10" style="width:100%;" />
                     </div>
                 </div>
             </div>

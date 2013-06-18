@@ -133,8 +133,8 @@ public class AdminAction {
 
     @ResponseBody
     @RequestMapping("/findAllUserGroup")
-    public List<UserGroup> findAllUserGroup() {
-        return adminService.findAllUserGroup();
+    public List<UserGroup> findAllUserGroup(@ModelAttribute("user") Admin user) {
+        return adminService.findAllUserGroup( user);
     }
 
 

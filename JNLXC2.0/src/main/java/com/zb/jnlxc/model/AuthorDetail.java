@@ -26,6 +26,8 @@ public class AuthorDetail extends HIntTable{
     private Integer parentId;    //父菜单编号
 
 	private Boolean selected;//
+
+    private Byte authorLever;//操作等级,1为最高级别
 	@Version  
     private Integer version;
 	
@@ -78,5 +80,13 @@ public class AuthorDetail extends HIntTable{
 
     public void setParentId(Integer parentId) {
         this.parentId = parentId;
+    }
+
+    public Byte getAuthorLever() {
+        return authorLever;
+    }
+
+    public void setAuthorLever(Byte authorLever) {
+        this.authorLever = authorLever;
     }
 }

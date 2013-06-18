@@ -103,8 +103,8 @@ public class AdminService extends BaseService<AdminDAO,Admin, Integer> {
     }
 
 
-	public List<UserGroup> findAllUserGroup(){
-        return userGroupDAO.findAll();
+	public List<UserGroup> findAllUserGroup(Admin user){
+        return userGroupDAO.findAllUserGroup( user);
 	}
 
     public Page findAdmins(Page page) {
