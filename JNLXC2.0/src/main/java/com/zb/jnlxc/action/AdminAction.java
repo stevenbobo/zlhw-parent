@@ -8,6 +8,7 @@ import com.zb.jnlxc.form.MiniPageRsp;
 import com.zb.jnlxc.form.TreeNode;
 import com.zb.jnlxc.model.*;
 import com.zb.jnlxc.service.AdminService;
+import com.zb.jnlxc.service.AdminUserGroupService;
 import com.zb.jnlxc.service.UserGroupService;
 import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang.StringUtils;
@@ -46,6 +47,8 @@ public class AdminAction {
     private AdminService adminService;
     @Resource
     private UserGroupService userGroupService;
+    @Resource
+    private AdminUserGroupService adminUserGroupService;
 
     @ResponseBody
     @RequestMapping("/editUserGroup")
@@ -209,6 +212,7 @@ public class AdminAction {
     @ResponseBody
     @RequestMapping("/deleteAdmin")
     public void deleteAdmin(Integer dbId) {
+        adminUserGroupService.deleteForAdmin(dbId);
             adminService.deleteById(dbId);
     }
 

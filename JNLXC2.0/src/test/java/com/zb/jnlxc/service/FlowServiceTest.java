@@ -27,7 +27,6 @@ public class FlowServiceTest extends AbstractJUnit4SpringContextTests  {
 		String result4 = flowService.deployFlow(path4);
 		String result5 = flowService.deployFlow(path5);
 	}
-	@Test
 	public void testDeleteFlow(){
 		List<Deployment> list = flowService.getRepositoryService().createDeploymentQuery().list();
 		for(Deployment deployment:list){
@@ -35,7 +34,6 @@ public class FlowServiceTest extends AbstractJUnit4SpringContextTests  {
 		}
         testDeployFlowAll();
 	}
-	@Test
 	public void testDeleteInstance(){
 		List<ProcessInstance> list1 = flowService.getExecutionService().createProcessInstanceQuery().list();
 		for(ProcessInstance processInstance:list1){

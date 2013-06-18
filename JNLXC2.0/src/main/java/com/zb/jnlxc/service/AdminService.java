@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import com.ZLHW.base.Form.Page;
 import com.zb.jnlxc.dao.*;
 import com.zb.jnlxc.form.MiniPageReq;
+import com.zb.util.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
@@ -149,6 +150,8 @@ public class AdminService extends BaseService<AdminDAO,Admin, Integer> {
 
 
 	public Admin create(Admin admin) throws BaseErrorModel{
+        if(StringUtils.isEmpty(admin.getPassword()))
+            admin.setPassword("123456");
         List<Admin> l = this.getByColumn("account",admin.getAccount());
         if(l!=null&&l.size()>0)
             throw new BaseErrorModel("已经存在的帐号","");
@@ -203,8 +206,23 @@ public class AdminService extends BaseService<AdminDAO,Admin, Integer> {
         return this.getDao().findByHQL("from Admin where name like ? or account like ?",key,key);
     }
 
+    /**
+     * 拥有开单权限的人员
+     * @param user
+     * @return
+     */
     public boolean isSuperAgent(Admin user){
-        return havePower(user,"开单");
+        return havePower(user, "开单");
+    }
+
+    /**
+     * 是否是超级管理员
+     * @param dbId
+     * @return
+     */
+    public boolean isSuperAdmin(Integer dbId){
+        Admin admin = this.getDao().getById(dbId);
+        return admin.getUserGroups().contains("100");
     }
 
     /**

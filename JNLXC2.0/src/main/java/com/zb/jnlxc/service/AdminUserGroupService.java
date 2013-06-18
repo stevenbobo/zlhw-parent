@@ -32,4 +32,9 @@ public class AdminUserGroupService extends BaseService<AdminUserGroupDAO,AdminUs
             this.create(adminUserGroup);
         }
     }
+
+
+    public void deleteForAdmin(Integer adminDbId) {
+        this.getDao().updateHql("delete from AdminUserGroup t where t.admin.dbId=?",adminDbId);
+    }
 }

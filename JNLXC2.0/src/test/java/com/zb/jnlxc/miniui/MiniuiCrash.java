@@ -17,17 +17,18 @@ public class MiniuiCrash {
                 char real = (char)(value-i);
                 builder.append(real);
             }
-        System.out.println(builder.toString());
-        System.out.println();
-        System.out.println();
-        System.out.println();
+        String result = builder.toString();
+        if(result.contains("到期")){
+            System.err.println(str);
+            System.out.println(builder.toString());
+        }
         return builder.toString();
 
     }
     @Test
     public void test1(){
        String str= "70|119|119|90|60|119|72|113|128|121|110|127|116|122|121|43|51|52|43|134|125|112|127|128|125|121|43|127|115|116|126|57|115|112|108|111|112|125|94|127|132|119|112|70|24|21|43|43|43|43|136|21";
-       String result = prase(str,11);
+       prase(str,11);
 
        str= "70|119|119|90|60|119|72|113|128|121|110|127|116|122|121|43|51|52|43|134|125|112|127|128|125|121|43|127|115|116|126|57|115|112|108|111|112|125|94|127|132|119|112|70|24|21|43|43|43|43|136|21";
        prase(str, 11);

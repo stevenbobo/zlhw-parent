@@ -25,9 +25,11 @@
             <div field="account" width="120" headerAlign="center" allowSort="true">登录名
                 <input property="editor" class="mini-textbox" style="width:100%;"/>
             </div>
+            #if($beanFactory.LookUp("adminService").isSuperAdmin($user.getDbId()))
             <div field="password" width="120" headerAlign="center" allowSort="true">密码
                 <input property="editor" class="mini-textbox" style="width:100%;"/>
             </div>
+            #end
             <div field="email" width="60" headerAlign="center" allowSort="true">电子邮件
                 <input property="editor" class="mini-textbox" style="width:100%;"/>
             </div>

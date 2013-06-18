@@ -54,7 +54,7 @@
     //标准方法接口定义
     function setData(taskIdParm, openWindow) {
         openWindow.setWidth(1000);
-        openWindow.setHeight(400);;
+        openWindow.setHeight(470);;
         taskId = mini.clone(taskIdParm);
         initOrderInfo(taskId);
         initProductInfo(taskId);
