@@ -54,7 +54,7 @@
                 CloseWindow("save");
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                mini.alert("操作失败");
+                mini.alert(jqXHR.responseText);
             }
         });
     }
