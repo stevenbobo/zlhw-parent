@@ -31,7 +31,18 @@ public class Admin extends HIntTable implements User{
     private Depart depart; //部门表
     @Column(length=60)
     private String email; //电子邮件
-	public Integer getNextClientNum(){
+
+    private byte lever;//等级
+
+    public byte getLever() {
+        return lever;
+    }
+
+    public void setLever(byte lever) {
+        this.lever = lever;
+    }
+
+    public Integer getNextClientNum(){
 		return this.nextClientNum;
 	}
 	public void setNextClientNum(Integer nextClientNum){

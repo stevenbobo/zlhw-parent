@@ -107,10 +107,10 @@ public class AdminService extends BaseService<AdminDAO,Admin, Integer> {
         return userGroupDAO.findAllUserGroup( user);
 	}
 
-    public Page findAdmins(Page page) {
-        StringBuilder hql = new StringBuilder("from Admin ");
+    public Page findAdmins(Page page,Admin admin) {
+        StringBuilder hql = new StringBuilder("from Admin t where t.lever >= ? ");
         hql.append("order by ").append(page.getSortKey()).append(" ").append(page.getSortOrder());
-        return this.getDao().findByPageWithHQL(page, hql.toString());
+        return this.getDao().findByPageWithHQL(page, hql.toString(),admin.getLever());
     }
 
 

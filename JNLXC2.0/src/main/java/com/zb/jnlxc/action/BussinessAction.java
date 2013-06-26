@@ -188,6 +188,17 @@ public class BussinessAction {
     public void moulderAudit(String taskId, boolean success, String remarks,@ModelAttribute("user") Admin user) {
         businessService.moulderAudit(taskId, success, remarks,user);
     }
+    @ResponseBody
+    @RequestMapping("/stopOrderFlow")
+    public void stopOrderFlow(Integer orderId){
+        businessService.stopOrderFlow(orderId);
+    }
+
+    @ResponseBody
+    @RequestMapping("/restartOrderFlow")
+    public void restartOrderFlow(Integer orderId){
+        businessService.restartOrderFlow(orderId);
+    }
 
     @ResponseBody
     @RequestMapping("/getOrderFormInfo")

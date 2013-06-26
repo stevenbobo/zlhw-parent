@@ -23,4 +23,6 @@ public class AdminServiceTest  extends AbstractJUnit4SpringContextTests {
     public void testHavePower() throws Exception {
         Assert.assertTrue(adminService.havePower(adminService.getById(1),"订单浏览"));
     }
+
+
 }

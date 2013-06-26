@@ -350,6 +350,9 @@ public class BusinessService extends BaseService<OrderFormDAO,OrderForm, Integer
 		if(orderForm.getCurrentState()==(byte)1){
 			throw new BaseErrorModel("该订单目前处于流程间断，无法编辑", "");
 		}
+        if(orderForm.getCurrentState()==(byte)2){
+            throw new BaseErrorModel("该订单被暂停，无法编辑", "");
+        }
 		return updateOrderInFlow(orderForm,orderDetails);
 	}
 	
@@ -392,6 +395,15 @@ public class BusinessService extends BaseService<OrderFormDAO,OrderForm, Integer
 		}
 		return authorizedAgents;
 	}
+
+    /**
+     * 检查流程是否是暂停状态
+     * @param orderForm
+     */
+    public void checkOrderState(OrderForm orderForm){
+          if(orderForm.getCurrentState()==2)
+              throw new BaseErrorModel("流程暂停，无法操作", "");
+    }
 	
 	
 	/**
@@ -399,7 +411,8 @@ public class BusinessService extends BaseService<OrderFormDAO,OrderForm, Integer
 	 * @throws BaseErrorModel 
 	 */
 	public OrderForm completeUpdateOrder(String taskId,OrderForm orderForm,List<OrderDetailForm> orderDetails,Admin user){
-		clientDAO.refresh(orderForm.getClient());
+        checkOrderState(orderForm);
+        clientDAO.refresh(orderForm.getClient());
 		String agentAccount = adminDao.getById(orderForm.getClient().getAgent().getDbId()).getAccount();
 		Map map = new HashMap();
 		this.updateOrderInFlow(orderForm,orderDetails);
@@ -438,6 +451,7 @@ public class BusinessService extends BaseService<OrderFormDAO,OrderForm, Integer
 	 */
 	public void productionAudit(String taskId, boolean success, String remark,Admin user) throws BaseErrorModel {
 		OrderForm of=this.getOrderFormInfo(taskId);
+        checkOrderState(of);
 		of.setMcomment(remark);
 		if (success)
 			flowService.completeTask(taskId, "通过",user);
@@ -456,6 +470,7 @@ public class BusinessService extends BaseService<OrderFormDAO,OrderForm, Integer
 	 */
 	public void agentAudit(String taskId, boolean success,String remark,Admin user) throws BaseErrorModel{
         OrderForm orderForm = getOrderFormInfo(taskId);
+        checkOrderState(orderForm);
         orderForm.setMcomment(remark);
 		this.update(orderForm);
 		if (success)
@@ -477,6 +492,7 @@ public class BusinessService extends BaseService<OrderFormDAO,OrderForm, Integer
 	public void moulderAudit(String taskId, boolean success,String remark,Admin user) throws BaseErrorModel{
 		String moulder=user.getAccount();
 		OrderForm of=this.getOrderFormInfo(taskId);
+        checkOrderState(of);
 		of.setMcomment(remark);
 		this.update(of);
 		Map map = new HashMap();
@@ -577,5 +593,25 @@ public class BusinessService extends BaseService<OrderFormDAO,OrderForm, Integer
             return l.get(0);
         else
             return null;
+    }
+
+    /**
+     * 暂停流程
+     * @param orderId
+     */
+    public void stopOrderFlow(Integer orderId) {
+        OrderForm orderForm = loadById(orderId);
+        orderForm.setCurrentState((byte)2);
+        this.update(orderForm);
+
+    }
+    /**
+     * 重启流程
+     * @param orderId
+     */
+    public void restartOrderFlow(Integer orderId) {
+        OrderForm orderForm = loadById(orderId);
+        orderForm.setCurrentState((byte)1);
+        this.update(orderForm);
     }
 }

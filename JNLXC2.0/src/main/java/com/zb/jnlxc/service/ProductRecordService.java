@@ -161,10 +161,22 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
 		return page;
 	}
 
+    public void checkOrderState(OrderForm orderForm){
+        if(orderForm.getCurrentState()==2)
+            throw new BaseErrorModel("流程暂停，无法操作", "");
+    }
+
+    public void checkOrderState(String taskId){
+        OrderForm orderForm = getOrderFormInfo(taskId);
+        if(orderForm.getCurrentState()==2)
+            throw new BaseErrorModel("流程暂停，无法操作", "");
+    }
+
 
 	
 	public void startProductRecordFlow(Integer orderFormId) throws BaseErrorModel{
 		OrderForm orderForm=orderFormDAO.getById(orderFormId);
+        checkOrderState(orderForm);
 		if(orderForm.getCompStatus()==(byte)1){
 			throw new BaseErrorModel("该订单已完成,无法开启跟踪单流程", "");
 		}
@@ -195,6 +207,7 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
 	 * @return
 	 */
 	public OrderForm getOrderFormInfo(String taskId){
+        checkOrderState(taskId);
 		Integer orderFormId=(Integer)flowService.getContentMap(taskId, "orderFormId");
 		return orderFormDAO.getById(orderFormId);
 	}
@@ -208,6 +221,7 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
 	 * @throws BaseErrorModel 
 	 */
 	public ProductRecord printForm(String taskId,String comment,Admin user) throws JRException, BaseErrorModel  {
+        checkOrderState(taskId);
 		Integer orderFormId = (Integer) flowService.getContentMap(taskId,"orderFormId");
 		OrderForm orderForm=orderFormDAO.getById(orderFormId);
 		Integer productNum=(Integer) flowService.getContentMap(taskId, "productNum");
@@ -238,6 +252,7 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
      * @return
      */
     private ProductTeam getProductTeamFormFlow(String taskId){
+        checkOrderState(taskId);
         Integer productTeamId = (Integer)flowService.getContentMap(taskId, "productTeamId");
         ProductTeam productTeam=null;
         if(productTeamId!=null)
@@ -277,6 +292,7 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
 
 	//车间分配机台
 	public void workshopTask(String taskId,Integer productTeamId,String wcomment,Admin user) throws BaseErrorModel{
+        checkOrderState(taskId);
         updateOrderMcomment(taskId,wcomment);
         Map map = new HashMap();
 		map.put("productTeamId", productTeamId);
@@ -284,7 +300,8 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
 	}
 	//完成时效任务
 	public void shiXiao(String taskId,List<ProductTrace> traces,String aginghardness,String alHeatNum,String wcomment,Admin user) throws BaseErrorModel{
-		Integer productRecordId=(Integer)flowService.getContentMap(taskId, "productRecordId");
+        checkOrderState(taskId);
+        Integer productRecordId=(Integer)flowService.getContentMap(taskId, "productRecordId");
 		ProductRecord dbProductRecord=this.loadById(productRecordId);
         boolean ofcomplete = updateProductDetail(traces,dbProductRecord);
         dbProductRecord.setAginger(user);
@@ -299,7 +316,8 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
 	}
 	//完成氧化任务
 	public void yangHua(String taskId,List<ProductTrace> traces,String oxiFilm,String wcomment,Admin user) throws BaseErrorModel{
-		Integer productRecordId=(Integer)flowService.getContentMap(taskId, "productRecordId");
+        checkOrderState(taskId);
+        Integer productRecordId=(Integer)flowService.getContentMap(taskId, "productRecordId");
 		ProductRecord dbProductRecord=this.loadById(productRecordId);
         boolean ofcomplete = updateProductDetail(traces,dbProductRecord);
         dbProductRecord.setOxiFilm(oxiFilm);
@@ -313,7 +331,8 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
 	}
 	//完成电泳任务
 	public void dianYong(String taskId,List<ProductTrace> traces,String wcomment,Admin user) throws BaseErrorModel{
-		Integer productRecordId=(Integer)flowService.getContentMap(taskId, "productRecordId");
+        checkOrderState(taskId);
+        Integer productRecordId=(Integer)flowService.getContentMap(taskId, "productRecordId");
 		ProductRecord dbProductRecord=this.loadById(productRecordId);
         boolean ofcomplete = updateProductDetail(traces,dbProductRecord);
         dbProductRecord.setElectrophoresis(user);
@@ -324,7 +343,8 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
 	}
 	//完成喷涂任务
 	public void plating(String taskId,List<ProductTrace> traces,String wcomment,Admin user) throws BaseErrorModel{
-		Integer productRecordId=(Integer)flowService.getContentMap(taskId, "productRecordId");
+        checkOrderState(taskId);
+        Integer productRecordId=(Integer)flowService.getContentMap(taskId, "productRecordId");
 		ProductRecord dbProductRecord=this.loadById(productRecordId);
         boolean ofcomplete = updateProductDetail(traces,dbProductRecord);
 		dbProductRecord.setPlater(user);
@@ -335,7 +355,8 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
 	}
 	//完成打包任务
 	public void pack(String taskId,List<ProductTrace> traces, String wcomment,Admin user) throws BaseErrorModel{
-		Integer productRecordId=(Integer)flowService.getContentMap(taskId, "productRecordId");
+        checkOrderState(taskId);
+        Integer productRecordId=(Integer)flowService.getContentMap(taskId, "productRecordId");
 		ProductRecord dbProductRecord=this.loadById(productRecordId);
         boolean ofcomplete = updateProductDetail(traces,dbProductRecord);
 		dbProductRecord.setPackager(user);
@@ -352,7 +373,8 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
     }
 	//仓管记录存放位置
 	public void storage(String taskId,String storeLocation,String wcomment,Admin user) throws BaseErrorModel{
-		Integer productRecordId=(Integer)flowService.getContentMap(taskId, "productRecordId");
+        checkOrderState(taskId);
+        Integer productRecordId=(Integer)flowService.getContentMap(taskId, "productRecordId");
 		ProductRecord dbProductRecord=this.loadById(productRecordId);
 		dbProductRecord.setWarehouser(user);
         dbProductRecord.setStoreLocation(storeLocation);
@@ -365,7 +387,8 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
     }
 	//发货员发货
 	public void sendProduct(String taskId,String finalWeight,String wcomment,Admin user) throws BaseErrorModel{
-		Integer productRecordId=(Integer)flowService.getContentMap(taskId, "productRecordId");
+        checkOrderState(taskId);
+        Integer productRecordId=(Integer)flowService.getContentMap(taskId, "productRecordId");
 		ProductRecord dbProductRecord=this.loadById(productRecordId);
 		dbProductRecord.setSender(user);
 		dbProductRecord.setFinalWeight(finalWeight);
@@ -378,7 +401,8 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
     }
 	//财务核对
 	public void financialReconciliation(String taskId,int totalPrice,String wcomment,Admin user) throws BaseErrorModel{
-		Integer productRecordId=(Integer)flowService.getContentMap(taskId, "productRecordId");
+        checkOrderState(taskId);
+        Integer productRecordId=(Integer)flowService.getContentMap(taskId, "productRecordId");
 		ProductRecord dbProductRecord=this.loadById(productRecordId);
 		dbProductRecord.setTotalPrice(totalPrice);
 		dbProductRecord.setFinancer(user);
@@ -399,7 +423,8 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
 	 * @throws BaseErrorModel
 	 */
 	public void weight(String taskId,List<ProductTrace> traces,String wcomment,Admin user) throws BaseErrorModel {
-		Integer orderFormId = (Integer) flowService.getContentMap(taskId,"orderFormId");
+        checkOrderState(taskId);
+        Integer orderFormId = (Integer) flowService.getContentMap(taskId,"orderFormId");
 		Integer productRecordId = (Integer) flowService.getContentMap(taskId, "productRecordId");
 		OrderForm orderForm=orderFormDAO.getById(orderFormId);
 		ProductRecord productRecord=this.getById(productRecordId);

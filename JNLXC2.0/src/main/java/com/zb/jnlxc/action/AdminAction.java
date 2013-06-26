@@ -191,10 +191,12 @@ public class AdminAction {
 
     @ResponseBody
     @RequestMapping("/findAdmins")
-    public MiniPageRsp findAdmins(MiniPageReq page) {
-        adminService.findAdmins(page);
+    public MiniPageRsp findAdmins(MiniPageReq page,@ModelAttribute("user") Admin user) {
+        adminService.findAdmins(page,user);
         return new MiniPageRsp(page.getResultData(),page.getTotalClum());
     }
+
+
 
     @ResponseBody
     @RequestMapping("/editAdmin")
