@@ -207,7 +207,6 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
 	 * @return
 	 */
 	public OrderForm getOrderFormInfo(String taskId){
-        checkOrderState(taskId);
 		Integer orderFormId=(Integer)flowService.getContentMap(taskId, "orderFormId");
 		return orderFormDAO.getById(orderFormId);
 	}

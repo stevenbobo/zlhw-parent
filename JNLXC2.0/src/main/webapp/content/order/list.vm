@@ -93,10 +93,11 @@
                     </div>
                     <div field="compStatus"  headerAlign="center" renderer="onGenderRenderer" >是否完成
                     </div>
-                    <div field="orderDate" width="100"  dateFormat="yyyy-MM-dd">下订单日期
+                    <div field="registerDate" width="100"  dateFormat="yyyy-MM-dd">订货日期
                     </div>
+                    #if($beanFactory.LookUp("adminService").havePower($user,"暂停订单流程"))
                     <div name="action" width="120" headerAlign="center" align="center" renderer="onActionRenderer" cellStyle="padding:0;">#</div>
-
+                    #end
                 </div>
             </div>
             <div id="detailGrid" class="mini-datagrid" style="width:100%;height:30%;"

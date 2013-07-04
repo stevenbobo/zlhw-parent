@@ -303,7 +303,7 @@ public class BusinessService extends BaseService<OrderFormDAO,OrderForm, Integer
 		orderForm.setKaidan(user);
 		orderForm.setCompWeight(0);
         orderForm.setCompQuantity(0);
-//		orderForm.setOrderDate(new Date());
+		orderForm.setOrderDate(new Date());
 		orderForm.setEnable((byte)0);
 		orderForm.setCurrentState((byte)1);
 		orderForm.setNextRecordNum(1);

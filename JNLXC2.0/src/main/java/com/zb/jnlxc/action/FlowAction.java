@@ -177,4 +177,40 @@ public class FlowAction {
     public Object getContentMapByExecution(String executionId, String key) {
         return flowService.getContentMapByExecution(executionId, key);    
     }
+
+    @ResponseBody
+    @RequestMapping("/testDeployFlowAll")
+    public String testDeployFlowAll() {
+        String path1 = "./jbpm/mouldFlow.jpdl.xml";
+        String path2 = "./jbpm/orderFlow.jpdl.xml";
+        String path3 = "./jbpm/paidan.jpdl.xml";
+        String path4 = "./jbpm/productRecordFlow.jpdl.xml";
+        String path5 = "./jbpm/schemeFlow.jpdl.xml";
+        String result1 = flowService.deployFlow(path1);
+        String result2 = flowService.deployFlow(path2);
+        String result3 = flowService.deployFlow(path3);
+        String result4 = flowService.deployFlow(path4);
+        String result5 = flowService.deployFlow(path5);
+        return "success";
+    }
+
+    @ResponseBody
+    @RequestMapping("/testDeleteFlow")
+    public String testDeleteFlow(){
+        List<Deployment> list = flowService.getRepositoryService().createDeploymentQuery().list();
+        for(Deployment deployment:list){
+            flowService.deleteDeploymentCascade(deployment.getId());
+        }
+        testDeployFlowAll();
+        return "success";
+    }
+    @ResponseBody
+    @RequestMapping("/testDeleteInstance")
+    public String testDeleteInstance(){
+        List<ProcessInstance> list1 = flowService.getExecutionService().createProcessInstanceQuery().list();
+        for(ProcessInstance processInstance:list1){
+			flowService.getExecutionService().deleteProcessInstanceCascade(processInstance.getId());
+        }
+        return "success";
+    }
 }
