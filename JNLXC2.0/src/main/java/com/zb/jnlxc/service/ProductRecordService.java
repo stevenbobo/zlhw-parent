@@ -452,9 +452,10 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
             detail.setDetailQuantity(pt.getFinishQuantiy());
             od.setCompWeight(od.getCompWeight()+detail.getDetailWeight());
             od.setCompQuantity(od.getCompQuantity()+detail.getDetailQuantity());
-
-            orderForm.setCompWeight(orderForm.getCompWeight()+detail.getDetailWeight());
-            orderForm.setCompQuantity(orderForm.getCompQuantity()+detail.getDetailQuantity());
+            int compWeight =  orderForm.getCompWeight()==null?0:orderForm.getCompWeight();
+            orderForm.setCompWeight(compWeight+detail.getDetailWeight());
+            int compQuantity =  orderForm.getCompQuantity()==null?0:orderForm.getCompQuantity();
+            orderForm.setCompQuantity(compQuantity+detail.getDetailQuantity());
             od.setCompStatus(pt.getEnough());
             ofcomplete=ofcomplete&pt.getEnough()!=(byte)0;
             orderDetailDAO.update(od);
