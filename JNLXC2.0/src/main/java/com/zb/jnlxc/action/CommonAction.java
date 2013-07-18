@@ -65,6 +65,12 @@ public class CommonAction {
     }
 
     @ResponseBody
+    @RequestMapping("/findAllTeamDetail")
+    private List findAllTeamDetail(){
+        return productTeamService.findAllTeamDetail();
+    }
+
+    @ResponseBody
     @RequestMapping("/eidtTeam")
     private void eidtTeam(String data){
         List<ProductTeam> teams = new Gson().fromJson(data,new TypeToken<List<ProductTeam>>() {}.getType());

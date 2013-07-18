@@ -23,7 +23,7 @@
 </div>
 
 <div style="text-align:center;padding:10px;">
-    <a class="mini-button" onclick="show()" style="width:60px;margin-right:20px;"> 直接查看</a>
+    <a class="mini-button" onclick="show()" style="width:60px;margin-right:20px;"> 查看跟踪单</a>
     <a class="mini-button" onclick="doTaskYes()" style="width:60px;margin-right:20px;"> 完成打印</a>
     <a class="mini-button" onclick="onCancel" style="width:60px;">取消</a>
 </div>

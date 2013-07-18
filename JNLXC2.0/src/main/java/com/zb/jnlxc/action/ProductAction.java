@@ -57,10 +57,12 @@ public class ProductAction {
 
     @RequestMapping("/downloadPDF")
     public void downloadPDF(HttpServletResponse response,String taskId) throws IOException {
+
+        OutputStream out = response.getOutputStream();
+        ProductRecord productRecord = productRecordService.getProductRecordByTaskId(taskId);
         response.setContentType("application/x-download");
         response.setHeader("Content-disposition", "attachment;filename="
-                + "a.pdf");
-        OutputStream out = response.getOutputStream();
+                + productRecord.getCode()+".pdf");
         try {
             productRecordService.startCreatePDF(taskId,out);
         } catch (JRException e) {

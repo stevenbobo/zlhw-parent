@@ -1,4 +1,5 @@
 #set($doTaskUrl=$link.setRelative('ProductAction/productionAudit.do'))
+#set($downLoadPDFUrl=$link.setRelative('ProductAction/downloadPDF.do'))
 <style type="text/css">
     html, body
     {
@@ -21,6 +22,7 @@
 
 </div>
 <div style="text-align:center;padding:10px;">
+    <a class="mini-button" onclick="show()" style="width:90px;margin-right:20px;"> 查看跟踪单</a>
     <a class="mini-button" onclick="doTaskYes()" style="width:60px;margin-right:20px;"> 通过</a>
     <a class="mini-button" onclick="onCancel" style="width:60px;">取消</a>
 </div>
@@ -38,6 +40,11 @@
         taskId = mini.clone(taskIdParm);
         initOrderInfo(taskId);
         initProductInfo(taskId);
+    }
+
+    function show()
+    {
+        window.location.href="${downLoadPDFUrl}?taskId="+taskId;
     }
 
     function doTaskYes() {

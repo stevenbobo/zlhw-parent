@@ -1,5 +1,6 @@
 #set($doTaskUrl=$link.setRelative('ProductAction/workshopTask.do'))
-#set($findTeamUrl=$link.setRelative('/CommonAction/findAllTeam.json'))
+#set($downLoadPDFUrl=$link.setRelative('ProductAction/downloadPDF.do'))
+#set($findTeamUrl=$link.setRelative('/CommonAction/findAllTeamDetail.json'))
 <style type="text/css">
     html, body
     {
@@ -26,7 +27,7 @@
                             <td style="width:90px;">选择机台：</td>
                             <td style="width:150px;">
                                 <input name="productTeamId" property="editor" class="mini-combobox"   url="$findTeamUrl"
-                                       textField="name" valueField="dbId" required="true" />
+                                       textField="1" valueField="0"  required="true" ondrawcell="onDrawCell" />
                             </td>
                         </tr>
                     </table>
@@ -38,6 +39,7 @@
 
 </div>
 <div style="text-align:center;padding:10px;">
+    <a class="mini-button" onclick="show()" style="width:90px;margin-right:20px;"> 查看跟踪单</a>
     <a class="mini-button" onclick="doTaskYes()" style="width:60px;margin-right:20px;"> 通过</a>
     <a class="mini-button" onclick="onCancel" style="width:60px;">取消</a>
 </div>
@@ -84,6 +86,15 @@
         if (window.CloseOwnerWindow)
             return window.CloseOwnerWindow(action);
         else window.close();
+    }
+
+    function onDrawCell(e) {
+        e.cellHtml = '<span style="color:red;">'+e.record[1]+'  '+e.record[2]+'</span>';
+    }
+
+    function show()
+    {
+        window.location.href="${downLoadPDFUrl}?taskId="+taskId;
     }
 </script>
 </body>

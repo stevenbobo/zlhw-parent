@@ -56,7 +56,10 @@ public class ReportService extends BaseService{
 		parameters.put("schemeCode", productRecord.getOrderForm().getScheme().getCode());
 		parameters.put("client", productRecord.getOrderForm().getClient().getClientCode());
         parameters.put("wcomment",productRecord.getOrderForm().getMcomment());
-		parameters.put("Charger", productRecord.getCharger().getName());
+        if(productRecord.getCharger()!=null)
+		    parameters.put("Charger", productRecord.getCharger().getName());
+        else
+            parameters.put("Charger", "");
 		parameters.put("orderForm", orderForm);
 		parameters.put("recordid", productRecord.getCode());
 		File file=new File(imagesRoot+orderForm.getScheme().getBmpSrc());
