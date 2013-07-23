@@ -17,7 +17,7 @@ public class ProductTeamService extends BaseService<ProductTeamDAO,ProductTeam, 
 
     public List findAllTeamDetail() {
         String hql = "select pt.dbId,pt.name,a.name as chargeName from ProductTeam pt,Admin a " +
-                "where pt.charge_dbId=a.dbId";
+                "where pt.depart.charge_dbId=a.dbId";
         return this.findHql(hql);
     }
 }
