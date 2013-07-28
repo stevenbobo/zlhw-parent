@@ -3,6 +3,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.zb.jnlxc.model.OrderForm;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
@@ -52,6 +53,26 @@ public class ProductRecordDetailDAO extends DAO<ProductRecordDetail,Integer> {
                 "new Map(sum(p.detailWeight) as compWeight," +
                 "sum(p.detailQuantity) as compQuantity)" +
                 "from ProductRecordDetail p where p.orderDetail=?", orderDetail);
+        Map<String,Long> map = (Map<String, Long>) l.get(0);
+        if(map.get("compWeight")==null){
+            map.put("compWeight",0L);
+        }
+        if(map.get("compQuantity")==null){
+            map.put("compQuantity",0L);
+        }
+        return map;
+    }
+
+    /**
+     *   获取订单完成情况
+     * @param orderForm
+     * @return
+     */
+    public Map<String,Long> getCompMapByOrder(OrderForm orderForm){
+        List l = this.findByHQL("select " +
+                "new Map(sum(p.detailWeight) as compWeight," +
+                "sum(p.detailQuantity) as compQuantity)" +
+                "from ProductRecordDetail p where p.orderDetail.orderForm=?", orderForm);
         Map<String,Long> map = (Map<String, Long>) l.get(0);
         if(map.get("compWeight")==null){
             map.put("compWeight",0L);

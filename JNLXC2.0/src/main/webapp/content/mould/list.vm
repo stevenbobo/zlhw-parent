@@ -14,9 +14,15 @@
 <body>
 <form id="form1" method="post">
 <div class="mini-toolbar">
+#if($beanFactory.LookUp("adminService").havePower($user,"模具添加"))
     <a class="mini-button" iconCls="icon-add" onclick="addMould">增加</a>
+#end
+#if($beanFactory.LookUp("adminService").havePower($user,"模具修改"))
     <a class="mini-button" iconCls="icon-edit" onclick="editMould">修改</a>
+#end
+#if($beanFactory.LookUp("adminService").havePower($user,"模具删除"))
     <a class="mini-button" iconCls="icon-remove" onclick="deleteMould">删除</a>
+#end
     <span class="separator"></span>
     <input name="key" class="mini-textbox" emptyText="请输入模具编号" onenter="search" />
     <a class="mini-button"  plain="true" iconCls="icon-search" onclick="search()">查询</a>
@@ -35,9 +41,15 @@
     <li>
         <span >操作</span>
         <ul>
+#if($beanFactory.LookUp("adminService").havePower($user,"模具添加"))
             <li iconCls="icon-new" onclick="addMould">新建</li>
+#end
+#if($beanFactory.LookUp("adminService").havePower($user,"模具修改"))
             <li iconCls="icon-edit" onclick="editMould">修改</li>
+#end
+#if($beanFactory.LookUp("adminService").havePower($user,"模具删除"))
             <li iconCls="icon-remove" onclick="deleteMould">删除</li>
+#end
         </ul>
     </li>
     <li class="separator"></li>

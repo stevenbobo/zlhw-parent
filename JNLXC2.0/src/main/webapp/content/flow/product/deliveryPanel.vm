@@ -16,21 +16,6 @@
 
     <div title="生产记录信息"  >
         #parse("content/flow/product/productInfo.vm")
-        <fieldset id="fd1">
-            <legend><span>  发货信息</span></legend>
-            <div class="fieldset-body">
-                <form id="taskform" method="post">
-                    <table style="table-layout:fixed;">
-                        <tr>
-                            <td style="width:90px;">发货重量：</td>
-                            <td style="width:150px;">
-                                <input name="finalWeight" class="mini-textbox" required="true"/>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
-            </div>
-        </fieldset>
     </div>
     #parse("content/flow/product/orderInfo_store.vm")
 
@@ -45,11 +30,12 @@
 <script type="text/javascript">
     mini.parse();
     var taskId;
+    var productTracegrid = mini.get("productTracegrid");
     ////////////////////
     //标准方法接口定义
     function setData(taskIdParm, openWindow) {
         openWindow.setWidth(1000);
-        openWindow.setHeight(550);
+        openWindow.setHeight(450);
         taskId = mini.clone(taskIdParm);
         initOrderInfo(taskId);
         initProductInfo(taskId);
@@ -57,10 +43,8 @@
 
     function doTaskYes(){
         var remarks = mini.get("remarks").getValue();
-        var taskform = new mini.Form("taskform");
-        taskform.validate();
-        if (taskform.isValid() == false) return;
-        var parm =$.extend({},taskform.getData(),{taskId:taskId,remarks:remarks});
+        var productTraceDatail = mini.encode(productTracegrid.getData());
+        var parm ={taskId:taskId,productTraceDatail:productTraceDatail,remarks:remarks};
         $.ajax({
             url: "$doTaskUrl",
             data:parm,

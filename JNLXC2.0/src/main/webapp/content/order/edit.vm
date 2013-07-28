@@ -108,7 +108,7 @@
                     </td>
                     <td>氧化膜　：</td>
                     <td >
-                        <input name="oxideFilm" class="mini-textbox" required="true"/>
+                        <input name="oxideFilm" class="mini-textbox" value="8" required="true"/>
                     </td>
                 </tr>
 
@@ -148,11 +148,11 @@
                 <tr>
                     <td>是否含税：</td>
                     <td>
-                        <input name="includeTax" required="true" class="mini-combobox"  data="[{id:0,text:'含税'}, {id:1, text: '不含税'}]"/>
+                        <input name="includeTax" required="true" class="mini-combobox" value="1"  data="[{id:0,text:'含税'}, {id:1, text: '不含税'}]"/>
                     </td>
                     <td>是否开票：</td>
                     <td>
-                        <input name="bill" required="true" class="mini-combobox"  data="[{id:0,text:'开票'}, {id:1, text: '不开票'}]"/>
+                        <input name="bill" required="true" class="mini-combobox" value="1"  data="[{id:0,text:'开票'}, {id:1, text: '不开票'}]"/>
                     </td>
                 </tr>
                 <tr>
@@ -250,6 +250,9 @@
                     //复制属性是保持dbId和code不变
                     order.dbId=form.getData().dbId;
                     order.code=form.getData().code;
+                    order.orderDate=form.getData().orderDate;
+                    order.alPrice = form.getData().alPrice;
+                    order.registerDate = form.getData().registerDate;
                     form.setData(order);
                     }
                 },

@@ -26,9 +26,15 @@
             <table style="width:100%;">
                 <tr>
                     <td style="width:100%;">
+#if($beanFactory.LookUp("adminService").havePower($user,"订单添加"))
                         <a class="mini-button" iconCls="icon-add" plain="true" onclick="addRow()">新增</a>
+#end
+#if($beanFactory.LookUp("adminService").havePower($user,"订单查看"))
                         <a class="mini-button" iconCls="icon-edit" plain="true" onclick="viewRow()">查看</a>
+#end
+#if($beanFactory.LookUp("adminService").havePower($user,"订单删除"))
                         <a class="mini-button" iconCls="icon-remove" plain="true" onclick="removeRow()">删除</a>
+#end
                         <span class="separator"></span>
 						#if($beanFactory.LookUp("adminService").havePower($user,"开启跟踪单"))
 							<a class="mini-button" iconCls="icon-goto" plain="true" onclick="openOrderFlow()">开启生产流程</a>
@@ -87,7 +93,7 @@
                     </div>
                     <div field="kpm"  headerAlign="center" >米重
                     </div>
-                    <div field="compNum"  headerAlign="center" >已完成重量
+                    <div field="compWeight"  headerAlign="center" >已完成重量
                     </div>
                     <div field="totalWeight"  headerAlign="center" >总重量
                     </div>

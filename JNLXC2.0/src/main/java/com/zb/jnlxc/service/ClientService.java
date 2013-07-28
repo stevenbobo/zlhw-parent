@@ -37,7 +37,7 @@ public class ClientService extends BaseService<ClientDAO,Client, Integer> {
         if(StringUtils.isNotEmpty(page.getParameter("name"))){
             String clentName = page.getParameter("name");
             hql.append("and (t.name like :clientName or clientCode like:clientName) ");
-            queryConditions.add(new QueryCondition("clientName", clentName+"%"));
+            queryConditions.add(new QueryCondition("clientName", "%"+clentName+"%"));
         }
 
         hql.append("order by ").append(page.getSortKey()).append(" ").append(page.getSortOrder());

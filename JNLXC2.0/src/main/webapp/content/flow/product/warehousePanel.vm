@@ -43,6 +43,7 @@
 <script type="text/javascript">
     mini.parse();
     var taskId;
+    var productTracegrid = mini.get("productTracegrid");
     ////////////////////
     //标准方法接口定义
     function setData(taskIdParm, openWindow) {
@@ -55,10 +56,11 @@
 
     function doTaskYes(){
         var remarks = mini.get("remarks").getValue();
+        var productTraceDatail = mini.encode(productTracegrid.getData());
         var taskform = new mini.Form("taskform");
         taskform.validate();
         if (taskform.isValid() == false) return;
-        var parm =$.extend({},taskform.getData(),{taskId:taskId,remarks:remarks});
+        var parm =$.extend({},taskform.getData(),{taskId:taskId,productTraceDatail:productTraceDatail,remarks:remarks});
         $.ajax({
             url: "$doTaskUrl",
             data:parm,

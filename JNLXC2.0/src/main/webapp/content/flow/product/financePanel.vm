@@ -32,7 +32,7 @@
             </div>
         </fieldset>
     </div>
-    #parse("content/flow/product/orderInfo.vm")
+    #parse("content/flow/product/orderInfo_store.vm")
 
 </div>
 

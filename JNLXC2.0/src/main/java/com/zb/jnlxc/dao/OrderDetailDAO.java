@@ -1,5 +1,6 @@
 package com.zb.jnlxc.dao;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -10,9 +11,14 @@ import com.ZLHW.base.dao.DAO;
 import com.zb.jnlxc.model.OrderDetail;
 import com.zb.jnlxc.model.OrderForm;
 
+import javax.annotation.Resource;
+
 @Component
 public class OrderDetailDAO extends DAO<OrderDetail,Integer> {
 	private static final Log log = LogFactory.getLog(OrderDetailDAO.class);
+
+    @Resource
+    private ProductRecordDetailDAO productRecordDetailDAO;
 
 	public void delete(OrderDetail orderDetail) throws BaseErrorModel{
 		//删除图纸前查找是否有订单记录
@@ -32,4 +38,12 @@ public class OrderDetailDAO extends DAO<OrderDetail,Integer> {
         return this.findByHQL("from OrderDetail o where o.orderForm.scheme.dbId=?", schemeId);
     }
 
+    public void updateCompWeight(OrderDetail od) {
+        Map<String,Long> map = productRecordDetailDAO.getCompDetail(od);
+        Long compWeight = map.get("compWeight");
+        Long compQuantity = map.get("compQuantity");
+        od.setCompQuantity(compQuantity.intValue());
+        od.setCompWeight(compWeight.intValue());
+        this.update(od);
+    }
 }

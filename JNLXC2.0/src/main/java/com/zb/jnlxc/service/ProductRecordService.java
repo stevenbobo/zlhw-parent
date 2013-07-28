@@ -56,6 +56,8 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
 	FlowService flowService;
     @Resource
     AdminDAO adminDAO;
+    @Resource
+    ProductRecordDetailHistoryDAO productRecordDetailHistoryDAO;
 	
 	/**
 	 * 通过任务id查询生产记录
@@ -110,6 +112,9 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
                     productTrace.setFinishWeight(prd.getDetailWeight());
                 }
             }
+            productTrace.setAginghardness(productRecord.getAginghardness());
+            productTrace.setOxideFilm(orderForm.getOxideFilm());
+            productTrace.setAlHeatNum(productRecord.getAlHeatNum());
             productTrace.setUncompleteQuantity(orderDetail.getOrderQuantity()-compQuantity+productTrace.getFinishQuantiy());
             productTrace.setUncompleteWeight(orderDetail.getOrderWeight()-compWeight+productTrace.getFinishWeight());
             productTrace.setDbId(orderDetail.getDbId());
@@ -302,7 +307,7 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
         checkOrderState(taskId);
         Integer productRecordId=(Integer)flowService.getContentMap(taskId, "productRecordId");
 		ProductRecord dbProductRecord=this.loadById(productRecordId);
-        boolean ofcomplete = updateProductDetail(traces,dbProductRecord);
+        updateProductDetail(traces,dbProductRecord,user,"时效");
         dbProductRecord.setAginger(user);
 		dbProductRecord.setAginghardness(aginghardness);
 		dbProductRecord.setAlHeatNum(alHeatNum);
@@ -318,7 +323,7 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
         checkOrderState(taskId);
         Integer productRecordId=(Integer)flowService.getContentMap(taskId, "productRecordId");
 		ProductRecord dbProductRecord=this.loadById(productRecordId);
-        boolean ofcomplete = updateProductDetail(traces,dbProductRecord);
+        boolean ofcomplete = updateProductDetail(traces,dbProductRecord,user,"氧化");
         dbProductRecord.setOxiFilm(oxiFilm);
 		dbProductRecord.setOxifilmer(user);
 		dbProductRecord.setWcomment(wcomment);
@@ -333,7 +338,7 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
         checkOrderState(taskId);
         Integer productRecordId=(Integer)flowService.getContentMap(taskId, "productRecordId");
 		ProductRecord dbProductRecord=this.loadById(productRecordId);
-        boolean ofcomplete = updateProductDetail(traces,dbProductRecord);
+        boolean ofcomplete = updateProductDetail(traces,dbProductRecord,user,"电泳");
         dbProductRecord.setElectrophoresis(user);
 		dbProductRecord.setWcomment(wcomment);
         this.update(dbProductRecord);
@@ -345,7 +350,7 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
         checkOrderState(taskId);
         Integer productRecordId=(Integer)flowService.getContentMap(taskId, "productRecordId");
 		ProductRecord dbProductRecord=this.loadById(productRecordId);
-        boolean ofcomplete = updateProductDetail(traces,dbProductRecord);
+        updateProductDetail(traces,dbProductRecord,user,"喷涂");
 		dbProductRecord.setPlater(user);
 		dbProductRecord.setWcomment(wcomment);
         this.update(dbProductRecord);
@@ -357,7 +362,7 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
         checkOrderState(taskId);
         Integer productRecordId=(Integer)flowService.getContentMap(taskId, "productRecordId");
 		ProductRecord dbProductRecord=this.loadById(productRecordId);
-        boolean ofcomplete = updateProductDetail(traces,dbProductRecord);
+        boolean ofcomplete = updateProductDetail(traces,dbProductRecord,user,"打包");
 		dbProductRecord.setPackager(user);
 		dbProductRecord.setWcomment(wcomment);
 		this.update(dbProductRecord);
@@ -371,10 +376,11 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
         flowService.completeTask(taskId,user);
     }
 	//仓管记录存放位置
-	public void storage(String taskId,String storeLocation,String wcomment,Admin user) throws BaseErrorModel{
+	public void storage(String taskId,List<ProductTrace> traces,String storeLocation,String wcomment,Admin user) throws BaseErrorModel{
         checkOrderState(taskId);
         Integer productRecordId=(Integer)flowService.getContentMap(taskId, "productRecordId");
 		ProductRecord dbProductRecord=this.loadById(productRecordId);
+        updateProductDetail(traces,dbProductRecord,user,"仓管记录存放位置");
 		dbProductRecord.setWarehouser(user);
         dbProductRecord.setStoreLocation(storeLocation);
 		dbProductRecord.setWcomment(wcomment);
@@ -385,12 +391,12 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
         flowService.completeTask(taskId,user);
     }
 	//发货员发货
-	public void sendProduct(String taskId,String finalWeight,String wcomment,Admin user) throws BaseErrorModel{
+	public void sendProduct(String taskId,List<ProductTrace> traces,String wcomment,Admin user) throws BaseErrorModel{
         checkOrderState(taskId);
         Integer productRecordId=(Integer)flowService.getContentMap(taskId, "productRecordId");
 		ProductRecord dbProductRecord=this.loadById(productRecordId);
+        updateProductDetail(traces,dbProductRecord,user,"发货员发货");
 		dbProductRecord.setSender(user);
-		dbProductRecord.setFinalWeight(finalWeight);
 		dbProductRecord.setWcomment(wcomment);
 		this.update(dbProductRecord);
         OrderForm orderForm = dbProductRecord.getOrderForm();
@@ -425,11 +431,12 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
         checkOrderState(taskId);
         Integer orderFormId = (Integer) flowService.getContentMap(taskId,"orderFormId");
 		Integer productRecordId = (Integer) flowService.getContentMap(taskId, "productRecordId");
+        checkWeight(traces);
 		OrderForm orderForm=orderFormDAO.getById(orderFormId);
 		ProductRecord productRecord=this.getById(productRecordId);
 		productRecord.setWcomment(wcomment);
         orderForm.setMcomment(wcomment);
-        boolean ofcomplete = updateProductDetail(traces,productRecord);
+        updateProductDetail(traces,productRecord,user,"挤压");
 		productRecord.setWeighter(user);//记录当前操作用户为过磅员
 		this.getDao().update(productRecord);
         List<String> squence=orderForm.generateStepList();
@@ -438,7 +445,17 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
 		flowService.completeTask(taskId, nextStep,map,user);
 	}
 
-    private boolean updateProductDetail(List<ProductTrace> traces,ProductRecord productRecord){
+    private void checkWeight(List<ProductTrace> traces){
+        int weight = 0;
+        for(ProductTrace productTrace:traces){
+             weight  += productTrace.getFinishWeight();
+        }
+        if(weight==0){
+            throw new BaseErrorModel("重量不能为0","");
+        }
+    }
+
+    private boolean updateProductDetail(List<ProductTrace> traces,ProductRecord productRecord,Admin user,String taskName){
         OrderForm orderForm=productRecord.getOrderForm();
         this.getDao().refresh(orderForm);
         boolean ofcomplete = true;
@@ -450,20 +467,15 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
             detail.setProductRecord(productRecord);
             detail.setDetailWeight(pt.getFinishWeight());
             detail.setDetailQuantity(pt.getFinishQuantiy());
-            od.setCompWeight(od.getCompWeight()+detail.getDetailWeight());
-            od.setCompQuantity(od.getCompQuantity()+detail.getDetailQuantity());
-            int compWeight =  orderForm.getCompWeight()==null?0:orderForm.getCompWeight();
-            orderForm.setCompWeight(compWeight+detail.getDetailWeight());
-            int compQuantity =  orderForm.getCompQuantity()==null?0:orderForm.getCompQuantity();
-            orderForm.setCompQuantity(compQuantity+detail.getDetailQuantity());
             od.setCompStatus(pt.getEnough());
             ofcomplete=ofcomplete&pt.getEnough()!=(byte)0;
-            orderDetailDAO.update(od);
             productRecordDetailDAO.update(detail);
+            productRecordDetailHistoryDAO.createByProductDetail(detail,taskName,user);
+            orderDetailDAO.updateCompWeight(od);
         }
         orderForm.setCompStatus(ofcomplete?(byte)1:(byte)0);
         //修改订单
-        orderFormDAO.update(orderForm);
+        orderFormDAO.updateCompWeight(orderForm);
         return ofcomplete;
     }
 

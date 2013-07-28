@@ -15,9 +15,15 @@
 <body>
 <div class="mini-toolbar">
     <form id="form1" method="post">
+#if($beanFactory.LookUp("adminService").havePower($user,"图纸添加"))
     <a class="mini-button" iconCls="icon-add" onclick="addScheme">增加</a>
+#end
+#if($beanFactory.LookUp("adminService").havePower($user,"图纸修改"))
     <a class="mini-button" iconCls="icon-edit" onclick="editScheme">修改</a>
+#end
+#if($beanFactory.LookUp("adminService").havePower($user,"图纸删除"))
     <a class="mini-button" iconCls="icon-remove" onclick="deleteScheme">删除</a>
+#end
     <span class="separator"></span>
     <input name="productType" property="editor" class="mini-combobox" showNullItem="true"  nullItemText="请选择..."
            url="$productTypeUrl" textField="name" valueField="dbId" />
@@ -39,9 +45,15 @@
     <li>
         <span >操作</span>
         <ul>
+#if($beanFactory.LookUp("adminService").havePower($user,"图纸添加"))
             <li iconCls="icon-add" onclick="addScheme">增加</li>
+#end
+#if($beanFactory.LookUp("adminService").havePower($user,"图纸修改"))
             <li iconCls="icon-edit" onclick="editScheme">修改</li>
+#end
+#if($beanFactory.LookUp("adminService").havePower($user,"图纸删除"))
             <li iconCls="icon-remove" onclick="deleteScheme">删除</li>
+#end
         </ul>
     </li>
     <li class="separator"></li>
@@ -50,7 +62,9 @@
     <li iconCls="icon-ok" onclick="lookForOrder" >查看订单记录</li>
     <li iconCls="icon-ok" onclick="lookForProduct" >查看生产记录</li>
     <li iconCls="icon-ok" onclick="lookForFlow" >查看图纸流程</li>
+#if($beanFactory.LookUp("adminService").havePower($user,"图纸下载"))
     <li iconCls="icon-download" onclick="downLoadScheme" >下载图纸</li>
+#end
 
 </ul>
 

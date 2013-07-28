@@ -155,14 +155,18 @@ public class ProductAction {
 
     @ResponseBody
     @RequestMapping("/storage")
-    public void storage(String taskId, String storeLocation, String remarks,@ModelAttribute("user") Admin user){
-        productRecordService.storage(taskId, storeLocation, remarks,user);
+    public void storage(String taskId,String productTraceDatail, String storeLocation, String remarks,@ModelAttribute("user") Admin user){
+        Gson gson = new Gson();
+        List<ProductTrace> traces = gson.fromJson(productTraceDatail,new TypeToken<List<ProductTrace>>() {}.getType());
+        productRecordService.storage(taskId,traces, storeLocation, remarks,user);
     }
 
     @ResponseBody
     @RequestMapping("/sendProduct")
-    public void sendProduct(String taskId, String finalWeight, String remarks,@ModelAttribute("user") Admin user){
-        productRecordService.sendProduct(taskId, finalWeight, remarks,user);
+    public void sendProduct(String taskId,String productTraceDatail, String finalWeight, String remarks,@ModelAttribute("user") Admin user){
+        Gson gson = new Gson();
+        List<ProductTrace> traces = gson.fromJson(productTraceDatail,new TypeToken<List<ProductTrace>>() {}.getType());
+        productRecordService.sendProduct(taskId,traces, remarks,user);
     }
 
     @ResponseBody

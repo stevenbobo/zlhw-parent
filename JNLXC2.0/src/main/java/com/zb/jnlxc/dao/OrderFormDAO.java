@@ -1,6 +1,7 @@
 package com.zb.jnlxc.dao;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -20,6 +21,8 @@ public class OrderFormDAO extends DAO<OrderForm,Integer> {
 	private OrderDetailDAO orderDetailDAO;
     @Resource
     private ProductRecordDAO productRecordDAO;
+    @Resource
+    private ProductRecordDetailDAO productRecordDetailDAO;
 
 	public OrderDetailDAO getOrderDetailDAO() {
 		return orderDetailDAO;
@@ -38,6 +41,16 @@ public class OrderFormDAO extends DAO<OrderForm,Integer> {
 		}
 		super.delete(orderForm);
 	}
+
+    public void updateCompWeight(OrderForm orderForm){
+        Map<String,Long> map = productRecordDetailDAO.getCompMapByOrder(orderForm);
+        Long compWeight = map.get("compWeight");
+        Long compQuantity = map.get("compQuantity");
+        orderForm.setCompQuantity(compQuantity.intValue());
+        orderForm.setCompWeight(compWeight.intValue());
+        this.update(orderForm);
+
+    }
 
 
 	

@@ -19,11 +19,11 @@
         </div>
         <div field="orderDetail.orderForm.surfaceProcess.name" width="60">表面处理
         </div>
-        <div field="orderDetail.orderForm.oxideFilm" width="60">氧化膜
+        <div field="oxideFilm" width="60">氧化膜
         </div>
-        <div field="orderDetail.orderForm.aginghardness" width="60">时效硬度
+        <div field="aginghardness" width="60">时效硬度
         </div>
-        <div field="orderDetail.orderForm.alHeatNum" width="60">铝棒
+        <div field="alHeatNum" width="60">铝棒
         </div>
         <div field="finishQuantiy" width="60">完成数量
             <input property="editor" class="mini-textbox" style="width:100%;"/>

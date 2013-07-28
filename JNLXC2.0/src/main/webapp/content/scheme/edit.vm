@@ -51,7 +51,7 @@
                     <td>产品类别：</td>
                     <td>
                         <input name="productType.dbId" property="editor" class="mini-combobox" required="true"   url="$productTypeUrl"
-                               textField="name" valueField="dbId" />
+                               textField="name" valueField="dbId" ondrawcell="onDrawWithDbId" />
                     </td>
                     <td class="form-label">是否开模：</td>
                     <td colspan=>
@@ -236,9 +236,6 @@
             $("#chargeTd2").show();
         }
     }
-
-
-
 
 
 </script>

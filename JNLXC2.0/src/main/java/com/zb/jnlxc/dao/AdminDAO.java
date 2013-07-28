@@ -68,7 +68,7 @@ public class AdminDAO extends DAO<Admin,Integer> implements IAdmin{
 	}
 	
 	public List<Admin> findAllJiTai(){
-        return  findAdminsByGroupName("挤压车间主任");
+        return  findAdminsByGroupName("挤压班长");
 	}
 	
 	
