@@ -80,7 +80,7 @@
                     <td style="width:90px;">材料类型：</td>
                     <td style="width:150px;">
                         <input name="material.dbId" property="editor" required="true" class="mini-combobox"   url="$materialListUrl"
-                               textField="name" valueField="dbId" value="401" />
+                               textField="name" valueField="dbId" value="401" ondrawcell="onDrawWithDbId" />
                     </td>
                     <td>米量(克/米)：</td>
                     <td style="width:150px;">
@@ -104,7 +104,7 @@
                     <td>表面处理</td>
                     <td>
                         <input name="surfaceProcess.dbId" property="editor" class="mini-combobox"  required="true"  url="$surfaceListUrl"
-                               textField="name" valueField="dbId" />
+                               textField="name" valueField="dbId" ondrawcell="onDrawWithDbId" />
                     </td>
                     <td>氧化膜　：</td>
                     <td >
@@ -116,7 +116,7 @@
                     <td>包装方式</td>
                     <td>
                         <input name="pack.dbId" required="true" property="editor" class="mini-combobox"   url="$packListUrl"
-                               textField="name" valueField="dbId" />
+                               textField="name" valueField="dbId" ondrawcell="onDrawWithDbId"/>
                     </td>
                     <td>铝锭价格(元/吨)：</td>
                     <td >

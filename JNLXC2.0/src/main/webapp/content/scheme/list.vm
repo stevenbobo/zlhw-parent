@@ -26,7 +26,7 @@
 #end
     <span class="separator"></span>
     <input name="productType" property="editor" class="mini-combobox" showNullItem="true"  nullItemText="请选择..."
-           url="$productTypeUrl" textField="name" valueField="dbId" />
+           url="$productTypeUrl" textField="name" valueField="dbId" ondrawcell="onDrawWithDbId" />
     <input name="name" class="mini-textbox" emptyText="名称或编号" onenter="search" />
     <a class="mini-button" iconCls="icon-search" plain="true" onclick="search()">查询</a>
         <div id="schemePage" class="mini-pager" style="float: right    "

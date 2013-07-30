@@ -154,7 +154,7 @@
         mini.open({
             url: "$rootUrl"+task.formResourceName,
             title: task.name,
-            width: 800,
+            width: 1000,
             height: 560,
             onload: function () {
                 var iframe = this.getIFrameEl();
