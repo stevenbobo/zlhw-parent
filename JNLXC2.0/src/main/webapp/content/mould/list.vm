@@ -75,7 +75,7 @@
     function showMouldRecord(){
         mini.open({
             url: "$showMouldRecordVm",
-            title: "模具记录", width: 600, height: 300,
+            title: "模具记录", width: 700, height: 300,
             onload: function () {
                 var iframe = this.getIFrameEl();
                 iframe.contentWindow.setData(selectedMould.dbId);

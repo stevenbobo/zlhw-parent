@@ -22,6 +22,8 @@
         <div field="produceQuantity" width="50"  headerAlign="center" >产量</div>
         <div field="unloadingReason" width="50"  headerAlign="center" >卸模原因</div>
         <div field="material.name" width="50"  headerAlign="center" >材质</div>
+        <div field="quantity" width="50"  headerAlign="center" >铝棒数量</div>
+        <div field="lbgg" width="50"  headerAlign="center" >铝棒规格</div>
         <div field="operator.name" width="50"  headerAlign="center" >操作员</div>
         <div field="createTime" width="50"  headerAlign="center" >创建时间</div>
     </div>

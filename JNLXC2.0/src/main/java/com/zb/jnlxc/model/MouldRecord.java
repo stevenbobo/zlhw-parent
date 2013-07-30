@@ -30,23 +30,23 @@ public class MouldRecord extends HIntTable{
 	@Column(length=500)
 	private String unloadingReason; //卸模原因
 	@ManyToOne
-	private DataDict material; //材质/铝棒规格
+	private DataDict material; //材质
 	@ManyToOne
 	private Admin operator; //操作员
     @Column(length=100)
-    private String lvgg;
+    private String lbgg;      //铝棒规格
 
-    private Integer quantity;
+    private Integer quantity;    //数量
 
 	@Version  
     private Integer version;
 
-    public String getLvgg() {
-        return lvgg;
+    public String getLbgg() {
+        return lbgg;
     }
 
-    public void setLvgg(String lvgg) {
-        this.lvgg = lvgg;
+    public void setLbgg(String lbgg) {
+        this.lbgg = lbgg;
     }
 
     public Integer getQuantity() {

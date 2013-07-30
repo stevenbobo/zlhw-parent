@@ -62,7 +62,7 @@
     ////////////////////
     //标准方法接口定义
     function setData(taskIdParm,openWindow) {
-        openWindow.setWidth(525);
+        openWindow.setWidth(600);
         openWindow.setHeight(550);
         taskId = mini.clone(taskIdParm);
         initMouldInfo(taskId);
