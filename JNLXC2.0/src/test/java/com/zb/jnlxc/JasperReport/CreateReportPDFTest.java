@@ -68,6 +68,6 @@ public class CreateReportPDFTest {
         parameters.put("recordid", "12302382");
         parameters.put("BaseDir", "c:/20031127_5.bmp");
 
-        new CreateReportPDF("WebappReport", "a.pdf", parameters, l).createPdf();
+        new CreateReportPDF("WebappReport", "c:/a.pdf", parameters, l).createPdf();
     }
 }

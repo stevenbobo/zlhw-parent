@@ -23,12 +23,15 @@ public class ProductRecordDetailHistoryDAO extends DAO<ProductRecordDetailHistor
     public void createByProductDetail(ProductRecordDetail productRecordDetail,String taskName,Admin admin) {
         ProductRecordDetailHistory productRecordDetailHistory = new ProductRecordDetailHistory();
         productRecordDetailHistory.setOperater_dbId(admin.getDbId());
+        productRecordDetailHistory.setOperater_Name(admin.getName());
         productRecordDetailHistory.setProductRecord_dbId(productRecordDetail.getProductRecord().getDbId());
         productRecordDetailHistory.setOrderDetail_dbId(productRecordDetail.getOrderDetail().getDbId());
         productRecordDetailHistory.setDetailQuantity(productRecordDetail.getDetailQuantity());
         productRecordDetailHistory.setDetailWeight(productRecordDetail.getDetailWeight());
         productRecordDetailHistory.setTaskName(taskName);
         productRecordDetailHistory.setOperateDate(new Date());
+        productRecordDetailHistory.setSetSize(productRecordDetail.getOrderDetail().getSetSize());
+        productRecordDetailHistory.setWcomment(productRecordDetail.getProductRecord().getWcomment());
         this.create(productRecordDetailHistory);
     }
 }

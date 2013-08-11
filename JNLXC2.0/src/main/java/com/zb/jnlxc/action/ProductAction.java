@@ -84,6 +84,12 @@ public class ProductAction {
     }
 
     @ResponseBody
+    @RequestMapping("/getWorkDetail")
+    public List<ProductRecordDetailHistory> getWorkDetail(int productId){
+        return productRecordService.getWorkDetail(productId);
+    }
+
+    @ResponseBody
     @RequestMapping("/startProductRecordFlow")
     public void startProductRecordFlow( Integer orderFormId){
         productRecordService.startProductRecordFlow( orderFormId);

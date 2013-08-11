@@ -16,13 +16,33 @@ public class ProductRecordDetailHistory extends HIntTable {
 	private Integer orderDetail_dbId; // 订单明细，记录订购的产品信息
     private Integer operater_dbId;
     @Column(length=100)
+    private String operater_Name;
+    @Column(length=50)
+    private String setSize; //规定尺寸
+    @Column(length=100)
     private String taskName;
 	private Integer detailWeight; // 相对于订单明细中的生产重量统计
 	private Integer detailQuantity; // 相对于订单明细中的生产数量统计
     @Temporal(TemporalType.TIMESTAMP)
-    private Date operateDate; //下订单日期
+    private Date operateDate;
+    @Column(length=1024)
+    private String wcomment; //备注
 
+    public String getWcomment() {
+        return wcomment;
+    }
 
+    public void setWcomment(String wcomment) {
+        this.wcomment = wcomment;
+    }
+
+    public String getSetSize() {
+        return setSize;
+    }
+
+    public void setSetSize(String setSize) {
+        this.setSize = setSize;
+    }
 
     public Integer getProductRecord_dbId() {
         return productRecord_dbId;
@@ -94,5 +114,13 @@ public class ProductRecordDetailHistory extends HIntTable {
 
     public void setOperateDate(Date operateDate) {
         this.operateDate = operateDate;
+    }
+
+    public String getOperater_Name() {
+        return operater_Name;
+    }
+
+    public void setOperater_Name(String operater_Name) {
+        this.operater_Name = operater_Name;
     }
 }

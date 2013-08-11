@@ -3,6 +3,7 @@
 #set($loadProductRecordURL=$link.setRelative('/ProductAction/loadProductRecord.json'))
 #set($loadOrderDeatilURL=$link.setRelative('/BussinessAction/getOrderDetail.json'))
 #set($downLoadPDFUrl=$link.setRelative('/ReportAction/exportProductRecord.do'))
+#set($productInfoVm=$link.setRelative('/content/product/productInfo.vm'))
 
 
 <style type="text/css">
@@ -31,15 +32,33 @@
     <div class="mini-fit">
         <div id="productGrid" class="mini-datagrid" style="width:100%;height:70%;"
              borderStyle="border:0;" onselectionchanged="onOrderChanged"
-             url="$loadProductRecordURL" allowCellSelect="true">
+             url="$loadProductRecordURL" allowCellSelect="true"
+             onrowdblclick="onRowDblClick">
             <div property="columns">
-                <div field="code" width="120" headerAlign="center">生产记录编号
-                </div>
                 <div field="orderForm.code" width="120" headerAlign="center">订单编号
                 </div>
-                <div field="recordNum" width="120" headerAlign="center">订单记录次数
+                <div field="code" width="120" headerAlign="center">生产记录编号
+                </div>
+                <div field="orderForm.scheme.name"  headerAlign="center" >图纸
+                </div>
+                <div field="orderForm.client.agent.name"  headerAlign="center" >业务员
+                </div>
+                <div field="orderForm.client.name"  headerAlign="center" >客户
+                </div>
+                <div field="orderForm.material.name" width="60" headerAlign="center" >材质
+                </div>
+                <div field="aginghardness" width="60" headerAlign="center">时效硬度
+                </div>
+                <div field="surfaceProcess.name" width="60" headerAlign="center">表面处理
+                </div>
+                <div field="oxiFilm" width="60" headerAlign="center">氧化膜厚度
+                </div>
+                <div field="orderForm.pack.name" width="60" headerAlign="center">包装方式
                 </div>
                 <div field="createDate" width="120" headerAlign="center">生产日期
+                </div>
+                <!--
+                <div field="recordNum" width="60" headerAlign="center">订单记录次数
                 </div>
                 <div field="charger.name" width="120" headerAlign="center">机台负责人
                 </div>
@@ -49,12 +68,12 @@
                 </div>
                 <div field="aginger.name" width="120" headerAlign="center">时效员
                 </div>
-                <div field="aginghardness" width="120" headerAlign="center">时效实测硬度
-                </div>
+
                 <div field="alHeatNum" width="120" headerAlign="center">铝棒炉号
                 </div>
                 <div field="nitrideNum" width="120" headerAlign="center">氮化数量
                 </div>
+                -->
             </div>
         </div>
         <div id="detailGrid" class="mini-datagrid" style="width:100%;height:30%;"
@@ -123,5 +142,19 @@
     }
     function setData(orderId) {
         productGrid.load({orderId: orderId});
+    }
+
+    function onRowDblClick(e) {
+        var product = productGrid.getSelected();
+        mini.open({
+            url: "$productInfoVm",
+            title: "选择列表",
+            width: 800,
+            height: 400,
+            onload: function () {
+                var iframe = this.getIFrameEl();
+                iframe.contentWindow.setData(product);
+            }
+        });
     }
 </script>

@@ -564,5 +564,10 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
 	public ProcessInstance findProductRecordFlowInstanceByKey(String id) {
 		return flowService.findProcessInstanceByKey("productRecordFlow", id);
 	}
-	
+
+    public List<ProductRecordDetailHistory> getWorkDetail(int productId) {
+        String hql =  "from ProductRecordDetailHistory t " +
+                "where t.productRecord_dbId=? order by t.dbId asc";
+        return productRecordDetailHistoryDAO.findByHQL(hql,productId);
+    }
 }

@@ -85,22 +85,33 @@
                     </div>
                     <div field="client.name"  headerAlign="center" >客户名
                     </div>
-                    <div field="material.name"  headerAlign="center" >材质
-                    </div>
                     <div field="client.agent.name"  headerAlign="center" >业务员
                     </div>
                     <div field="scheme.name"  headerAlign="center" >图纸
                     </div>
+                    <div field="material.name" width="60" headerAlign="center"  >材质
+                    </div>
+                    <div field="hardness" width="60" headerAlign="center" >硬度
+                    </div>
+                    <div field="surfaceProcess.name" width="60" headerAlign="center" >表面处理
+                    </div>
+                    <div field="pack.name" width="60" headerAlign="center" >包装方式
+                    </div>
+                    <div field="registerDate" width="100"  dateFormat="yyyy-MM-dd">订货日期
+                    </div>
+                    <div field="preSendDate" width="100"  dateFormat="yyyy-MM-dd">预计发货日期
+                    </div>
+                    <!--
                     <div field="kpm"  headerAlign="center" >米重
                     </div>
                     <div field="compWeight"  headerAlign="center" >已完成重量
                     </div>
                     <div field="totalWeight"  headerAlign="center" >总重量
                     </div>
-                    <div field="compStatus"  headerAlign="center" renderer="onGenderRenderer" >是否完成
+                    -->
+                    <div field="compStatus" width="60" headerAlign="center" renderer="onGenderRenderer" >是否完成
                     </div>
-                    <div field="registerDate" width="100"  dateFormat="yyyy-MM-dd">订货日期
-                    </div>
+
                     #if($beanFactory.LookUp("adminService").havePower($user,"暂停订单流程"))
                     <div name="action" width="120" headerAlign="center" align="center" renderer="onActionRenderer" cellStyle="padding:0;">#</div>
                     #end

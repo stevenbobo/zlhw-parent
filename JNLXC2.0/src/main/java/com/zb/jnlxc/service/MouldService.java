@@ -46,10 +46,8 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
 		//图纸的下一个模具号
         Scheme scheme =  schemeDao.getById(schemeId);
 		int modelNum = scheme.getNextMouldNum();
-		return String.format("%06d",schemeId)+"-"+String.format("%03d",modelNum);
+		return scheme.getName()+"-"+String.format("%03d",modelNum);
 	}
-	
-
 
 	/**
 	 * 保存模具，开启新的流程

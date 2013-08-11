@@ -2,6 +2,7 @@ package com.zb.jnlxc.service;
 
 import java.io.File;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -33,6 +34,8 @@ public class ReportService extends BaseService{
     private String imagesRoot;
     @Resource
     private OrderDetailDAO orderDetailDAO;
+
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	/**
 	 * 以流的方式输出
 	 * @param productRecord
@@ -53,7 +56,7 @@ public class ReportService extends BaseService{
 		Map parameters = new HashMap();
 		parameters.put("ReportTitle", "生产跟踪单");
 		parameters.put("time", productRecord.getCreateDate());
-		parameters.put("schemeCode", productRecord.getOrderForm().getScheme().getCode());
+		parameters.put("schemeCode", productRecord.getOrderForm().getScheme().getName());
 		parameters.put("client", productRecord.getOrderForm().getClient().getClientCode());
         parameters.put("wcomment",productRecord.getOrderForm().getMcomment());
         if(productRecord.getCharger()!=null)
@@ -70,6 +73,10 @@ public class ReportService extends BaseService{
 		parameters.put("pack", orderForm.getPack().getName());
 		parameters.put("surfaceProcess", orderForm.getSurfaceProcess().getName());
 		parameters.put("material", orderForm.getMaterial().getName());
-		new CreateReportPDF("WebappReport", "a.pdf", parameters, list).exportReportToPdfStream(os);
-	}
+        if(orderForm.getKpm()!=null)
+            parameters.put("kpm",orderForm.getKpm().toString());
+        if(orderForm.getPreSendDate()!=null)
+        parameters.put("preSendDate",sdf.format(orderForm.getPreSendDate()));
+        new CreateReportPDF("WebappReport", "a.pdf", parameters, list).exportReportToPdfStream(os);
+    }
 }

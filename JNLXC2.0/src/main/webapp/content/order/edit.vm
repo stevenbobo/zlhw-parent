@@ -204,6 +204,9 @@
             <div field="orderWeight" name="orderWeight" >订货重量（千克）
                 <input property="editor" onvaluechanged="onGenderChanged(e,'orderWeight')" class="mini-textbox"  style="width:100%;"/>
             </div>
+            <div field="orderTotalMeter" name="orderTotalMeter" >总米数(米)
+                <input  class="mini-textbox"  style="width:100%;"/>
+            </div>
         </div>
     </div>
     </div>
@@ -274,10 +277,13 @@
         var orderWeight = grid.getCellEditor("orderWeight", row).getValue();
         if(field=='setSize'){
             row.orderWeight=row.orderQuantity*((setSize/1000.0)*kpm)/1000;
+            row.orderTotalMeter=(row.orderQuantity*setSize)/1000.0;
         }else if(field=='orderQuantity'){
             row.orderWeight=orderQuantity*((row.setSize/1000.0)*kpm)/1000;
+            row.orderTotalMeter=(orderQuantity*row.setSize)/1000.0;
         }else if(field=='orderWeight'){
             row.orderQuantity=parseInt(orderWeight*1000/((row.setSize/1000.0)*kpm));
+            row.orderTotalMeter=(row.orderQuantity*row.setSize)/1000.0;
         }else{}
         grid.doUpdate();
     }
@@ -501,7 +507,7 @@
     }
 
     function addRow() {
-        var newRow = { setSize: 1,orderQuantity:1,orderWeight:1 };
+        var newRow = { setSize: 1,orderQuantity:1,orderWeight:1,orderTotalMeter:0.001 };
         grid.addRow(newRow, 0);
         grid.validateRow(newRow);   //加入新行，马上验证新行
     }

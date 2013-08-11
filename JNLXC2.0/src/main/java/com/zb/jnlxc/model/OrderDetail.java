@@ -24,6 +24,7 @@ public class OrderDetail extends HIntTable{
 	private String setSize; //规定尺寸
 	private Integer orderQuantity; //订货数量
 	private Integer orderWeight; //订货重量（千克）
+    private Integer orderTotalMeter; //总米数（米）
 	private Integer minWeight; //最小重量（千克）
 	private Integer maxWeight; //最大重量（千克）
 	private Integer compQuantity; //完成数量
@@ -45,7 +46,16 @@ public class OrderDetail extends HIntTable{
 //	public void setVersion(Integer version) {
 //		this.version = version;
 //	}
-	/**
+
+    public Integer getOrderTotalMeter() {
+        return orderTotalMeter;
+    }
+
+    public void setOrderTotalMeter(Integer orderTotalMeter) {
+        this.orderTotalMeter = orderTotalMeter;
+    }
+
+    /**
 	* 获取订单表
 	*/
 	public OrderForm getOrderForm(){

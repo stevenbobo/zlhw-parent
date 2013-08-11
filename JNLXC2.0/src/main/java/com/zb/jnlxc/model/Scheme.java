@@ -21,7 +21,7 @@ import com.ZLHW.base.table.TableDeclare;
 public class Scheme extends HIntTable{
 	@Column(length=50)
 	private String name; //图纸描述
-	@Column(length=30)
+	@Column(length=30,unique = true)
 	private String code; //图纸编号
 	private Integer nextMouldNum; //图纸的下一个模具号
 	@ManyToOne
