@@ -1,26 +1,23 @@
-package com.ZLHW.base.service;
+package com.ZLHW.base.services;
 
-import java.lang.reflect.ParameterizedType;
-import java.util.List;
-
-
-import org.hibernate.criterion.Criterion;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import com.ZLHW.base.Exception.BaseErrorModel;
 import com.ZLHW.base.Form.Page;
 import com.ZLHW.base.dao.CommonDAO;
 import com.ZLHW.base.dao.IDAO;
 import com.ZLHW.base.factory.BeanFactory;
-import com.danga.MemCached.MemCachedClient;
+import org.hibernate.criterion.Criterion;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.lang.reflect.ParameterizedType;
+import java.util.List;
+
 @Transactional
 @Service
 public class BaseService<DAO extends IDAO<BEAN, PRIMARY>,BEAN, PRIMARY> implements IService<BEAN, PRIMARY> {
 	protected Logger logger = LoggerFactory.getLogger(this.getClass()) ;
-	protected MemCachedClient mcc ;
 	private DAO dao;
 	
 	public DAO getDao() {
@@ -39,7 +36,7 @@ public class BaseService<DAO extends IDAO<BEAN, PRIMARY>,BEAN, PRIMARY> implemen
 		return str.substring(0, 1).toLowerCase()+str.substring(1);
 	}
 	
-	public BEAN create(BEAN entity) throws BaseErrorModel  {
+	public BEAN create(BEAN entity) throws BaseErrorModel {
 		return getDao().create(entity);
 	}
 	
@@ -73,7 +70,7 @@ public class BaseService<DAO extends IDAO<BEAN, PRIMARY>,BEAN, PRIMARY> implemen
 	}
 	
 	
-	public BEAN refresh(BEAN entity) throws BaseErrorModel{
+	public BEAN refresh(BEAN entity) throws BaseErrorModel {
 		getDao().refresh(entity);
 		return entity;
 	}
@@ -122,87 +119,87 @@ public class BaseService<DAO extends IDAO<BEAN, PRIMARY>,BEAN, PRIMARY> implemen
 		getDao().update(entity);
 	}
 
-	public List findHqlCached(String hql, int time, int fromIdx, int fetchCount,
-			Object... args) {
-		StringBuffer cacheKey = new StringBuffer(this.getClass().getName())
-				.append(".findHql:").append(fromIdx).append(fetchCount);
-		for(Object o:args) {
-			cacheKey.append(args.toString());
-		}
-		List l = (List) mcc.get(cacheKey.toString());
-		if (l == null) {
-			l = this.findAll();
-			mcc.set(cacheKey.toString(), l, time);
-		}
-		return l;
-	}
-
-	public List<BEAN> findAllCached(int time) {
-		StringBuffer cacheKey = new StringBuffer(this.getClass().getName())
-				.append(".findAll");
-		List l = (List) mcc.get(cacheKey.toString());
-		if (l == null) {
-			l = this.findAll();
-			mcc.set(cacheKey.toString(), l, time);
-		}
-		return l;
-	}
-
-	public List<BEAN> findListCached(int time, int pageNo, int pageSize) {
-		StringBuffer cacheKey = new StringBuffer(this.getClass().getName())
-				.append(".findListCached");
-		cacheKey.append(pageNo).append(pageSize);
-		List l = (List) mcc.get(cacheKey.toString());
-		if (l == null) {
-			l = this.findList(pageNo, pageSize);
-			mcc.set(cacheKey.toString(), l, time);
-		}
-		return l;
-	}
-
-	public BEAN getByIdCached(int time, PRIMARY id) {
-		StringBuffer cacheKey = new StringBuffer(this.getClass().getName())
-				.append(".getByIdCached:").append(id);
-		BEAN bean = (BEAN) mcc.get(cacheKey.toString());
-		if (bean == null) {
-			bean = this.getById(id);
-			mcc.set(cacheKey.toString(), bean, time);
-		}
-		return bean;
-	}
-
-	public int getCountOfAllCached(int time) {
-		StringBuffer cacheKey = new StringBuffer(this.getClass().getName())
-				.append(".getCountOfAllCached");
-		Integer total = (Integer) mcc.get(cacheKey.toString());
-		if (total == null) {
-			total = this.getCountOfAll();
-			mcc.set(cacheKey.toString(), total, time);
-		}
-		return total;
-	}
-
-	public int getCountOfAllCached(String HQL, int time, String... args) {
-		StringBuffer cacheKey = new StringBuffer(this.getClass().getName())
-				.append(".getCountOfAllCached:");
-		cacheKey.append(HQL);
-		for (String str : args) {
-			cacheKey.append(str);
-		}
-		Integer total = (Integer) mcc.get(cacheKey.toString());
-		if (total == null) {
-			total = this.getCountOfAll(HQL, args);
-			mcc.set(cacheKey.toString(), total, time);
-		}
-		return total;
-	}
+//	public List findHqlCached(String hql, int time, int fromIdx, int fetchCount,
+//			Object... args) {
+//		StringBuffer cacheKey = new StringBuffer(this.getClass().getName())
+//				.append(".findHql:").append(fromIdx).append(fetchCount);
+//		for(Object o:args) {
+//			cacheKey.append(args.toString());
+//		}
+//		List l = (List) mcc.get(cacheKey.toString());
+//		if (l == null) {
+//			l = this.findAll();
+//			mcc.set(cacheKey.toString(), l, time);
+//		}
+//		return l;
+//	}
+//
+//	public List<BEAN> findAllCached(int time) {
+//		StringBuffer cacheKey = new StringBuffer(this.getClass().getName())
+//				.append(".findAll");
+//		List l = (List) mcc.get(cacheKey.toString());
+//		if (l == null) {
+//			l = this.findAll();
+//			mcc.set(cacheKey.toString(), l, time);
+//		}
+//		return l;
+//	}
+//
+//	public List<BEAN> findListCached(int time, int pageNo, int pageSize) {
+//		StringBuffer cacheKey = new StringBuffer(this.getClass().getName())
+//				.append(".findListCached");
+//		cacheKey.append(pageNo).append(pageSize);
+//		List l = (List) mcc.get(cacheKey.toString());
+//		if (l == null) {
+//			l = this.findList(pageNo, pageSize);
+//			mcc.set(cacheKey.toString(), l, time);
+//		}
+//		return l;
+//	}
+//
+//	public BEAN getByIdCached(int time, PRIMARY id) {
+//		StringBuffer cacheKey = new StringBuffer(this.getClass().getName())
+//				.append(".getByIdCached:").append(id);
+//		BEAN bean = (BEAN) mcc.get(cacheKey.toString());
+//		if (bean == null) {
+//			bean = this.getById(id);
+//			mcc.set(cacheKey.toString(), bean, time);
+//		}
+//		return bean;
+//	}
+//
+//	public int getCountOfAllCached(int time) {
+//		StringBuffer cacheKey = new StringBuffer(this.getClass().getName())
+//				.append(".getCountOfAllCached");
+//		Integer total = (Integer) mcc.get(cacheKey.toString());
+//		if (total == null) {
+//			total = this.getCountOfAll();
+//			mcc.set(cacheKey.toString(), total, time);
+//		}
+//		return total;
+//	}
+//
+//	public int getCountOfAllCached(String HQL, int time, String... args) {
+//		StringBuffer cacheKey = new StringBuffer(this.getClass().getName())
+//				.append(".getCountOfAllCached:");
+//		cacheKey.append(HQL);
+//		for (String str : args) {
+//			cacheKey.append(str);
+//		}
+//		Integer total = (Integer) mcc.get(cacheKey.toString());
+//		if (total == null) {
+//			total = this.getCountOfAll(HQL, args);
+//			mcc.set(cacheKey.toString(), total, time);
+//		}
+//		return total;
+//	}
 
 	/**
 	 * 获取测试用的springbean
 	 * @return
 	 */
 	public BaseService getTestService(){
-		return (BaseService)BeanFactory.LookUp(this.getClass().getSimpleName());
+		return (BaseService) BeanFactory.LookUp(this.getClass().getSimpleName());
 	}
 
 	public Page findByPageWithHQL(Page page,String HQL, Object...args){
