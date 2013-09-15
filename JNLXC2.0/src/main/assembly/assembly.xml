@@ -26,5 +26,10 @@
         <dependencySet>
             <outputDirectory>lib</outputDirectory>
         </dependencySet>
+        <dependencySet>
+            <useProjectArtifact>true</useProjectArtifact>
+            <outputDirectory>lib</outputDirectory><!-- 将scope为system的依赖包打包到lib目录下。 -->
+            <scope>system</scope>
+        </dependencySet>
     </dependencySets>
 </assembly>

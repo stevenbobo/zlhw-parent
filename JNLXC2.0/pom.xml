@@ -1,67 +1,69 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<artifactId>JNLXC</artifactId>
-	<version>2.0.2</version>
-	<parent>
-		<groupId>org.zlhw</groupId>
-  		<artifactId>zlhw-parent</artifactId>
-  		<version>1.0.2</version>
-	</parent>
-	<dependencies>
-		<dependency>
-			<groupId>org.zlhw</groupId>
-			<artifactId>zlhw-core</artifactId>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>JNLXC</artifactId>
+    <version>2.0.2</version>
+    <parent>
+        <groupId>org.zlhw</groupId>
+        <artifactId>zlhw-parent</artifactId>
+        <version>1.0.2</version>
+    </parent>
+    <dependencies>
+        <dependency>
+            <groupId>org.zlhw</groupId>
+            <artifactId>zlhw-core</artifactId>
             <version>1.0.2</version>
             <exclusions>
-            	<exclusion>
-            		<artifactId>xml-apis</artifactId>
-            		<groupId>xml-apis</groupId>
-            	</exclusion>
+                <exclusion>
+                    <artifactId>xml-apis</artifactId>
+                    <groupId>xml-apis</groupId>
+                </exclusion>
             </exclusions>
-		</dependency>
+        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
             <version>3.1.0.RELEASE</version>
         </dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>3.1.0.RELEASE</version>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>3.1.0.RELEASE</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>com.lowagie</groupId>
             <artifactId>itextasian</artifactId>
             <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/itextasian-1.0.jar</systemPath>
         </dependency>
-		<dependency>
-			<groupId>net.sf.jasperreports</groupId>
-			<artifactId>jasperreports</artifactId>
-			<version>4.5.1</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>xml-apis</artifactId>
-					<groupId>xml-apis</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+            <version>4.5.1</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>xml-apis</artifactId>
+                    <groupId>xml-apis</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         <dependency>
             <groupId>batik</groupId>
             <artifactId>batik-bridge</artifactId>
             <version>1.6-1</version>
         </dependency>
-        
+
         <dependency>
             <groupId>batik</groupId>
             <artifactId>batik-svg-dom</artifactId>
             <version>1.6-1</version>
             <exclusions>
-            	<exclusion>
-            		<artifactId>xercesImpl</artifactId>
-            		<groupId>xerces</groupId>
-            	</exclusion>
+                <exclusion>
+                    <artifactId>xercesImpl</artifactId>
+                    <groupId>xerces</groupId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -69,53 +71,55 @@
             <artifactId>barcode4j</artifactId>
             <version>2.0</version>
             <exclusions>
-            	<exclusion>
-            		<artifactId>xml-apis</artifactId>
-            		<groupId>xml-apis</groupId>
-            	</exclusion>
+                <exclusion>
+                    <artifactId>xml-apis</artifactId>
+                    <groupId>xml-apis</groupId>
+                </exclusion>
             </exclusions>
         </dependency>
-        
-		<dependency>
-		  <groupId>jbpm</groupId>
-		  <artifactId>jbpm</artifactId>
-		  <version>4.4</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-dbcp</groupId>
-			<artifactId>commons-dbcp</artifactId>
-			<version>1.4</version>
-		</dependency>
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.18</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-collections</groupId>
-			<artifactId>commons-collections</artifactId>
-			<version>3.2.1</version>
-		</dependency>
-		<dependency>
-			<groupId>de.odysseus.juel</groupId>
-			<artifactId>juel-api</artifactId>
-			<version>2.2.4</version>
-		</dependency>
-		<dependency>
-			<groupId>javassist</groupId>
-			<artifactId>javassist</artifactId>
-			<version>3.12.1.GA</version>
-		</dependency>
-		<dependency>
-			<groupId>de.odysseus.juel</groupId>
-			<artifactId>juel-impl</artifactId>
-			<version>2.2.4</version>
-		</dependency>
-		<dependency>
-			<groupId>hibernate</groupId>
-			<artifactId>antlr</artifactId>
-			<version>2.7.5H3</version>
-		</dependency>
+
+        <dependency>
+            <groupId>jbpm</groupId>
+            <artifactId>jbpm</artifactId>
+            <version>4.4</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/jbpm-4.4.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.18</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>de.odysseus.juel</groupId>
+            <artifactId>juel-api</artifactId>
+            <version>2.2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>3.12.1.GA</version>
+        </dependency>
+        <dependency>
+            <groupId>de.odysseus.juel</groupId>
+            <artifactId>juel-impl</artifactId>
+            <version>2.2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>hibernate</groupId>
+            <artifactId>antlr</artifactId>
+            <version>2.7.5H3</version>
+        </dependency>
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-core-asl</artifactId>
@@ -223,7 +227,11 @@
                     </archive>
                 </configuration>
             </plugin>
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1.1</version>
+            </plugin>
         </plugins>
     </build>
 </project>
