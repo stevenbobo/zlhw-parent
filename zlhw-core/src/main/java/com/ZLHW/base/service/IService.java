@@ -1,4 +1,4 @@
-package com.ZLHW.base.services;
+package com.ZLHW.base.service;
 
 import com.ZLHW.base.Exception.BaseErrorModel;
 import com.ZLHW.base.Form.Page;
