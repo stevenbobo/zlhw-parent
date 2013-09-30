@@ -18616,3 +18616,741 @@ Caused by: java.sql.SQLException: Access denied for user 'root'@'localhost' (usi
 	at com.mysql.jdbc.ConnectionImpl.coreConnect(ConnectionImpl.java:2336)
 	at com.mysql.jdbc.ConnectionImpl.connectWithRetries(ConnectionImpl.java:2176)
 	... 122 more
+2013-09-15 17:28:23,312 INFO [org.springframework.web.servlet.DispatcherServlet] - FrameworkServlet 'annomvc': initialization started
+2013-09-15 17:28:23,328 INFO [org.springframework.web.context.support.XmlWebApplicationContext] - Refreshing WebApplicationContext for namespace 'annomvc-servlet': startup date [Sun Sep 15 17:28:23 CST 2013]; root of context hierarchy
+2013-09-15 17:28:23,359 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - Loading XML bean definitions from class path resource [spring/mvc-servlet.xml]
+2013-09-15 17:28:23,437 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - Loading XML bean definitions from class path resource [spring/applicationContext.xml]
+2013-09-15 17:28:23,593 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - Loading XML bean definitions from class path resource [spring/dataSouce-beans.xml]
+2013-09-15 17:28:23,671 INFO [org.springframework.beans.factory.xml.XmlBeanDefinitionReader] - Loading XML bean definitions from class path resource [spring/jbpm-beans.xml]
+2013-09-15 17:28:23,828 INFO [org.springframework.beans.factory.config.PropertyPlaceholderConfigurer] - Loading properties file from file [E:\IdeaProjects\zlhw-parent2\JNLXC2.0\target\classes\conf\develop\server.properties]
+2013-09-15 17:28:23,859 INFO [org.springframework.beans.factory.support.DefaultListableBeanFactory] - Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@10a519: defining beans [adminAction,associationCompanyAction,bussinessAction,clientAction,commonAction,dataDictAction,deliveryAction,flowAction,mouldAction,paiDanFlowAction,productAction,reportAction,schemeAction,velocityActon,loginInterceptor,adminDAO,adminUserGroupDAO,associationCompanyDAO,authorDetailDAO,cityDAO,clientDAO,dataDictCatalogDAO,dataDictDAO,deliveryDAO,deliveryRecordDAO,departDAO,messageDAO,mouldDAO,mouldRecordDAO,mouldSizeDAO,mouldTestRecordDAO,orderDetailDAO,orderFormDAO,orderForm_AuthorDAO,productRecordDAO,productRecordDetailDAO,productRecordDetailHistoryDAO,productTeamDAO,repairMouldRecordDAO,schemeDAO,taskHistoryDao,userGroupDAO,userGroup_AuthorDAO,service,adminService,adminUserGroupService,associationCompanyService,authorDetailService,businessService,cityService,clientService,dataDictCatalogService,dataDictService,deliveryRecordService,deliveryService,departService,flowService,lvDingService,mouldRecordService,mouldService,mouldSizeService,mouldTestRecordService,orderDetailService,orderFormService,PaiDanFlowService,productRecordDetailService,productRecordService,productTeamService,repairMouldRecordService,reportService,schemeService,taskHistoryService,userGroupService,userGroup_AuthorService,org.springframework.context.annotation.internalConfigurationAnnotationProcessor,org.springframework.context.annotation.internalAutowiredAnnotationProcessor,org.springframework.context.annotation.internalRequiredAnnotationProcessor,org.springframework.context.annotation.internalCommonAnnotationProcessor,org.springframework.context.annotation.internalPersistenceAnnotationProcessor,com.ZLHW.base.factory.BeanFactory#0,ResourceConfigurer,dataSource,sessionFactory,transactionManager,springHelper,processEngine,repositoryService,executionService,taskService,historyService,identityService,managementService,org.springframework.aop.config.internalAutoProxyCreator,org.springframework.transaction.annotation.AnnotationTransactionAttributeSource#0,org.springframework.transaction.interceptor.TransactionInterceptor#0,org.springframework.transaction.config.internalTransactionAdvisor,dao,commonDAO,baseService,org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping#0,org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter#0,multipartResolver,exceptionResolver,org.springframework.context.annotation.ConfigurationClassPostProcessor$ImportAwareBeanPostProcessor#0]; root of factory hierarchy
+2013-09-15 17:28:24,031 INFO [org.hibernate.annotations.common.Version] - Hibernate Commons Annotations 3.2.0.Final
+2013-09-15 17:28:24,031 INFO [org.hibernate.cfg.Environment] - Hibernate 3.6.8.Final
+2013-09-15 17:28:24,031 INFO [org.hibernate.cfg.Environment] - hibernate.properties not found
+2013-09-15 17:28:24,031 INFO [org.hibernate.cfg.Environment] - Bytecode provider name : javassist
+2013-09-15 17:28:24,031 INFO [org.hibernate.cfg.Environment] - using JDK 1.4 java.sql.Timestamp handling
+2013-09-15 17:28:24,093 WARN [org.hibernate.util.DTDEntityResolver] - recognized obsolete hibernate namespace http://hibernate.sourceforge.net/. Use namespace http://www.hibernate.org/dtd/ instead. Refer to Hibernate 3.6 Migration Guide!
+2013-09-15 17:28:24,125 WARN [org.hibernate.util.DTDEntityResolver] - recognized obsolete hibernate namespace http://hibernate.sourceforge.net/. Use namespace http://www.hibernate.org/dtd/ instead. Refer to Hibernate 3.6 Migration Guide!
+2013-09-15 17:28:24,140 WARN [org.hibernate.util.DTDEntityResolver] - recognized obsolete hibernate namespace http://hibernate.sourceforge.net/. Use namespace http://www.hibernate.org/dtd/ instead. Refer to Hibernate 3.6 Migration Guide!
+2013-09-15 17:28:24,156 WARN [org.hibernate.util.DTDEntityResolver] - recognized obsolete hibernate namespace http://hibernate.sourceforge.net/. Use namespace http://www.hibernate.org/dtd/ instead. Refer to Hibernate 3.6 Migration Guide!
+2013-09-15 17:28:24,296 INFO [org.hibernate.cfg.HbmBinder] - Mapping class: org.jbpm.pvm.internal.repository.DeploymentImpl -> JBPM4_DEPLOYMENT
+2013-09-15 17:28:24,312 INFO [org.hibernate.cfg.HbmBinder] - Mapping class: org.jbpm.pvm.internal.repository.DeploymentProperty -> JBPM4_DEPLOYPROP
+2013-09-15 17:28:24,312 INFO [org.hibernate.cfg.HbmBinder] - Mapping class: org.jbpm.pvm.internal.id.PropertyImpl -> JBPM4_PROPERTY
+2013-09-15 17:28:24,312 INFO [org.hibernate.cfg.HbmBinder] - Mapping class: org.jbpm.pvm.internal.model.ExecutionImpl -> JBPM4_EXECUTION
+2013-09-15 17:28:24,343 INFO [org.hibernate.cfg.HbmBinder] - Mapping class: org.jbpm.pvm.internal.type.Variable -> JBPM4_VARIABLE
+2013-09-15 17:28:24,343 INFO [org.hibernate.cfg.HbmBinder] - Mapping subclass: org.jbpm.pvm.internal.type.variable.BlobVariable -> JBPM4_VARIABLE
+2013-09-15 17:28:24,343 INFO [org.hibernate.cfg.HbmBinder] - Mapping subclass: org.jbpm.pvm.internal.type.variable.DateVariable -> JBPM4_VARIABLE
+2013-09-15 17:28:24,343 INFO [org.hibernate.cfg.HbmBinder] - Mapping subclass: org.jbpm.pvm.internal.type.variable.DoubleVariable -> JBPM4_VARIABLE
+2013-09-15 17:28:24,343 INFO [org.hibernate.cfg.HbmBinder] - Mapping subclass: org.jbpm.pvm.internal.type.variable.HibernateLongVariable -> JBPM4_VARIABLE
+2013-09-15 17:28:24,343 INFO [org.hibernate.cfg.HbmBinder] - Mapping subclass: org.jbpm.pvm.internal.type.variable.HibernateStringVariable -> JBPM4_VARIABLE
+2013-09-15 17:28:24,343 INFO [org.hibernate.cfg.HbmBinder] - Mapping subclass: org.jbpm.pvm.internal.type.variable.LongVariable -> JBPM4_VARIABLE
+2013-09-15 17:28:24,343 INFO [org.hibernate.cfg.HbmBinder] - Mapping subclass: org.jbpm.pvm.internal.type.variable.NullVariable -> JBPM4_VARIABLE
+2013-09-15 17:28:24,343 INFO [org.hibernate.cfg.HbmBinder] - Mapping subclass: org.jbpm.pvm.internal.type.variable.StringVariable -> JBPM4_VARIABLE
+2013-09-15 17:28:24,343 INFO [org.hibernate.cfg.HbmBinder] - Mapping subclass: org.jbpm.pvm.internal.type.variable.TextVariable -> JBPM4_VARIABLE
+2013-09-15 17:28:24,343 INFO [org.hibernate.cfg.HbmBinder] - Mapping class: org.jbpm.pvm.internal.lob.Lob -> JBPM4_LOB
+2013-09-15 17:28:24,343 INFO [org.hibernate.cfg.HbmBinder] - Mapping class: org.jbpm.pvm.internal.job.JobImpl -> JBPM4_JOB
+2013-09-15 17:28:24,343 INFO [org.hibernate.cfg.HbmBinder] - Mapping subclass: org.jbpm.pvm.internal.job.MessageImpl -> JBPM4_JOB
+2013-09-15 17:28:24,343 INFO [org.hibernate.cfg.HbmBinder] - Mapping subclass: org.jbpm.pvm.internal.model.op.ExecuteActivityMessage -> JBPM4_JOB
+2013-09-15 17:28:24,343 INFO [org.hibernate.cfg.HbmBinder] - Mapping subclass: org.jbpm.pvm.internal.model.op.ExecuteEventListenerMessage -> JBPM4_JOB
+2013-09-15 17:28:24,343 INFO [org.hibernate.cfg.HbmBinder] - Mapping subclass: org.jbpm.pvm.internal.job.CommandMessage -> JBPM4_JOB
+2013-09-15 17:28:24,343 INFO [org.hibernate.cfg.HbmBinder] - Mapping subclass: org.jbpm.pvm.internal.job.TimerImpl -> JBPM4_JOB
+2013-09-15 17:28:24,343 INFO [org.hibernate.cfg.HbmBinder] - Mapping subclass: org.jbpm.pvm.internal.job.StartProcessTimer -> JBPM4_JOB
+2013-09-15 17:28:24,343 INFO [org.hibernate.cfg.HbmBinder] - Mapping class: org.jbpm.pvm.internal.history.model.HistoryProcessInstanceImpl -> JBPM4_HIST_PROCINST
+2013-09-15 17:28:24,343 INFO [org.hibernate.cfg.HbmBinder] - Mapping class: org.jbpm.pvm.internal.history.model.HistoryActivityInstanceImpl -> JBPM4_HIST_ACTINST
+2013-09-15 17:28:24,359 INFO [org.hibernate.cfg.HbmBinder] - Mapping subclass: org.jbpm.pvm.internal.history.model.HistoryAutomaticInstanceImpl -> JBPM4_HIST_ACTINST
+2013-09-15 17:28:24,359 INFO [org.hibernate.cfg.HbmBinder] - Mapping subclass: org.jbpm.pvm.internal.history.model.HistoryDecisionInstanceImpl -> JBPM4_HIST_ACTINST
+2013-09-15 17:28:24,359 INFO [org.hibernate.cfg.HbmBinder] - Mapping subclass: org.jbpm.pvm.internal.history.model.HistoryTaskInstanceImpl -> JBPM4_HIST_ACTINST
+2013-09-15 17:28:24,359 INFO [org.hibernate.cfg.HbmBinder] - Mapping class: org.jbpm.pvm.internal.history.model.HistoryTaskImpl -> JBPM4_HIST_TASK
+2013-09-15 17:28:24,359 INFO [org.hibernate.cfg.HbmBinder] - Mapping class: org.jbpm.pvm.internal.history.model.HistoryVariableImpl -> JBPM4_HIST_VAR
+2013-09-15 17:28:24,359 INFO [org.hibernate.cfg.HbmBinder] - Mapping class: org.jbpm.pvm.internal.history.model.HistoryDetailImpl -> JBPM4_HIST_DETAIL
+2013-09-15 17:28:24,359 INFO [org.hibernate.cfg.HbmBinder] - Mapping subclass: org.jbpm.pvm.internal.history.model.HistoryCommentImpl -> JBPM4_HIST_DETAIL
+2013-09-15 17:28:24,359 INFO [org.hibernate.cfg.HbmBinder] - Mapping subclass: org.jbpm.pvm.internal.history.model.HistoryProcessInstanceMigrationImpl -> JBPM4_HIST_DETAIL
+2013-09-15 17:28:24,359 INFO [org.hibernate.cfg.HbmBinder] - Mapping subclass: org.jbpm.pvm.internal.history.model.HistoryPriorityUpdateImpl -> JBPM4_HIST_DETAIL
+2013-09-15 17:28:24,359 INFO [org.hibernate.cfg.HbmBinder] - Mapping subclass: org.jbpm.pvm.internal.history.model.HistoryTaskAssignmentImpl -> JBPM4_HIST_DETAIL
+2013-09-15 17:28:24,359 INFO [org.hibernate.cfg.HbmBinder] - Mapping subclass: org.jbpm.pvm.internal.history.model.HistoryTaskDuedateUpdateImpl -> JBPM4_HIST_DETAIL
+2013-09-15 17:28:24,359 INFO [org.hibernate.cfg.HbmBinder] - Mapping subclass: org.jbpm.pvm.internal.history.model.HistoryVariableUpdateImpl -> JBPM4_HIST_DETAIL
+2013-09-15 17:28:24,359 INFO [org.hibernate.cfg.HbmBinder] - Mapping class: org.jbpm.pvm.internal.task.TaskImpl -> JBPM4_TASK
+2013-09-15 17:28:24,359 INFO [org.hibernate.cfg.HbmBinder] - Mapping class: org.jbpm.pvm.internal.task.ParticipationImpl -> JBPM4_PARTICIPATION
+2013-09-15 17:28:24,359 INFO [org.hibernate.cfg.HbmBinder] - Mapping class: org.jbpm.pvm.internal.task.SwimlaneImpl -> JBPM4_SWIMLANE
+2013-09-15 17:28:24,375 INFO [org.hibernate.cfg.AnnotationBinder] - Binding entity from annotated class: com.zb.jnlxc.model.Admin
+2013-09-15 17:28:24,390 INFO [org.hibernate.cfg.annotations.EntityBinder] - Bind entity com.zb.jnlxc.model.Admin on table JNLXC_Admin
+2013-09-15 17:28:24,421 INFO [org.hibernate.cfg.AnnotationBinder] - Binding entity from annotated class: com.zb.jnlxc.model.AdminUserGroup
+2013-09-15 17:28:24,421 INFO [org.hibernate.cfg.annotations.EntityBinder] - Bind entity com.zb.jnlxc.model.AdminUserGroup on table JNLXC_AdminUserGroup
+2013-09-15 17:28:24,421 INFO [org.hibernate.cfg.AnnotationBinder] - Binding entity from annotated class: com.zb.jnlxc.model.AssociationCompany
+2013-09-15 17:28:24,421 INFO [org.hibernate.cfg.annotations.EntityBinder] - Bind entity com.zb.jnlxc.model.AssociationCompany on table JNLXC_AssociationCompany
+2013-09-15 17:28:24,421 INFO [org.hibernate.cfg.AnnotationBinder] - Binding entity from annotated class: com.zb.jnlxc.model.AuthorDetail
+2013-09-15 17:28:24,421 INFO [org.hibernate.cfg.annotations.EntityBinder] - Bind entity com.zb.jnlxc.model.AuthorDetail on table JNLXC_AuthorDetail
+2013-09-15 17:28:24,421 INFO [org.hibernate.cfg.AnnotationBinder] - Binding entity from annotated class: com.zb.jnlxc.model.Chat
+2013-09-15 17:28:24,421 INFO [org.hibernate.cfg.annotations.EntityBinder] - Bind entity com.zb.jnlxc.model.Chat on table JNLXC_Chat
+2013-09-15 17:28:24,421 INFO [org.hibernate.cfg.AnnotationBinder] - Binding entity from annotated class: com.zb.jnlxc.model.City
+2013-09-15 17:28:24,421 INFO [org.hibernate.cfg.annotations.EntityBinder] - Bind entity com.zb.jnlxc.model.City on table JNLXC_City
+2013-09-15 17:28:24,421 INFO [org.hibernate.cfg.AnnotationBinder] - Binding entity from annotated class: com.zb.jnlxc.model.Client
+2013-09-15 17:28:24,421 INFO [org.hibernate.cfg.annotations.EntityBinder] - Bind entity com.zb.jnlxc.model.Client on table JNLXC_Client
+2013-09-15 17:28:24,421 INFO [org.hibernate.cfg.AnnotationBinder] - Binding entity from annotated class: com.zb.jnlxc.model.DataDict
+2013-09-15 17:28:24,421 INFO [org.hibernate.cfg.annotations.EntityBinder] - Bind entity com.zb.jnlxc.model.DataDict on table Base_DataDict
+2013-09-15 17:28:24,421 INFO [org.hibernate.cfg.AnnotationBinder] - Binding entity from annotated class: com.zb.jnlxc.model.DataDictCatalog
+2013-09-15 17:28:24,421 INFO [org.hibernate.cfg.annotations.EntityBinder] - Bind entity com.zb.jnlxc.model.DataDictCatalog on table Base_DataDictCatalog
+2013-09-15 17:28:24,437 INFO [org.hibernate.cfg.AnnotationBinder] - Binding entity from annotated class: com.zb.jnlxc.model.Delivery
+2013-09-15 17:28:24,437 INFO [org.hibernate.cfg.annotations.EntityBinder] - Bind entity com.zb.jnlxc.model.Delivery on table JNLXC_Delivery
+2013-09-15 17:28:24,437 INFO [org.hibernate.cfg.AnnotationBinder] - Binding entity from annotated class: com.zb.jnlxc.model.DeliveryRecord
+2013-09-15 17:28:24,437 INFO [org.hibernate.cfg.annotations.EntityBinder] - Bind entity com.zb.jnlxc.model.DeliveryRecord on table JNLXC_DeliveryRecord
+2013-09-15 17:28:24,437 INFO [org.hibernate.cfg.AnnotationBinder] - Binding entity from annotated class: com.zb.jnlxc.model.Depart
+2013-09-15 17:28:24,437 INFO [org.hibernate.cfg.annotations.EntityBinder] - Bind entity com.zb.jnlxc.model.Depart on table JNLXC_Depart
+2013-09-15 17:28:24,437 INFO [org.hibernate.cfg.AnnotationBinder] - Binding entity from annotated class: com.zb.jnlxc.model.Message
+2013-09-15 17:28:24,437 INFO [org.hibernate.cfg.annotations.EntityBinder] - Bind entity com.zb.jnlxc.model.Message on table JNLXC_Message
+2013-09-15 17:28:24,437 INFO [org.hibernate.cfg.AnnotationBinder] - Binding entity from annotated class: com.zb.jnlxc.model.Mould
+2013-09-15 17:28:24,437 INFO [org.hibernate.cfg.annotations.EntityBinder] - Bind entity com.zb.jnlxc.model.Mould on table JNLXC_Mould
+2013-09-15 17:28:24,437 INFO [org.hibernate.cfg.AnnotationBinder] - Binding entity from annotated class: com.zb.jnlxc.model.MouldRecord
+2013-09-15 17:28:24,437 INFO [org.hibernate.cfg.annotations.EntityBinder] - Bind entity com.zb.jnlxc.model.MouldRecord on table JNLXC_MouldRecord
+2013-09-15 17:28:24,437 INFO [org.hibernate.cfg.AnnotationBinder] - Binding entity from annotated class: com.zb.jnlxc.model.MouldSize
+2013-09-15 17:28:24,437 INFO [org.hibernate.cfg.annotations.EntityBinder] - Bind entity com.zb.jnlxc.model.MouldSize on table JNLXC_MouldSize
+2013-09-15 17:28:24,437 INFO [org.hibernate.cfg.AnnotationBinder] - Binding entity from annotated class: com.zb.jnlxc.model.MouldTestRecord
+2013-09-15 17:28:24,437 INFO [org.hibernate.cfg.annotations.EntityBinder] - Bind entity com.zb.jnlxc.model.MouldTestRecord on table JNLXC_MouldTestRecord
+2013-09-15 17:28:24,437 INFO [org.hibernate.cfg.AnnotationBinder] - Binding entity from annotated class: com.zb.jnlxc.model.OrderDetail
+2013-09-15 17:28:24,437 INFO [org.hibernate.cfg.annotations.EntityBinder] - Bind entity com.zb.jnlxc.model.OrderDetail on table JNLXC_OrderDetail
+2013-09-15 17:28:24,437 INFO [org.hibernate.cfg.AnnotationBinder] - Binding entity from annotated class: com.zb.jnlxc.model.OrderForm
+2013-09-15 17:28:24,437 INFO [org.hibernate.cfg.annotations.EntityBinder] - Bind entity com.zb.jnlxc.model.OrderForm on table JNLXC_OrderForm
+2013-09-15 17:28:24,453 INFO [org.hibernate.cfg.AnnotationBinder] - Binding entity from annotated class: com.zb.jnlxc.model.OrderForm_Author
+2013-09-15 17:28:24,453 INFO [org.hibernate.cfg.annotations.EntityBinder] - Bind entity com.zb.jnlxc.model.OrderForm_Author on table JNLXC_OrderForm_Author
+2013-09-15 17:28:24,453 INFO [org.hibernate.cfg.AnnotationBinder] - Binding entity from annotated class: com.zb.jnlxc.model.ProductRecord
+2013-09-15 17:28:24,453 INFO [org.hibernate.cfg.annotations.EntityBinder] - Bind entity com.zb.jnlxc.model.ProductRecord on table JNLXC_ProductRecord
+2013-09-15 17:28:24,453 INFO [org.hibernate.cfg.AnnotationBinder] - Binding entity from annotated class: com.zb.jnlxc.model.ProductRecordDetail
+2013-09-15 17:28:24,453 INFO [org.hibernate.cfg.annotations.EntityBinder] - Bind entity com.zb.jnlxc.model.ProductRecordDetail on table JNLXC_ProductRecordDetail
+2013-09-15 17:28:24,453 INFO [org.hibernate.cfg.AnnotationBinder] - Binding entity from annotated class: com.zb.jnlxc.model.ProductRecordDetailHistory
+2013-09-15 17:28:24,453 INFO [org.hibernate.cfg.annotations.EntityBinder] - Bind entity com.zb.jnlxc.model.ProductRecordDetailHistory on table JNLXC_ProductRecordDetailHistory
+2013-09-15 17:28:24,453 INFO [org.hibernate.cfg.AnnotationBinder] - Binding entity from annotated class: com.zb.jnlxc.model.ProductTeam
+2013-09-15 17:28:24,453 INFO [org.hibernate.cfg.annotations.EntityBinder] - Bind entity com.zb.jnlxc.model.ProductTeam on table JNLXC_ProductTeam
+2013-09-15 17:28:24,453 INFO [org.hibernate.cfg.AnnotationBinder] - Binding entity from annotated class: com.zb.jnlxc.model.RepairMouldRecord
+2013-09-15 17:28:24,453 INFO [org.hibernate.cfg.annotations.EntityBinder] - Bind entity com.zb.jnlxc.model.RepairMouldRecord on table JNLXC_RepairMouldRecord
+2013-09-15 17:28:24,453 INFO [org.hibernate.cfg.AnnotationBinder] - Binding entity from annotated class: com.zb.jnlxc.model.Scheme
+2013-09-15 17:28:24,453 INFO [org.hibernate.cfg.annotations.EntityBinder] - Bind entity com.zb.jnlxc.model.Scheme on table JNLXC_Scheme
+2013-09-15 17:28:24,453 INFO [org.hibernate.cfg.AnnotationBinder] - Binding entity from annotated class: com.zb.jnlxc.model.UserGroup
+2013-09-15 17:28:24,453 INFO [org.hibernate.cfg.annotations.EntityBinder] - Bind entity com.zb.jnlxc.model.UserGroup on table JNLXC_UserGroup
+2013-09-15 17:28:24,453 INFO [org.hibernate.cfg.AnnotationBinder] - Binding entity from annotated class: com.zb.jnlxc.model.UserGroup_Author
+2013-09-15 17:28:24,453 INFO [org.hibernate.cfg.annotations.EntityBinder] - Bind entity com.zb.jnlxc.model.UserGroup_Author on table JNLXC_UserGroup_Author
+2013-09-15 17:28:24,468 INFO [org.hibernate.cfg.HbmBinder] - Mapping collection: org.jbpm.pvm.internal.repository.DeploymentImpl.resources -> JBPM4_LOB
+2013-09-15 17:28:24,468 INFO [org.hibernate.cfg.HbmBinder] - Mapping collection: org.jbpm.pvm.internal.repository.DeploymentImpl.objectProperties -> JBPM4_DEPLOYPROP
+2013-09-15 17:28:24,468 INFO [org.hibernate.cfg.HbmBinder] - Mapping collection: org.jbpm.pvm.internal.model.ExecutionImpl.variables -> JBPM4_VARIABLE
+2013-09-15 17:28:24,468 INFO [org.hibernate.cfg.HbmBinder] - Mapping collection: org.jbpm.pvm.internal.model.ExecutionImpl.systemVariables -> JBPM4_VARIABLE
+2013-09-15 17:28:24,468 INFO [org.hibernate.cfg.HbmBinder] - Mapping collection: org.jbpm.pvm.internal.model.ExecutionImpl.executions -> JBPM4_EXECUTION
+2013-09-15 17:28:24,468 INFO [org.hibernate.cfg.HbmBinder] - Mapping collection: org.jbpm.pvm.internal.model.ExecutionImpl.swimlanes -> JBPM4_SWIMLANE
+2013-09-15 17:28:24,468 INFO [org.hibernate.cfg.HbmBinder] - Mapping collection: org.jbpm.pvm.internal.history.model.HistoryProcessInstanceImpl.historyActivityInstances -> JBPM4_HIST_ACTINST
+2013-09-15 17:28:24,468 INFO [org.hibernate.cfg.HbmBinder] - Mapping collection: org.jbpm.pvm.internal.history.model.HistoryProcessInstanceImpl.historyVariables -> JBPM4_HIST_VAR
+2013-09-15 17:28:24,468 INFO [org.hibernate.cfg.HbmBinder] - Mapping collection: org.jbpm.pvm.internal.history.model.HistoryProcessInstanceImpl.details -> JBPM4_HIST_DETAIL
+2013-09-15 17:28:24,468 INFO [org.hibernate.cfg.HbmBinder] - Mapping collection: org.jbpm.pvm.internal.history.model.HistoryActivityInstanceImpl.details -> JBPM4_HIST_DETAIL
+2013-09-15 17:28:24,468 INFO [org.hibernate.cfg.HbmBinder] - Mapping collection: org.jbpm.pvm.internal.history.model.HistoryTaskImpl.details -> JBPM4_HIST_DETAIL
+2013-09-15 17:28:24,468 INFO [org.hibernate.cfg.HbmBinder] - Mapping collection: org.jbpm.pvm.internal.history.model.HistoryTaskImpl.historyVariables -> JBPM4_HIST_VAR
+2013-09-15 17:28:24,468 INFO [org.hibernate.cfg.HbmBinder] - Mapping collection: org.jbpm.pvm.internal.history.model.HistoryTaskImpl.subTasks -> JBPM4_HIST_TASK
+2013-09-15 17:28:24,468 INFO [org.hibernate.cfg.HbmBinder] - Mapping collection: org.jbpm.pvm.internal.history.model.HistoryVariableImpl.details -> JBPM4_HIST_DETAIL
+2013-09-15 17:28:24,468 INFO [org.hibernate.cfg.HbmBinder] - Mapping collection: org.jbpm.pvm.internal.history.model.HistoryCommentImpl.replies -> JBPM4_HIST_DETAIL
+2013-09-15 17:28:24,468 INFO [org.hibernate.cfg.HbmBinder] - Mapping collection: org.jbpm.pvm.internal.task.TaskImpl.participations -> JBPM4_PARTICIPATION
+2013-09-15 17:28:24,468 INFO [org.hibernate.cfg.HbmBinder] - Mapping collection: org.jbpm.pvm.internal.task.TaskImpl.variables -> JBPM4_VARIABLE
+2013-09-15 17:28:24,468 INFO [org.hibernate.cfg.HbmBinder] - Mapping collection: org.jbpm.pvm.internal.task.TaskImpl.subTasks -> JBPM4_TASK
+2013-09-15 17:28:24,468 INFO [org.hibernate.cfg.HbmBinder] - Mapping collection: org.jbpm.pvm.internal.task.SwimlaneImpl.participations -> JBPM4_PARTICIPATION
+2013-09-15 17:28:24,468 INFO [org.hibernate.cfg.Configuration] - Hibernate Validator not found: ignoring
+2013-09-15 17:28:24,468 INFO [org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean] - Building new Hibernate SessionFactory
+2013-09-15 17:28:24,468 INFO [org.hibernate.cfg.search.HibernateSearchEventListenerRegister] - Unable to find org.hibernate.search.event.FullTextIndexEventListener on the classpath. Hibernate Search is not enabled.
+2013-09-15 17:28:24,484 INFO [org.hibernate.connection.ConnectionProviderFactory] - Initializing connection provider: org.springframework.orm.hibernate3.LocalDataSourceConnectionProvider
+2013-09-15 17:28:24,906 INFO [org.hibernate.dialect.Dialect] - Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2013-09-15 17:28:24,906 INFO [org.hibernate.cfg.SettingsFactory] - Database ->
+       name : MySQL
+    version : 5.5.16-log
+      major : 5
+      minor : 5
+2013-09-15 17:28:24,921 INFO [org.hibernate.cfg.SettingsFactory] - Driver ->
+       name : MySQL-AB JDBC Driver
+    version : mysql-connector-java-5.1.18 ( Revision: tonci.grgin@oracle.com-20110930151701-jfj14ddfq48ifkfq )
+      major : 5
+      minor : 1
+2013-09-15 17:28:24,921 INFO [org.hibernate.transaction.TransactionFactoryFactory] - Transaction strategy: org.springframework.orm.hibernate3.SpringTransactionFactory
+2013-09-15 17:28:24,921 INFO [org.hibernate.transaction.TransactionManagerLookupFactory] - No TransactionManagerLookup configured (in JTA environment, use of read-write or transactional second-level cache is not recommended)
+2013-09-15 17:28:24,921 INFO [org.hibernate.cfg.SettingsFactory] - Automatic flush during beforeCompletion(): disabled
+2013-09-15 17:28:24,921 INFO [org.hibernate.cfg.SettingsFactory] - Automatic session close at end of transaction: disabled
+2013-09-15 17:28:24,921 INFO [org.hibernate.cfg.SettingsFactory] - JDBC batch size: 50
+2013-09-15 17:28:24,921 INFO [org.hibernate.cfg.SettingsFactory] - JDBC batch updates for versioned data: disabled
+2013-09-15 17:28:24,921 INFO [org.hibernate.cfg.SettingsFactory] - Scrollable result sets: enabled
+2013-09-15 17:28:24,921 INFO [org.hibernate.cfg.SettingsFactory] - JDBC3 getGeneratedKeys(): enabled
+2013-09-15 17:28:24,921 INFO [org.hibernate.cfg.SettingsFactory] - JDBC result set fetch size: 50
+2013-09-15 17:28:24,921 INFO [org.hibernate.cfg.SettingsFactory] - Connection release mode: auto
+2013-09-15 17:28:24,921 INFO [org.hibernate.cfg.SettingsFactory] - Maximum outer join fetch depth: 2
+2013-09-15 17:28:24,921 INFO [org.hibernate.cfg.SettingsFactory] - Default batch fetch size: 1
+2013-09-15 17:28:24,921 INFO [org.hibernate.cfg.SettingsFactory] - Generate SQL with comments: disabled
+2013-09-15 17:28:24,921 INFO [org.hibernate.cfg.SettingsFactory] - Order SQL updates by primary key: disabled
+2013-09-15 17:28:24,921 INFO [org.hibernate.cfg.SettingsFactory] - Order SQL inserts for batching: disabled
+2013-09-15 17:28:24,921 INFO [org.hibernate.cfg.SettingsFactory] - Query translator: org.hibernate.hql.ast.ASTQueryTranslatorFactory
+2013-09-15 17:28:24,921 INFO [org.hibernate.hql.ast.ASTQueryTranslatorFactory] - Using ASTQueryTranslatorFactory
+2013-09-15 17:28:24,921 INFO [org.hibernate.cfg.SettingsFactory] - Query language substitutions: {}
+2013-09-15 17:28:24,921 INFO [org.hibernate.cfg.SettingsFactory] - JPA-QL strict compliance: disabled
+2013-09-15 17:28:24,921 INFO [org.hibernate.cfg.SettingsFactory] - Second-level cache: enabled
+2013-09-15 17:28:24,921 INFO [org.hibernate.cfg.SettingsFactory] - Query cache: disabled
+2013-09-15 17:28:24,921 INFO [org.hibernate.cfg.SettingsFactory] - Cache region factory : org.hibernate.cache.impl.NoCachingRegionFactory
+2013-09-15 17:28:24,921 INFO [org.hibernate.cfg.SettingsFactory] - Optimize cache for minimal puts: disabled
+2013-09-15 17:28:24,921 INFO [org.hibernate.cfg.SettingsFactory] - Structured second-level cache entries: disabled
+2013-09-15 17:28:24,921 INFO [org.hibernate.cfg.SettingsFactory] - Statistics: disabled
+2013-09-15 17:28:24,921 INFO [org.hibernate.cfg.SettingsFactory] - Deleted entity synthetic identifier rollback: disabled
+2013-09-15 17:28:24,921 INFO [org.hibernate.cfg.SettingsFactory] - Default entity-mode: pojo
+2013-09-15 17:28:24,921 INFO [org.hibernate.cfg.SettingsFactory] - Named query checking : enabled
+2013-09-15 17:28:24,921 INFO [org.hibernate.cfg.SettingsFactory] - Check Nullability in Core (should be disabled when Bean Validation is on): enabled
+2013-09-15 17:28:24,937 INFO [org.hibernate.impl.SessionFactoryImpl] - building session factory
+2013-09-15 17:28:24,937 INFO [org.hibernate.type.BasicTypeRegistry] - Type registration [materialized_clob] overrides previous : org.hibernate.type.MaterializedClobType@d8a125
+2013-09-15 17:28:24,937 INFO [org.hibernate.type.BasicTypeRegistry] - Type registration [blob] overrides previous : org.hibernate.type.BlobType@3bbcfd
+2013-09-15 17:28:24,937 INFO [org.hibernate.type.BasicTypeRegistry] - Type registration [java.sql.Blob] overrides previous : org.hibernate.type.BlobType@3bbcfd
+2013-09-15 17:28:24,937 INFO [org.hibernate.type.BasicTypeRegistry] - Type registration [characters_clob] overrides previous : org.hibernate.type.PrimitiveCharacterArrayClobType@1f4af32
+2013-09-15 17:28:24,937 INFO [org.hibernate.type.BasicTypeRegistry] - Type registration [wrapper_materialized_blob] overrides previous : org.hibernate.type.WrappedMaterializedBlobType@119fc9e
+2013-09-15 17:28:24,937 INFO [org.hibernate.type.BasicTypeRegistry] - Type registration [materialized_blob] overrides previous : org.hibernate.type.MaterializedBlobType@1181df3
+2013-09-15 17:28:24,937 INFO [org.hibernate.type.BasicTypeRegistry] - Type registration [wrapper_characters_clob] overrides previous : org.hibernate.type.CharacterArrayClobType@566b3e
+2013-09-15 17:28:24,937 INFO [org.hibernate.type.BasicTypeRegistry] - Type registration [clob] overrides previous : org.hibernate.type.ClobType@19ab9c5
+2013-09-15 17:28:24,937 INFO [org.hibernate.type.BasicTypeRegistry] - Type registration [java.sql.Clob] overrides previous : org.hibernate.type.ClobType@19ab9c5
+2013-09-15 17:28:25,500 INFO [org.hibernate.impl.SessionFactoryObjectFactory] - Not binding factory to JNDI, no JNDI name configured
+2013-09-15 17:28:26,171 INFO [org.springframework.orm.hibernate3.HibernateTransactionManager] - Using DataSource [org.apache.commons.dbcp.BasicDataSource@e969f8] of Hibernate SessionFactory for HibernateTransactionManager
+2013-09-15 17:28:26,281 INFO [org.jbpm.pvm.internal.cmd.CheckDbCmd] - jBPM version info: library[4.4-SNAPSHOT], schema[null]
+2013-09-15 17:28:26,671 INFO [com.zb.jnlxc.dao.TaskHistoryDao] - TaskHistoryDao找不到对应的dao和主键类型，采取BasicModel与Serializable类型
+2013-09-15 17:28:26,796 INFO [com.ZLHW.base.dao.CommonDAO] - CommonDAO找不到对应的dao和主键类型，采取BasicModel与Serializable类型
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/editUserGroup] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/editUserGroup.*] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/editUserGroup/] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/removeUserGroup] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/removeUserGroup.*] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/removeUserGroup/] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/editPassword] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/editPassword.*] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/editPassword/] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/editPasswordById] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/editPasswordById.*] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/editPasswordById/] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/resetPassword] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/resetPassword.*] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/resetPassword/] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/getViewTablesByAdmin] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/getViewTablesByAdmin.*] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/getViewTablesByAdmin/] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/getAuthorDetails] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/getAuthorDetails.*] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/getAuthorDetails/] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/getAuthorDetailsByGroup] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/getAuthorDetailsByGroup.*] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/getAuthorDetailsByGroup/] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/findAllUserGroup] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/findAllUserGroup.*] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/findAllUserGroup/] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/login] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/login.*] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/login/] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/changePassword] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/changePassword.*] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/changePassword/] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/getCurrentUser] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/getCurrentUser.*] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/getCurrentUser/] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/loginOut] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/loginOut.*] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/loginOut/] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/findAdmins] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/findAdmins.*] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/findAdmins/] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/editAdmin] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/editAdmin.*] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/editAdmin/] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/deleteAdmin] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/deleteAdmin.*] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/deleteAdmin/] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/getPowerAdmins] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/getPowerAdmins.*] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/getPowerAdmins/] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/editAuthorDetails] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/editAuthorDetails.*] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/editAuthorDetails/] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/findAllAgent] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/findAllAgent.*] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/findAllAgent/] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/findAll] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/findAll.*] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/findAll/] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/findAllRepairer] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/findAllRepairer.*] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/findAllRepairer/] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/findAllWaixie] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/findAllWaixie.*] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/findAllWaixie/] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/findAllJiTai] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/findAllJiTai.*] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/findAllJiTai/] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/findByName] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/findByName.*] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AdminAction/findByName/] onto handler 'adminAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AssociationCompanyAction/loadAssociation] onto handler 'associationCompanyAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AssociationCompanyAction/loadAssociation.*] onto handler 'associationCompanyAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AssociationCompanyAction/loadAssociation/] onto handler 'associationCompanyAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AssociationCompanyAction/editAssociation] onto handler 'associationCompanyAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AssociationCompanyAction/editAssociation.*] onto handler 'associationCompanyAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AssociationCompanyAction/editAssociation/] onto handler 'associationCompanyAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AssociationCompanyAction/deleteAssociation] onto handler 'associationCompanyAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AssociationCompanyAction/deleteAssociation.*] onto handler 'associationCompanyAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/AssociationCompanyAction/deleteAssociation/] onto handler 'associationCompanyAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getOrder] onto handler 'bussinessAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getOrder.*] onto handler 'bussinessAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getOrder/] onto handler 'bussinessAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getOrderFormsByScheme] onto handler 'bussinessAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getOrderFormsByScheme.*] onto handler 'bussinessAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getOrderFormsByScheme/] onto handler 'bussinessAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getProductRecordsByScheme] onto handler 'bussinessAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getProductRecordsByScheme.*] onto handler 'bussinessAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getProductRecordsByScheme/] onto handler 'bussinessAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/loadOrderForm] onto handler 'bussinessAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/loadOrderForm.*] onto handler 'bussinessAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/loadOrderForm/] onto handler 'bussinessAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getLastOrderForm] onto handler 'bussinessAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getLastOrderForm.*] onto handler 'bussinessAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getLastOrderForm/] onto handler 'bussinessAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getOrderDetail] onto handler 'bussinessAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getOrderDetail.*] onto handler 'bussinessAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getOrderDetail/] onto handler 'bussinessAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getOrderDetailByScheme] onto handler 'bussinessAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getOrderDetailByScheme.*] onto handler 'bussinessAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getOrderDetailByScheme/] onto handler 'bussinessAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getOrderFormsByAgent] onto handler 'bussinessAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getOrderFormsByAgent.*] onto handler 'bussinessAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getOrderFormsByAgent/] onto handler 'bussinessAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getCompleteOrderForms] onto handler 'bussinessAction'
+2013-09-15 17:28:26,828 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getCompleteOrderForms.*] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getCompleteOrderForms/] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/loadAgents] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/loadAgents.*] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/loadAgents/] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getAllAgents] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getAllAgents.*] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getAllAgents/] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getProductRecordsByOrderForm] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getProductRecordsByOrderForm.*] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getProductRecordsByOrderForm/] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getOrderDetailsByProductRecord] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getOrderDetailsByProductRecord.*] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getOrderDetailsByProductRecord/] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/saveAuthorizedAgents] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/saveAuthorizedAgents.*] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/saveAuthorizedAgents/] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/initOrderProxy] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/initOrderProxy.*] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/initOrderProxy/] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/generateCode] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/generateCode.*] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/generateCode/] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/saveUpdateOrder] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/saveUpdateOrder.*] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/saveUpdateOrder/] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getOrderFormAuthor] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getOrderFormAuthor.*] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getOrderFormAuthor/] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/deleteProcessInstanceCascade] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/deleteProcessInstanceCascade.*] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/deleteProcessInstanceCascade/] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/productionAudit] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/productionAudit.*] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/productionAudit/] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/agentAudit] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/agentAudit.*] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/agentAudit/] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/moulderAudit] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/moulderAudit.*] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/moulderAudit/] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/stopOrderFlow] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/stopOrderFlow.*] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/stopOrderFlow/] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/restartOrderFlow] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/restartOrderFlow.*] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/restartOrderFlow/] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getOrderFormInfo] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getOrderFormInfo.*] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/getOrderFormInfo/] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/deployFlow] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/deployFlow.*] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/deployFlow/] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/ProcessInstance] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/ProcessInstance.*] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/ProcessInstance/] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/deleteOrder] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/deleteOrder.*] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/deleteOrder/] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/delete] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/delete.*] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/BussinessAction/delete/] onto handler 'bussinessAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ClientAction/loadClient] onto handler 'clientAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ClientAction/loadClient.*] onto handler 'clientAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ClientAction/loadClient/] onto handler 'clientAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ClientAction/editClient] onto handler 'clientAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ClientAction/editClient.*] onto handler 'clientAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ClientAction/editClient/] onto handler 'clientAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ClientAction/deleteClient] onto handler 'clientAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ClientAction/deleteClient.*] onto handler 'clientAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ClientAction/deleteClient/] onto handler 'clientAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/deleteAssociation] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/deleteAssociation.*] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/deleteAssociation/] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/findAllDepart] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/findAllDepart.*] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/findAllDepart/] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/eidtDepart] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/eidtDepart.*] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/eidtDepart/] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/deleteDepart] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/deleteDepart.*] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/deleteDepart/] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/findAllTeam] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/findAllTeam.*] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/findAllTeam/] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/findAllTeamDetail] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/findAllTeamDetail.*] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/findAllTeamDetail/] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/eidtTeam] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/eidtTeam.*] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/eidtTeam/] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/deleteTeam] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/deleteTeam.*] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/deleteTeam/] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/findAllAssociation] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/findAllAssociation.*] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/findAllAssociation/] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/eidtAssociation] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/eidtAssociation.*] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/eidtAssociation/] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/findAllCity] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/findAllCity.*] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/findAllCity/] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/eidtCity] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/eidtCity.*] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/eidtCity/] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/addCity] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/addCity.*] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/addCity/] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/deleteCity] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/deleteCity.*] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/deleteCity/] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/findAllMouldSize] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/findAllMouldSize.*] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/findAllMouldSize/] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/eidtMouldSize] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/eidtMouldSize.*] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/eidtMouldSize/] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/deleteMouldSize] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/deleteMouldSize.*] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/CommonAction/deleteMouldSize/] onto handler 'commonAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/DataDictAction/findLastLvDing] onto handler 'dataDictAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/DataDictAction/findLastLvDing.*] onto handler 'dataDictAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/DataDictAction/findLastLvDing/] onto handler 'dataDictAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/DataDictAction/loadDictList] onto handler 'dataDictAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/DataDictAction/loadDictList.*] onto handler 'dataDictAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/DataDictAction/loadDictList/] onto handler 'dataDictAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/DataDictAction/findDictList] onto handler 'dataDictAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/DataDictAction/findDictList.*] onto handler 'dataDictAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/DataDictAction/findDictList/] onto handler 'dataDictAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/DataDictAction/editDict] onto handler 'dataDictAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/DataDictAction/editDict.*] onto handler 'dataDictAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/DataDictAction/editDict/] onto handler 'dataDictAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/DataDictAction/deleteDict] onto handler 'dataDictAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/DataDictAction/deleteDict.*] onto handler 'dataDictAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/DataDictAction/deleteDict/] onto handler 'dataDictAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/DeliveryAction/addDelivery] onto handler 'deliveryAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/DeliveryAction/addDelivery.*] onto handler 'deliveryAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/DeliveryAction/addDelivery/] onto handler 'deliveryAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/DeliveryAction/loadDelivery] onto handler 'deliveryAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/DeliveryAction/loadDelivery.*] onto handler 'deliveryAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/DeliveryAction/loadDelivery/] onto handler 'deliveryAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/DeliveryAction/editDelivery] onto handler 'deliveryAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/DeliveryAction/editDelivery.*] onto handler 'deliveryAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/DeliveryAction/editDelivery/] onto handler 'deliveryAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/deleteProcessInstanceCascade] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/deleteProcessInstanceCascade.*] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/deleteProcessInstanceCascade/] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/deployFlow] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/deployFlow.*] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/deployFlow/] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/findProcessInstanceByKey] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/findProcessInstanceByKey.*] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/findProcessInstanceByKey/] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/getProcessInstanceByPage] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/getProcessInstanceByPage.*] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/getProcessInstanceByPage/] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/getTaskHistoryDetail] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/getTaskHistoryDetail.*] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/getTaskHistoryDetail/] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/loadTask] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/loadTask.*] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/loadTask/] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/takeTask] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/takeTask.*] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/takeTask/] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/cancleTakeTask] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/cancleTakeTask.*] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/cancleTakeTask/] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/findTaskOperaters] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/findTaskOperaters.*] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/findTaskOperaters/] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/getHistoryByExcutionId] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/getHistoryByExcutionId.*] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/getHistoryByExcutionId/] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/addOutTransition] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/addOutTransition.*] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/addOutTransition/] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/getFlowStateImage] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/getFlowStateImage.*] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/getFlowStateImage/] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/getFlowStateImageByExcutionId] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/getFlowStateImageByExcutionId.*] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/getFlowStateImageByExcutionId/] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/completeTask] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/completeTask.*] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/completeTask/] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/deleteDeploymentCascade] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/deleteDeploymentCascade.*] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/deleteDeploymentCascade/] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/startProcessInstanceByKey] onto handler 'flowAction'
+2013-09-15 17:28:26,843 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/startProcessInstanceByKey.*] onto handler 'flowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/startProcessInstanceByKey/] onto handler 'flowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/getContentMap] onto handler 'flowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/getContentMap.*] onto handler 'flowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/getContentMap/] onto handler 'flowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/getContentMapByExecution] onto handler 'flowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/getContentMapByExecution.*] onto handler 'flowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/getContentMapByExecution/] onto handler 'flowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/testDeployFlowAll] onto handler 'flowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/testDeployFlowAll.*] onto handler 'flowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/testDeployFlowAll/] onto handler 'flowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/testDeleteFlow] onto handler 'flowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/testDeleteFlow.*] onto handler 'flowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/testDeleteFlow/] onto handler 'flowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/testDeleteInstance] onto handler 'flowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/testDeleteInstance.*] onto handler 'flowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/FlowAction/testDeleteInstance/] onto handler 'flowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/generateCode] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/generateCode.*] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/generateCode/] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/deployFlow] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/deployFlow.*] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/deployFlow/] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/findProcessInstanceByKey] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/findProcessInstanceByKey.*] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/findProcessInstanceByKey/] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/saveUpdateMould] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/saveUpdateMould.*] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/saveUpdateMould/] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/saveMouldWidthFlow] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/saveMouldWidthFlow.*] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/saveMouldWidthFlow/] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/getUsedMouldListByScheme] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/getUsedMouldListByScheme.*] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/getUsedMouldListByScheme/] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/getMouldRecords] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/getMouldRecords.*] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/getMouldRecords/] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/getMouldTestRecords] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/getMouldTestRecords.*] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/getMouldTestRecords/] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/saveMouldByTaskId] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/saveMouldByTaskId.*] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/saveMouldByTaskId/] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/loadMould] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/loadMould.*] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/loadMould/] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/getMould] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/getMould.*] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/getMould/] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/deleteMould] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/deleteMould.*] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/deleteMould/] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/updateMould] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/updateMould.*] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/updateMould/] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/scrapMould] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/scrapMould.*] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/scrapMould/] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/getMouldInfo] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/getMouldInfo.*] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/getMouldInfo/] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/buyMouldComplete] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/buyMouldComplete.*] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/buyMouldComplete/] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/changeToRepairMould] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/changeToRepairMould.*] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/changeToRepairMould/] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/changeToNormalMould] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/changeToNormalMould.*] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/changeToNormalMould/] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/changeToReturn] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/changeToReturn.*] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/changeToReturn/] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/changeToScrapped] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/changeToScrapped.*] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/changeToScrapped/] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/moulderLook] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/moulderLook.*] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/moulderLook/] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/findAllNormalMouldsByScheme] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/findAllNormalMouldsByScheme.*] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/findAllNormalMouldsByScheme/] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/startmouldFlowByKey] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/startmouldFlowByKey.*] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/startmouldFlowByKey/] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/waixieBuy] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/waixieBuy.*] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/waixieBuy/] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/shoumu] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/shoumu.*] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/shoumu/] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/testModelRecord] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/testModelRecord.*] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/testModelRecord/] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/deside] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/deside.*] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/deside/] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/delete] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/delete.*] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/MouldAction/delete/] onto handler 'mouldAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/PaiDanFlowAction/distribution] onto handler 'paiDanFlowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/PaiDanFlowAction/distribution.*] onto handler 'paiDanFlowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/PaiDanFlowAction/distribution/] onto handler 'paiDanFlowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/PaiDanFlowAction/record] onto handler 'paiDanFlowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/PaiDanFlowAction/record.*] onto handler 'paiDanFlowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/PaiDanFlowAction/record/] onto handler 'paiDanFlowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/PaiDanFlowAction/startmouldFlowByKey] onto handler 'paiDanFlowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/PaiDanFlowAction/startmouldFlowByKey.*] onto handler 'paiDanFlowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/PaiDanFlowAction/startmouldFlowByKey/] onto handler 'paiDanFlowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/PaiDanFlowAction/startPaiDanFlow] onto handler 'paiDanFlowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/PaiDanFlowAction/startPaiDanFlow.*] onto handler 'paiDanFlowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/PaiDanFlowAction/startPaiDanFlow/] onto handler 'paiDanFlowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/PaiDanFlowAction/danhua] onto handler 'paiDanFlowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/PaiDanFlowAction/danhua.*] onto handler 'paiDanFlowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/PaiDanFlowAction/danhua/] onto handler 'paiDanFlowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/PaiDanFlowAction/panding] onto handler 'paiDanFlowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/PaiDanFlowAction/panding.*] onto handler 'paiDanFlowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/PaiDanFlowAction/panding/] onto handler 'paiDanFlowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/PaiDanFlowAction/storage] onto handler 'paiDanFlowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/PaiDanFlowAction/storage.*] onto handler 'paiDanFlowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/PaiDanFlowAction/storage/] onto handler 'paiDanFlowAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/productionAudit] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/productionAudit.*] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/productionAudit/] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/deployFlow] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/deployFlow.*] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/deployFlow/] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/storage] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/storage.*] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/storage/] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/getProductRecordByTaskId] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/getProductRecordByTaskId.*] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/getProductRecordByTaskId/] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/getProductTrace] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/getProductTrace.*] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/getProductTrace/] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/downloadPDF] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/downloadPDF.*] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/downloadPDF/] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/loadProductRecord] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/loadProductRecord.*] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/loadProductRecord/] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/getWorkDetail] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/getWorkDetail.*] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/getWorkDetail/] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/startProductRecordFlow] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/startProductRecordFlow.*] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/startProductRecordFlow/] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/printForm] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/printForm.*] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/printForm/] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/startCreatePDF] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/startCreatePDF.*] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/startCreatePDF/] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/workshopTask] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/workshopTask.*] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/workshopTask/] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/shiXiao] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/shiXiao.*] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/shiXiao/] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/yangHua] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/yangHua.*] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/yangHua/] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/dianYong] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/dianYong.*] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/dianYong/] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/plating] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/plating.*] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/plating/] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/sendProduct] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/sendProduct.*] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/sendProduct/] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/financialReconciliation] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/financialReconciliation.*] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/financialReconciliation/] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/deleteProductFlowInstanceCascade] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/deleteProductFlowInstanceCascade.*] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/deleteProductFlowInstanceCascade/] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/getProductRecordInfo] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/getProductRecordInfo.*] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/getProductRecordInfo/] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/startProductRecordFlowByKey] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/startProductRecordFlowByKey.*] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/startProductRecordFlowByKey/] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/findProductRecordFlowInstanceByKey] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/findProductRecordFlowInstanceByKey.*] onto handler 'productAction'
+2013-09-15 17:28:26,859 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/findProductRecordFlowInstanceByKey/] onto handler 'productAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/delete] onto handler 'productAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/delete.*] onto handler 'productAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/delete/] onto handler 'productAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/pack] onto handler 'productAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/pack.*] onto handler 'productAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/pack/] onto handler 'productAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/weight] onto handler 'productAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/weight.*] onto handler 'productAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ProductAction/weight/] onto handler 'productAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ReportAction/exportProductRecord] onto handler 'reportAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ReportAction/exportProductRecord.*] onto handler 'reportAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/ReportAction/exportProductRecord/] onto handler 'reportAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/addUpdateScheme] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/addUpdateScheme.*] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/addUpdateScheme/] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/moulderLoock] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/moulderLoock.*] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/moulderLoock/] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/repairerEditMould] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/repairerEditMould.*] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/repairerEditMould/] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/loadScheme] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/loadScheme.*] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/loadScheme/] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/mapUpload] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/mapUpload.*] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/mapUpload/] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/downTempImg] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/downTempImg.*] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/downTempImg/] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/downImg] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/downImg.*] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/downImg/] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/downDwg] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/downDwg.*] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/downDwg/] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/getSchemeInfoByTask] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/getSchemeInfoByTask.*] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/getSchemeInfoByTask/] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/deleteScheme] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/deleteScheme.*] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/deleteScheme/] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/getAllProductRecordDetail] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/getAllProductRecordDetail.*] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/getAllProductRecordDetail/] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/getScheme] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/getScheme.*] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/SchemeAction/getScheme/] onto handler 'schemeAction'
+2013-09-15 17:28:26,875 INFO [org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping] - Mapped URL path [/*.do] onto handler 'velocityActon'
+2013-09-15 17:28:27,343 INFO [org.springframework.web.servlet.DispatcherServlet] - FrameworkServlet 'annomvc': initialization completed in 4031 ms
+2013-09-15 17:28:27,453 INFO [org.apache.velocity.tools.view.servlet.ServletToolboxManager] - Using config file '/WEB-INF/toolbox.xml'
+2013-09-15 17:28:59,171 INFO [com.zb.jnlxc.action.AdminAction] - 当前尝试登陆的用户:Admin{account='zqh', name='null', password='19880807', nextClientNum=1, userGroups=null, state=null, addDate=null, lastlogin=null, depart=null, email='null'}
+2013-09-15 17:29:50,765 INFO [com.zb.jnlxc.action.AdminAction] - 当前尝试登陆的用户:Admin{account='zqh', name='null', password='19880807', nextClientNum=1, userGroups=null, state=null, addDate=null, lastlogin=null, depart=null, email='null'}
+2013-09-15 17:29:50,796 INFO [com.zb.jnlxc.action.AdminAction] - 登陆成功:Admin{account='zqh', name='null', password='19880807', nextClientNum=1, userGroups=null, state=null, addDate=null, lastlogin=null, depart=null, email='null'}
+2013-09-15 17:39:02,765 INFO [org.jbpm.pvm.internal.xml.Parser] - loading schema resource: jpdl-4.0.xsd
+2013-09-15 17:39:02,765 INFO [org.jbpm.pvm.internal.xml.Parser] - loading schema resource: jpdl-4.2.xsd
+2013-09-15 17:39:02,765 INFO [org.jbpm.pvm.internal.xml.Parser] - loading schema resource: jpdl-4.3.xsd
+2013-09-15 17:39:02,765 INFO [org.jbpm.pvm.internal.xml.Parser] - loading schema resource: jpdl-4.4.xsd
+2013-09-15 17:39:02,781 INFO [org.jbpm.pvm.internal.xml.Parser] - loading schema resource: BPMN20.xsd
+2013-09-15 17:39:02,781 INFO [org.jbpm.pvm.internal.xml.Parser] - loading schema resource: DiagramDefinition.xsd
+2013-09-15 17:39:02,781 INFO [org.jbpm.pvm.internal.xml.Parser] - loading schema resource: DiagramInterchange.xsd
+2013-09-15 17:39:02,781 INFO [org.jbpm.pvm.internal.xml.Parser] - loading schema resource: BpmnDi.xsd
