@@ -630,6 +630,6 @@ public abstract class DAO<BEAN extends BasicModel, PRIMARY extends Serializable>
 	public void deleteById(PRIMARY id) throws BaseErrorModel{
 		delete(getById(id));
 	}
-	
+
 
 }

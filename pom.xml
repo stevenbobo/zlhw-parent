@@ -9,6 +9,7 @@
         <module>zlhw-common</module>
         <module>zlhw-bussiness</module>
         <module>JNLXC2.0</module>
+        <module>parent-care</module>
     </modules>
     <packaging>pom</packaging>
   

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	         http://www.springframework.org/schema/tx
+             http://www.springframework.org/schema/tx/spring-tx.xsd
+             http://www.springframework.org/schema/context
+             http://www.springframework.org/schema/context/spring-context.xsd ">
+
+    <context:component-scan base-package="com.zb" />
+    <bean class="com.ZLHW.base.factory.BeanFactory" />
+	<!-- ===================系统配置文件==================== -->
+	<bean id="ResourceConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:conf/${env}/*.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 自动扫描下面包路径下所有文件,开启自动注入功能 -->
+
+
+    <import resource="classpath:spring/dataSouce-beans.xml" />
+
+	
+	<!-- 启用对事务注解的支持 -->
+	<tx:annotation-driven transaction-manager="transactionManager"
+		proxy-target-class="true" />
+
+	<!--======================所有DAO的基类====================== -->
+	<bean id="dao" class="com.ZLHW.base.dao.DAO" abstract="true">
+	</bean>
+	<bean id="commonDAO" class="com.ZLHW.base.dao.CommonDAO" parent="dao">
+	</bean>
+	<!--======================所有Service的基类================== -->
+	<bean id="baseService" class="com.ZLHW.base.service.BaseService"
+		abstract="true">
+	</bean>
+
+
+
+
+	
+</beans>
