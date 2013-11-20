@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process name="mouldFlow" xmlns="http://jbpm.org/4.4/jpdl">
+   
+   <on event="end">
+		<event-listener class="com.zb.jnlxc.JBPM.MouldFlowEndListener">
+		</event-listener>
+	</on>
+   <start g="350,5,48,48" name="start1">
+      <transition g="4,-7" name="验收" to="验收"/>
+   </start>
+   <end g="778,337,48,48" name="end1"/>
+   <task form="/content/flow/paidan/storePanel.vm" g="764,266,92,52" name="仓管确认入库">
+   		<assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
+	      <field name="powerId">
+	        <int value="736"/>
+	      </field>
+	      </assignment-handler>
+      <transition g="-13,-9" name="待产" to="end1"/>
+   </task>
+   <state name="验收" g="324,69,92,52">
+      <transition name="退模" to="退模申请" g="-5,-16"/>
+      <transition name="收模" to="分配(车间主任)" g="-47,-17"/>
+   </state>
+   <state name="退模申请" g="477,70,92,52">
+      <transition name="同意" to="返修退模回厂" g="-14,-15"/>
+   </state>
+   <state name="返修退模回厂" g="669,73,92,52">
+      <transition name="驳回" to="检修(技术工)" g="-26,-16"/>
+   </state>
+   <state name="分配(车间主任)" g="381,153,107,52">
+      <transition name="to 技术工检修" to="检修(技术工)" g="-37,-10"/>
+   </state>
+   <state name="检修(技术工)" g="602,152,92,52">
+      <transition name="申请返修" to="返修确认(车间主任)" g="745,186:-33,3"/>
+      <transition name="退模申请" to="退模申请" g="-50,-5"/>
+      <transition name="合格入库" to="仓管确认入库" g="15,-7"/>
+      <transition name="试模" to="试模流程(看不清楚)" g="-29,-8"/>
+      <transition name="氮化" to="氮化" g="623,253:-30,-9"/>
+   </state>
+   <state name="返修确认(车间主任)" g="796,151,138,52">
+      <transition name="驳回" to="检修(技术工)" g="741,157:-24,-19"/>
+   </state>
+   <state name="试模流程(看不清楚)" g="410,266,146,52"/>
+   <state name="氮化" g="598,276,92,52">
+      <transition name="取消/完成氮化" to="检修(技术工)" g="661,248:-14,-5"/>
+   </state>
+
+</process>
