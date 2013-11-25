@@ -356,8 +356,68 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
 		this.update(m);
 		flowService.completeTask(taskId,nextStep,user);
 	}
-	
-	
 
 
+    public void fxjxgcccqr(String taskId, String remarks, Admin user) {
+    }
+
+    public void fxmjsq(String taskId, String remarks, Admin user) {
+    }
+
+    public void fxtmccqr(String taskId, String remarks, Admin user) {
+    }
+
+    public void jymjjwqr(String taskId, String remarks, Admin user) {
+    }
+
+    public void jyscsy(String taskId, String remarks, Admin user) {
+    }
+
+    public void mjrcys(String taskId, String remarks, Admin user) {
+    }
+
+    public void pmsmqr(String taskId, String remarks, Admin user) {
+    }
+
+    public void ppxmcl(String taskId, String remarks, Admin user) {
+    }
+
+    public void rczrrfp(String taskId, String remarks, Admin user) {
+    }
+
+    public void xmjhgrk(String taskId, String remarks, Admin user) {
+    }
+
+    public void xmjjxcl(String taskId, String remarks, Admin user) {
+    }
+
+    public void ycmzxcl(String taskId, String remarks, Admin user) {
+    }
+
+    public void bftmsq(String taskId, String remarks, Admin user) {
+    }
+
+    public void ckfm(String taskId, String remarks, Admin user) {
+    }
+
+    public void dhclqr(String taskId, String remarks, Admin user) {
+    }
+
+    public void dhklqr(String taskId, String remarks, Admin user) {
+    }
+
+    public void dhxctx(String taskId, String remarks, Admin user) {
+    }
+
+    public void jybzsm(String taskId, String remarks, Admin user) {
+    }
+
+    public void pmpmcl(String taskId, String remarks, Admin user) {
+    }
+
+    public void pmqr(String taskId, String remarks, Admin user) {
+    }
+
+    public void scmjhk(String taskId, String remarks, Admin user) {
+    }
 }

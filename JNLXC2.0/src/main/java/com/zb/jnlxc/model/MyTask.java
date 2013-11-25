@@ -2,7 +2,7 @@ package com.zb.jnlxc.model;
 
 import java.util.Date;
 
-import org.jbpm.api.task.Task;
+import org.activiti.engine.task.Task;
 import org.jbpm.pvm.internal.task.TaskImpl;
 /**
  * 转化下JBPM自带的Task
@@ -26,6 +26,16 @@ public class MyTask {
 		this.formResourceName=task.getFormResourceName();
 		this.assingnee=task.getAssignee();
 	}
+
+    public MyTask(Task task,String formKey){
+        this.id=task.getId();
+        this.name=task.getName();
+        this.createTime=task.getCreateTime();
+        this.duedate=task.getDueDate();
+        this.executionId=task.getProcessInstanceId();
+        this.formResourceName=formKey;
+        this.assingnee=task.getAssignee();
+    }
 	
 	
 	

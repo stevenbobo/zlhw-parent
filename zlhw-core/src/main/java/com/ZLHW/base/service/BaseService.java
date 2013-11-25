@@ -87,8 +87,8 @@ public class BaseService<DAO extends IDAO<BEAN, PRIMARY>,BEAN, PRIMARY> implemen
 		return getDao().findByHQL(HQL, args);
 	}
 	
-	public List findHql(String hql, int fromIdx, int fetchCount, Object... args) {
-		return getDao().findByHQL(hql, fromIdx, fetchCount, args);
+	public List findByHQLWithIndex(String hql, int fromIdx, int fetchCount, Object... args) {
+		return getDao().findByHQLWithIndex(hql, fromIdx, fetchCount, args);
 	}
 
 	public List<BEAN> findList(int pageNo, int pageSize) {

@@ -39,7 +39,7 @@ public class DataDictService extends BaseService<DataDictDAO,DataDict, Integer> 
     }
 
     public DataDict findLastLvDing(){
-        List<DataDict> l =this.findHql("from DataDict t where t.dataDictCatalog.code=? order by dbId desc",0,1, "lvdingPrice");
+        List<DataDict> l =this.findByHQLWithIndex("from DataDict t where t.dataDictCatalog.code=? order by dbId desc",0,1, "lvdingPrice");
         if(l.size()>0)
             return l.get(0);
         else

@@ -117,7 +117,7 @@ public class AdminService extends BaseService<AdminDAO,Admin, Integer> {
 //	 */
 //	public boolean havePower(Admin user, String beanName, String methodName) {
 //		boolean temp=false;
-//		List list=adminDao.findByHQL("from UserGroup_Author uga " +
+//		List list=adminDao.findByHQLWithIndex("from UserGroup_Author uga " +
 //				"where uga.userGroup = ? and uga.authorDetail.viewTable.beanName=? " +
 //				"and uga.authorDetail.viewTable.beanFunction=?", user.getUserGroup(),beanName,methodName);
 //		if(list.size()!=0){

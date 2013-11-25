@@ -32,7 +32,7 @@ public class SchemeDAO extends DAO<Scheme,Integer> implements IScheme{
 	
 	public Map getSchemeByType(String type,int fromIdx, int fetchCount) {
 		Map map=new HashMap();
-		List list=findByHQL("from Scheme where type=?",  fromIdx,  fetchCount, type);
+		List list= findByHQLWithIndex("from Scheme where type=?", fromIdx, fetchCount, type);
 		map.put("list", list);
 		return map;
 	}

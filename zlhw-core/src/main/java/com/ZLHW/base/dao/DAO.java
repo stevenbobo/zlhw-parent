@@ -338,7 +338,7 @@ public abstract class DAO<BEAN extends BasicModel, PRIMARY extends Serializable>
 		int currentPage = page.getCurrentPage();
 		int pageSize = page.getPageSize();
 		int fromIdx = currentPage*pageSize-pageSize;
-		List<BEAN> result=this.findByHQL(HQL, fromIdx, pageSize, args);
+		List<BEAN> result=this.findByHQLWithIndex(HQL, fromIdx, pageSize, args);
 		page.setResultData(result);
         String TOTALHQL=StringUtils.replaceOnce(HQL,HQL.substring(0, HQL.indexOf("from") + 4), "select count(*) from ");
 		TOTALHQL=TOTALHQL.replaceAll("order by.*desc", "");
@@ -472,8 +472,8 @@ public abstract class DAO<BEAN extends BasicModel, PRIMARY extends Serializable>
      * @param args
      * @return
      */
-	public List<BEAN> findByHQL(String hql, int fromIdx, int fetchCount,
-			Object... args) {
+	public List<BEAN> findByHQLWithIndex(String hql, int fromIdx, int fetchCount,
+                                         Object... args) {
 
 		Query q = getSession().createQuery(hql)
 				.setReadOnly(true);

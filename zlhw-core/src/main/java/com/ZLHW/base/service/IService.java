@@ -35,7 +35,7 @@ public interface IService<BEAN,PRIMARY> {
      * @param args
      * @return
      */
-	public List findHql(String hql, int fromIdx, int fetchCount,
+	public List findByHQLWithIndex(String hql, int fromIdx, int fetchCount,
                         Object... args) ;
 //	public List findHqlCached(String hql,int time, int fromIdx, int fetchCount,
 //			Object... args) ;

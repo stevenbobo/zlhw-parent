@@ -1,77 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <process name="mould1" xmlns="http://jbpm.org/4.4/jpdl">
-   <state g="153,23,144,52" name="添加模具(发单)">
+    <start g="23,28,48,48" name="start1">
+        <transition g="-55,-23" name="to 添加模具(发单)" to="添加模具(发单)"/>
+    </start>
+   <task g="153,23,144,52" name="添加模具(发单)" form="/content/flow/mould/addMould.vm">
+       <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler" />
       <transition g="-95,-17" name="to 模具入场验收" to="模具入场验收"/>
-   </state>
-   <state g="29,101,113,52" name="模具入场验收">
+   </task>
+   <task g="29,101,113,52" name="模具入场验收" form="/content/flow/mould/mjrcys.vm">
+       <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler" />
       <transition g="-107,-17" name="发货" to="入厂责任人分配"/>
       <transition g="332,105:-41,-6" name="申请报废" to="报废退模申请"/>
       <transition name="返修模具申请" to="返修模具申请" g="233,220:-77,-25"/>
-   </state>
-   <state g="15,206,140,52" name="入厂责任人分配">
+   </task>
+   <task g="15,206,140,52" name="入厂责任人分配" form="/content/flow/mould/rczrrfp.vm">
+       <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler" />
       <transition g="-33,-24" name="确定" to="新模技术检修处理"/>
-   </state>
-   <state g="22,328,134,52" name="新模技术检修处理">
+   </task>
+   <task g="22,328,134,52" name="新模技术检修处理" form="/content/flow/mould/xmjjxcl.vm">
+       <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler" />
       <transition g="211,266:-25,-20" name="申请报废" to="报废退模申请"/>
       <transition g="313,350:-23,5" name="返修申请" to="返修模具申请"/>
       <transition to="抛排新模处理"/>
-   </state>
-   <state g="538,198,132,52" name="返修退模出厂确认">
+   </task>
+   <task g="538,198,132,52" name="返修退模出厂确认" form="/content/flow/mould/fxtmccqr.vm">
+       <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler" />
       <transition name="入场确认" to="返修及修改尺寸入场确认" g="-25,-6"/>
-   </state>
-   <state g="553,86,92,52" name="报废退模申请">
+   </task>
+   <task g="553,86,92,52" name="报废退模申请" form="/content/flow/mould/bftmsq.vm">
+       <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler"  />
       <transition g="-26,-8" name="同意" to="返修退模出厂确认"/>
       <transition g="296,265:-12,-14" name="驳回" to="新模技术检修处理"/>
       <transition g="338,132:-56,-3" name="验收驳回" to="模具入场验收"/>
       <transition g="717,110:-9,-13" name="驳回" to="（试模）异常模转修处理"/>
-   </state>
-   <state g="548,318,92,52" name="返修模具申请">
+   </task>
+   <task g="548,318,92,52" name="返修模具申请" form="/content/flow/mould/fxmjsq.vm">
+       <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler" />
       <transition g="12,-8" name="同意" to="返修退模出厂确认"/>
       <transition g="312,330:-16,-14" name="驳回" to="新模技术检修处理"/>
       <transition g="640,272:-64,20" name="驳回" to="（试模）异常模转修处理"/>
-   </state>
-   <start g="23,28,48,48" name="start1">
-      <transition g="-55,-23" name="to 添加模具(发单)" to="添加模具(发单)"/>
-   </start>
-   <state g="561,375,92,52" name="抛排新模处理">
+   </task>
+
+   <task g="561,375,92,52" name="抛排新模处理" form="/content/flow/mould/ppxmcl.vm">
+       <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler" />
       <transition g="-23,5" name="合格" to="新模合格入库"/>
       <transition g="-51,-12" name="氮化" to="氮化开炉确认"/>
       <transition g="-30,-10" name="试模" to="挤压班组收模"/>
-   </state>
-   <state g="533,522,125,52" name="挤压模具加温确认">
+   </task>
+   <task g="533,522,125,52" name="挤压模具加温确认" form="/content/flow/mould/jymjjwqr.vm">
+       <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler" />
       <transition g="-19,-17" name="确定" to="挤压生产（试模）使用"/>
       <transition g="15,-9" name="还库" to="抛排新模处理"/>
-   </state>
-   <state g="104,532,92,52" name="挤压班组收模">
+   </task>
+   <task g="104,532,92,52" name="挤压班组收模" form="/content/flow/mould/jybzsm.vm">
+       <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler" />
       <transition g="414,494:2,-7" name="还库" to="抛排新模处理"/>
       <transition g="-2,-19" name="确定" to="挤压模具加温确认"/>
-   </state>
-   <state g="55,390,92,52" name="氮化开炉确认">
+   </task>
+   <task g="55,390,92,52" name="氮化开炉确认" form="/content/flow/mould/dhklqr.vm">
+       <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler" />
       <transition to="氮化出炉确认"/>
-   </state>
-   <state g="58,461,92,52" name="氮化出炉确认">
+   </task>
+   <task g="58,461,92,52" name="氮化出炉确认" form="/content/flow/mould/dhclqr.vm">
+       <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler" />
       <transition to="抛排新模处理"/>
-   </state>
-   <state g="684,438,92,52" name="新模合格入库">
+   </task>
+   <task g="684,438,92,52" name="新模合格入库" form="/content/flow/mould/xmjhgrk.vm">
+       <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler" />
       <transition to="end1"/>
-   </state>
-   <state g="743,520,148,52" name="挤压生产（试模）使用">
+   </task>
+   <task g="743,520,148,52" name="挤压生产（试模）使用" form="/content/flow/mould/jyscsy.vm">
+       <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler" />
       <transition g="39,0" name="确定" to="泡模收模确认"/>
-   </state>
-   <state g="835,429,92,52" name="泡模收模确认">
+   </task>
+   <task g="835,429,92,52" name="泡模收模确认" form="/content/flow/mould/pmsmqr.vm">
+       <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler" />
       <transition g="-40,0" name="确定" to="抛排收模处理"/>
-   </state>
-   <state g="828,327,92,52" name="抛排收模处理">
+   </task>
+   <task g="828,327,92,52" name="抛排收模处理" form="/content/flow/mould/ppsmcl.vm">
+       <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler" />
       <transition g="-10,-22" name="转修" to="（试模）异常模转修处理"/>
-   </state>
-   <state g="771,170,159,52" name="（试模）异常模转修处理">
+   </task>
+   <task g="771,170,159,52" name="（试模）异常模转修处理" form="/content/flow/mould/ycmzxcl.vm">
+       <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler" />
       <transition g="-31,9" name="报废退模申请" to="报废退模申请"/>
       <transition g="-20,-21" name="返修申请" to="返修模具申请"/>
       <transition name="抛排新模处理" to="抛排新模处理" g="-33,23"/>
-   </state>
-   <end g="756,370,48,48" name="end1"/>
-   <state name="返修及修改尺寸入场确认" g="243,150,150,52">
+   </task>
+   <task name="返修及修改尺寸入场确认" g="243,150,150,52" form="/content/flow/mould/fxjxgcccqr.vm">
+       <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler" />
       <transition name="模具入场验收" to="模具入场验收" g="-26,-8"/>
-   </state>
+   </task>
+    <end g="756,370,48,48" name="end1"/>
+    <on event="end">
+        <event-listener class="com.zb.jnlxc.JBPM.MouldFlowEndListener">
+        </event-listener>
+    </on>
 </process>

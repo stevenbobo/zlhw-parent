@@ -154,8 +154,8 @@ public interface IDAO<BEAN,PRIMARY> {
      * @param args
      * @return
      */
-	public List findByHQL(String hql, int fromIdx, int fetchCount,
-			Object... args) ;
+	public List findByHQLWithIndex(String hql, int fromIdx, int fetchCount,
+                                   Object... args) ;
 	/**
 	 * 通过tb.startdate <:endDate的形式做查询     
 	 * @param hql

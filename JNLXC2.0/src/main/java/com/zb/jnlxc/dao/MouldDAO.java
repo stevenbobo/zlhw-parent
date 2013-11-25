@@ -23,10 +23,10 @@ public class MouldDAO extends DAO<Mould,Integer> implements IMould{
 
 	public Map getNumByStatus(String status, int fromIdx, int fetchCount) {
 		Map map = new HashMap();
-		List list = findByHQL(
-				"select sum(preProNum), sum(factProNum) "
-						+ "from Mould where status=?", fromIdx, fetchCount,
-				status);
+		List list = findByHQLWithIndex(
+                "select sum(preProNum), sum(factProNum) "
+                        + "from Mould where status=?", fromIdx, fetchCount,
+                status);
 		map.put("list", list);
 		return map;
 	}
@@ -34,10 +34,10 @@ public class MouldDAO extends DAO<Mould,Integer> implements IMould{
 	public Map getMouldList(String status, String sortType, Date startDate,
 			Date endDate, int fromIdx, int fetchCount) {
 		Map map = new HashMap();
-		List list = findByHQL(
-				"from Mould where status=? and manuDate between ? and ? order by "
-						+ sortType, fromIdx, fetchCount, status, startDate,
-				endDate);
+		List list = findByHQLWithIndex(
+                "from Mould where status=? and manuDate between ? and ? order by "
+                        + sortType, fromIdx, fetchCount, status, startDate,
+                endDate);
 		map.put("list", list);
 		return map;
 	}

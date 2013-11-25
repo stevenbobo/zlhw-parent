@@ -9,7 +9,6 @@
         <module>zlhw-common</module>
         <module>zlhw-bussiness</module>
         <module>JNLXC2.0</module>
-        <module>parent-care</module>
     </modules>
     <packaging>pom</packaging>
   
@@ -25,6 +24,18 @@
 			<url>http://localhost:8002/nexus/content/repositories/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
+    <repositories>
+        <repository>
+            <id>activiti</id>
+            <name>Activiti</name>
+            <url>https://maven.alfresco.com/nexus/content/repositories/activiti/</url>
+        </repository>
+        <repository>
+            <id>oschina</id>
+            <name>oschina</name>
+            <url>http://maven.oschina.net/content/groups/public/</url>
+        </repository>
+    </repositories>
 	<build>
 		<plugins>
 			<plugin>

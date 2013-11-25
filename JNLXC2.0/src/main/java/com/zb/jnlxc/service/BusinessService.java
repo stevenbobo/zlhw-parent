@@ -11,7 +11,6 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
-import com.zb.jnlxc.form.MiniPageRsp;
 import com.zb.jnlxc.form.OrderDetailForm;
 import com.zb.util.StringUtils;
 import org.apache.commons.logging.Log;
@@ -35,15 +34,13 @@ import com.zb.jnlxc.dao.OrderForm_AuthorDAO;
 import com.zb.jnlxc.dao.ProductRecordDAO;
 import com.zb.jnlxc.dao.ProductRecordDetailDAO;
 import com.zb.jnlxc.model.Admin;
-import com.zb.jnlxc.model.City;
 import com.zb.jnlxc.model.Client;
-import com.zb.jnlxc.model.Mould;
 import com.zb.jnlxc.model.OrderDetail;
 import com.zb.jnlxc.model.OrderForm;
 import com.zb.jnlxc.model.OrderForm_Author;
 import com.zb.jnlxc.model.ProductRecord;
 import com.zb.jnlxc.model.ProductRecordDetail;
-import com.zb.jnlxc.model.Scheme;
+
 @Service
 @Transactional
 public class BusinessService extends BaseService<OrderFormDAO,OrderForm, Integer>{
@@ -223,7 +220,7 @@ public class BusinessService extends BaseService<OrderFormDAO,OrderForm, Integer
 		allUser.addAll(supers);
 		allUser.addAll(agents);
 //		for(Admin agent : allUser)
-//			agent.setChildren(clientDAO.findByHQL("from Client t where t.agent=?", agent));
+//			agent.setChildren(clientDAO.findByHQLWithIndex("from Client t where t.agent=?", agent));
 		return allUser;
 	}
 	
@@ -588,7 +585,7 @@ public class BusinessService extends BaseService<OrderFormDAO,OrderForm, Integer
      * @return
      */
     public OrderForm getLastOrderForm(Integer schemeId, Integer clientId) {
-        List<OrderForm> l =this.getDao().findByHQL("from OrderForm where scheme.dbId=? and client.dbId=? order by dbId desc",0,1,schemeId,clientId);
+        List<OrderForm> l =this.getDao().findByHQLWithIndex("from OrderForm where scheme.dbId=? and client.dbId=? order by dbId desc", 0, 1, schemeId, clientId);
         if(l.size()>0)
             return l.get(0);
         else

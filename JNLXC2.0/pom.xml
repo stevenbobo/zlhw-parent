@@ -77,7 +77,16 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-engine</artifactId>
+            <version>5.14</version>
+        </dependency>
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-spring</artifactId>
+            <version>5.14</version>
+        </dependency>
         <dependency>
             <groupId>jbpm</groupId>
             <artifactId>jbpm</artifactId>
@@ -234,4 +243,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

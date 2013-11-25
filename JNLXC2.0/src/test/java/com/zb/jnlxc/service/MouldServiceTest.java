@@ -2,6 +2,7 @@ package com.zb.jnlxc.service;
 
 import static org.junit.Assert.fail;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 
@@ -97,5 +98,13 @@ public class MouldServiceTest  extends AbstractTransactionalJUnit4SpringContextT
 	public void testFindAll() {
 		mouldService.findHql("from Mould order by dbid desc", 0, 10);
 	}
+
+    public void autoGenerate(){
+        String path1="D:\\workspaces\\services\\zlhw-parent\\JNLXC2.0\\src\\main\\webapp\\content\\mouldprocess";
+        String path2="D:\\workspaces\\services\\zlhw-parent\\JNLXC2.0\\src\\main\\webapp\\content\\newmould";
+        File file1 = new File(path1);
+        File file2 = new File(path2);
+
+    }
 
 }

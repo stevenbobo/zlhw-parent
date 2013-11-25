@@ -233,4 +233,134 @@ public class MouldAction {
         String scrapId = request.getParameter("scrapId");
         mouldService.deside(taskId, remarks, nextStep,scrapId,user);
     }
+
+
+
+
+    @ResponseBody
+    @RequestMapping("/fxjxgcccqr")
+    public void fxjxgcccqr(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
+        mouldService.fxjxgcccqr(taskId, remarks,user);
+    }
+
+    @ResponseBody
+    @RequestMapping("/fxmjsq")
+    public void fxmjsq(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
+        mouldService.fxmjsq(taskId, remarks,user);
+    }
+
+    @ResponseBody
+    @RequestMapping("/fxtmccqr")
+    public void fxtmccqr(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
+        mouldService.fxtmccqr(taskId, remarks,user);
+    }
+
+    @ResponseBody
+    @RequestMapping("/jymjjwqr")
+    public void jymjjwqr(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
+        mouldService.jymjjwqr(taskId, remarks,user);
+    }
+
+    @ResponseBody
+    @RequestMapping("/jyscsy")
+    public void jyscsy(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
+        mouldService.jyscsy(taskId, remarks,user);
+    }
+
+    @ResponseBody
+    @RequestMapping("/mjrcys")
+    public void mjrcys(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
+        mouldService.mjrcys(taskId, remarks,user);
+    }
+
+    @ResponseBody
+    @RequestMapping("/pmsmqr")
+    public void pmsmqr(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
+        mouldService.pmsmqr(taskId, remarks,user);
+    }
+
+    @ResponseBody
+    @RequestMapping("/ppxmcl")
+    public void ppxmcl(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
+        mouldService.ppxmcl(taskId, remarks,user);
+    }
+
+    @ResponseBody
+    @RequestMapping("/rczrrfp")
+    public void rczrrfp(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
+        mouldService.rczrrfp(taskId, remarks,user);
+    }
+
+    @ResponseBody
+    @RequestMapping("/xmjhgrk")
+    public void xmjhgrk(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
+        mouldService.xmjhgrk(taskId, remarks,user);
+    }
+
+    @ResponseBody
+    @RequestMapping("/xmjjxcl")
+    public void xmjjxcl(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
+        mouldService.xmjjxcl(taskId, remarks,user);
+    }
+
+    @ResponseBody
+    @RequestMapping("/ycmzxcl")
+    public void ycmzxcl(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
+        mouldService.ycmzxcl(taskId, remarks,user);
+    }
+
+    @ResponseBody
+    @RequestMapping("/bftmsq")
+    public void bftmsq(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
+        mouldService.bftmsq(taskId, remarks,user);
+    }
+
+    @ResponseBody
+    @RequestMapping("/ckfm")
+    public void ckfm(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
+        mouldService.ckfm(taskId, remarks,user);
+    }
+
+    @ResponseBody
+    @RequestMapping("/dhclqr")
+    public void dhclqr(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
+        mouldService.dhclqr(taskId, remarks,user);
+    }
+
+    @ResponseBody
+    @RequestMapping("/dhklqr")
+    public void dhklqr(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
+        mouldService.dhklqr(taskId, remarks,user);
+    }
+
+    @ResponseBody
+    @RequestMapping("/dhxctx")
+    public void dhxctx(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
+        mouldService.dhxctx(taskId, remarks,user);
+    }
+
+    @ResponseBody
+    @RequestMapping("/jybzsm")
+    public void jybzsm(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
+        mouldService.jybzsm(taskId, remarks,user);
+    }
+
+    @ResponseBody
+    @RequestMapping("/pmpmcl")
+    public void pmpmcl(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
+        mouldService.pmpmcl(taskId, remarks,user);
+    }
+
+    @ResponseBody
+    @RequestMapping("/pmqr")
+    public void pmqr(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
+        mouldService.pmqr(taskId, remarks,user);
+    }
+
+    @ResponseBody
+    @RequestMapping("/scmjhk")
+    public void scmjhk(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
+        mouldService.scmjhk(taskId, remarks,user);
+    }
+
 }
