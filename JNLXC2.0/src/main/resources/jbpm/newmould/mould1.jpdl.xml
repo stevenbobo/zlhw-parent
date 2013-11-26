@@ -33,13 +33,13 @@
       <transition g="-26,-8" name="同意" to="返修退模出厂确认"/>
       <transition g="296,265:-12,-14" name="驳回" to="新模技术检修处理"/>
       <transition g="338,132:-56,-3" name="验收驳回" to="模具入场验收"/>
-      <transition g="717,110:-9,-13" name="驳回" to="（试模）异常模转修处理"/>
+      <transition g="717,110:-9,-13" name="驳回" to="(试模)异常模转修处理"/>
    </task>
    <task g="548,318,92,52" name="返修模具申请" form="/content/flow/mould/fxmjsq.vm">
        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler" />
       <transition g="12,-8" name="同意" to="返修退模出厂确认"/>
       <transition g="312,330:-16,-14" name="驳回" to="新模技术检修处理"/>
-      <transition g="640,272:-64,20" name="驳回" to="（试模）异常模转修处理"/>
+      <transition g="640,272:-64,20" name="驳回" to="(试模)异常模转修处理"/>
    </task>
 
    <task g="561,375,92,52" name="抛排新模处理" form="/content/flow/mould/ppxmcl.vm">
@@ -80,9 +80,9 @@
    </task>
    <task g="828,327,92,52" name="抛排收模处理" form="/content/flow/mould/ppsmcl.vm">
        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler" />
-      <transition g="-10,-22" name="转修" to="（试模）异常模转修处理"/>
+      <transition g="-10,-22" name="转修" to="(试模)异常模转修处理"/>
    </task>
-   <task g="771,170,159,52" name="（试模）异常模转修处理" form="/content/flow/mould/ycmzxcl.vm">
+   <task g="771,170,159,52" name="(试模)异常模转修处理" form="/content/flow/mould/ycmzxcl.vm">
        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler" />
       <transition g="-31,9" name="报废退模申请" to="报废退模申请"/>
       <transition g="-20,-21" name="返修申请" to="返修模具申请"/>
