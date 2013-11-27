@@ -5,10 +5,20 @@ import java.util.*;
 import javax.annotation.Resource;
 
 import com.ZLHW.base.dao.QueryCondition;
+import com.mongodb.BasicDBObject;
+import com.mongodb.WriteResult;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jbpm.api.ProcessInstance;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+import static org.springframework.data.mongodb.core.query.Update.update;
+import static org.springframework.data.mongodb.core.query.Query.query;
+
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -356,9 +366,30 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
 		this.update(m);
 		flowService.completeTask(taskId,nextStep,user);
 	}
+    @Resource
+    private MongoTemplate mongoTemplate;
 
+    public BasicDBObject getMouldFlowInfo(String taskId) {
+        Mould m=this.getMouldInfo(taskId);
+       return mongoTemplate.findOne(new Query(Criteria.where("mould.dbId").is(m.getDbId())),BasicDBObject.class,"mouldFlowCurrent");
+    }
 
-    public void fxjxgcccqr(String taskId, String remarks, Admin user) {
+    public void updateCombination(String taskId,Map<String,String> maps){
+        BasicDBObject o1= getMouldFlowInfo(taskId);
+        mongoTemplate.remove(o1,"mouldFlowCurrent");
+        o1.putAll(maps);
+        mongoTemplate.insert(o1,"mouldFlowCurrent");
+    }
+
+    public void fxjxgcccqr(String taskId, String remarks, Admin user,Map<String,String> maps) {
+        Mould m=this.getMouldInfo(taskId);
+        BasicDBObject dbObject = new BasicDBObject(maps);
+        dbObject.put("mould",m);
+        dbObject.put("taskId",taskId);
+
+        mongoTemplate.insert(dbObject);
+        updateCombination(taskId,maps);
+        flowService.completeTask(taskId,user);
     }
 
     public void fxmjsq(String taskId, String remarks, Admin user) {
@@ -420,4 +451,6 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
 
     public void scmjhk(String taskId, String remarks, Admin user) {
     }
+
+
 }

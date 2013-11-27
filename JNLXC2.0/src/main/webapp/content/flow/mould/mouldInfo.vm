@@ -1,16 +1,7 @@
-#set($schemeSelectedUrl=$link.setRelative('/content/scheme/select.vm'))
 #set($getMouldInfoUrl=$link.setRelative('/MouldAction/getMouldInfo.json'))
-#set($adminsUrl=$link.setRelative('/AdminAction/findAll.json'))
-#set($swfLocation=$link.setRelative('/content/fileupload/swfupload/swfupload.swf'))
-#set($tempBmpUrl=$link.setRelative('SchemeAction/downTempImg.do'))
-#set($uploadUrl=$link.setRelative('/SchemeAction/mapUpload.json'))
+#set($getMouldFlowInfoUrl=$link.setRelative('/MouldAction/getMouldFlowInfo.json'))
 #set($getBmpUrl=$link.setRelative('/SchemeAction/downImg.do'))
-#set($productTypeUrl=$link.setRelative('/DataDictAction/findDictList.json?code=productType'))
-#set($user=$session.getAttribute("user"))
 #set($findAssociationUrl=$link.setRelative('/CommonAction/findAllAssociation.json'))
-#set($saveMouldWidthFlowURL=$link.setRelative('/MouldAction/saveMouldWidthFlow.json'))
-#set($generateCodeUrl=$link.setRelative('/MouldAction/generateCode.json'))
-#set($getSchemeInfoByTaskUrl=$link.setRelative('/SchemeAction/getSchemeInfoByTask.json'))
 <form id="form1" method="post" style="height: 230px">
     <div class="mini-tabs" style="width:100%;height:230px" activeIndex="0">
         <div title="模具信息">

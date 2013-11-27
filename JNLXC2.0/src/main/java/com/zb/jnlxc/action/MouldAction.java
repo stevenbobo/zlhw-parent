@@ -235,12 +235,17 @@ public class MouldAction {
     }
 
 
-
+    @ResponseBody
+    @RequestMapping("/getMouldFlowInfo")
+    public Mould getMouldFlowInfo(String taskId) {
+        return mouldService.getMouldFlowInfo(taskId);
+    }
 
     @ResponseBody
     @RequestMapping("/fxjxgcccqr")
-    public void fxjxgcccqr(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
-        mouldService.fxjxgcccqr(taskId, remarks,user);
+    public void fxjxgcccqr(String taskId, String remarks,@ModelAttribute("user") Admin user,HttpServletRequest request)  {
+        request.getParameterMap();
+        mouldService.fxjxgcccqr(taskId, remarks,user,parameterMap);
     }
 
     @ResponseBody
