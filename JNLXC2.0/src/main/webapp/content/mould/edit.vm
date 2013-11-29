@@ -78,7 +78,7 @@
                         <input name="manufacture.dbId" required="true" property="editor" class="mini-combobox"   url="$findAssociationUrl"
                                textField="name" valueField="dbId" onvaluechanged="onWaiXieChanged" />
                     </td>
-                    <td>外协负责人：</td>
+                    <td>外协经办人：</td>
                     <td >
                         <input name="manufacture.agent.name" id="agentName" readonly="true"  class="mini-textbox" />
                     </td>

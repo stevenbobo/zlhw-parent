@@ -2,6 +2,8 @@ package com.zb.jnlxc.action;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.mongodb.BasicDBObject;
 import com.zb.jnlxc.form.MiniPageReq;
 import com.zb.jnlxc.form.MiniPageRsp;
 import com.zb.jnlxc.model.*;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -237,135 +241,156 @@ public class MouldAction {
 
     @ResponseBody
     @RequestMapping("/getMouldFlowInfo")
-    public Mould getMouldFlowInfo(String taskId) {
+    public BasicDBObject getMouldFlowInfo(String taskId) {
         return mouldService.getMouldFlowInfo(taskId);
     }
 
+
     @ResponseBody
     @RequestMapping("/fxjxgcccqr")
-    public void fxjxgcccqr(String taskId, String remarks,@ModelAttribute("user") Admin user,HttpServletRequest request)  {
-        request.getParameterMap();
-        mouldService.fxjxgcccqr(taskId, remarks,user,parameterMap);
+    public void fxjxgcccqr(String taskId,@ModelAttribute("user") Admin user,String formData)  {
+        Map<String,Object> form = gson.fromJson(formData,new TypeToken<Map<String, Object>>() {}.getType());
+        mouldService.fxjxgcccqr(taskId,user,form);
     }
 
     @ResponseBody
     @RequestMapping("/fxmjsq")
-    public void fxmjsq(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
-        mouldService.fxmjsq(taskId, remarks,user);
+    public void fxmjsq(String taskId,@ModelAttribute("user") Admin user,String formData)  {
+        Map<String,Object> form = gson.fromJson(formData,new TypeToken<Map<String, Object>>() {}.getType());
+        mouldService.fxmjsq(taskId,user,form);
     }
 
     @ResponseBody
     @RequestMapping("/fxtmccqr")
-    public void fxtmccqr(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
-        mouldService.fxtmccqr(taskId, remarks,user);
+    public void fxtmccqr(String taskId,@ModelAttribute("user") Admin user,String formData)  {
+        Map<String,Object> form = gson.fromJson(formData,new TypeToken<Map<String, Object>>() {}.getType());
+        mouldService.fxtmccqr(taskId,user,form);
     }
 
     @ResponseBody
     @RequestMapping("/jymjjwqr")
-    public void jymjjwqr(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
-        mouldService.jymjjwqr(taskId, remarks,user);
+    public void jymjjwqr(String taskId,@ModelAttribute("user") Admin user,String formData)  {
+        Map<String,Object> form = gson.fromJson(formData,new TypeToken<Map<String, Object>>() {}.getType());
+        mouldService.jymjjwqr(taskId,user,form);
     }
 
     @ResponseBody
     @RequestMapping("/jyscsy")
-    public void jyscsy(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
-        mouldService.jyscsy(taskId, remarks,user);
+    public void jyscsy(String taskId,@ModelAttribute("user") Admin user,String formData)  {
+        Map<String,Object> form = gson.fromJson(formData,new TypeToken<Map<String, Object>>() {}.getType());
+        mouldService.jyscsy(taskId,user,form);
     }
 
     @ResponseBody
     @RequestMapping("/mjrcys")
-    public void mjrcys(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
-        mouldService.mjrcys(taskId, remarks,user);
+    public void mjrcys(String taskId,@ModelAttribute("user") Admin user,String formData)  {
+        Map<String,Object> form = gson.fromJson(formData,new TypeToken<Map<String, Object>>() {}.getType());
+        mouldService.mjrcys(taskId,user,form);
     }
 
     @ResponseBody
     @RequestMapping("/pmsmqr")
-    public void pmsmqr(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
-        mouldService.pmsmqr(taskId, remarks,user);
+    public void pmsmqr(String taskId,@ModelAttribute("user") Admin user,String formData)  {
+        Map<String,Object> form = gson.fromJson(formData,new TypeToken<Map<String, Object>>() {}.getType());
+        mouldService.pmsmqr(taskId,user,form);
     }
 
     @ResponseBody
     @RequestMapping("/ppxmcl")
-    public void ppxmcl(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
-        mouldService.ppxmcl(taskId, remarks,user);
+    public void ppxmcl(String taskId,@ModelAttribute("user") Admin user,String formData)  {
+        Map<String,Object> form = gson.fromJson(formData,new TypeToken<Map<String, Object>>() {}.getType());
+        mouldService.ppxmcl(taskId,user,form);
     }
 
     @ResponseBody
     @RequestMapping("/rczrrfp")
-    public void rczrrfp(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
-        mouldService.rczrrfp(taskId, remarks,user);
+    public void rczrrfp(String taskId,@ModelAttribute("user") Admin user,String formData)  {
+        Map<String,Object> form = gson.fromJson(formData,new TypeToken<Map<String, Object>>() {}.getType());
+        mouldService.rczrrfp(taskId,user,form);
     }
 
     @ResponseBody
     @RequestMapping("/xmjhgrk")
-    public void xmjhgrk(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
-        mouldService.xmjhgrk(taskId, remarks,user);
+    public void xmjhgrk(String taskId,@ModelAttribute("user") Admin user,String formData)  {
+        Map<String,Object> form = gson.fromJson(formData,new TypeToken<Map<String, Object>>() {}.getType());
+        mouldService.xmjhgrk(taskId,user,form);
     }
 
     @ResponseBody
     @RequestMapping("/xmjjxcl")
-    public void xmjjxcl(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
-        mouldService.xmjjxcl(taskId, remarks,user);
+    public void xmjjxcl(String taskId,@ModelAttribute("user") Admin user,String formData)  {
+        Map<String,Object> form = gson.fromJson(formData,new TypeToken<Map<String, Object>>() {}.getType());
+        mouldService.xmjjxcl(taskId,user,form);
     }
 
     @ResponseBody
     @RequestMapping("/ycmzxcl")
-    public void ycmzxcl(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
-        mouldService.ycmzxcl(taskId, remarks,user);
+    public void ycmzxcl(String taskId,@ModelAttribute("user") Admin user,String formData)  {
+        Map<String,Object> form = gson.fromJson(formData,new TypeToken<Map<String, Object>>() {}.getType());
+        mouldService.ycmzxcl(taskId,user,form);
     }
 
     @ResponseBody
     @RequestMapping("/bftmsq")
-    public void bftmsq(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
-        mouldService.bftmsq(taskId, remarks,user);
+    public void bftmsq(String taskId,@ModelAttribute("user") Admin user,String formData)  {
+        Map<String,Object> form = gson.fromJson(formData,new TypeToken<Map<String, Object>>() {}.getType());
+        mouldService.bftmsq(taskId,user,form);
     }
 
     @ResponseBody
     @RequestMapping("/ckfm")
-    public void ckfm(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
-        mouldService.ckfm(taskId, remarks,user);
+    public void ckfm(String taskId,@ModelAttribute("user") Admin user,String formData)  {
+        Map<String,Object> form = gson.fromJson(formData,new TypeToken<Map<String, Object>>() {}.getType());
+        mouldService.ckfm(taskId,user,form);
     }
 
     @ResponseBody
     @RequestMapping("/dhclqr")
-    public void dhclqr(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
-        mouldService.dhclqr(taskId, remarks,user);
+    public void dhclqr(String taskId,@ModelAttribute("user") Admin user,String formData)  {
+        Map<String,Object> form = gson.fromJson(formData,new TypeToken<Map<String, Object>>() {}.getType());
+        mouldService.dhclqr(taskId,user,form);
     }
 
     @ResponseBody
     @RequestMapping("/dhklqr")
-    public void dhklqr(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
-        mouldService.dhklqr(taskId, remarks,user);
+    public void dhklqr(String taskId,@ModelAttribute("user") Admin user,String formData)  {
+        Map<String,Object> form = gson.fromJson(formData,new TypeToken<Map<String, Object>>() {}.getType());
+        mouldService.dhklqr(taskId,user,form);
     }
 
     @ResponseBody
     @RequestMapping("/dhxctx")
-    public void dhxctx(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
-        mouldService.dhxctx(taskId, remarks,user);
+    public void dhxctx(String taskId,@ModelAttribute("user") Admin user,String formData)  {
+        Map<String,Object> form = gson.fromJson(formData,new TypeToken<Map<String, Object>>() {}.getType());
+        mouldService.dhxctx(taskId,user,form);
     }
 
     @ResponseBody
     @RequestMapping("/jybzsm")
-    public void jybzsm(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
-        mouldService.jybzsm(taskId, remarks,user);
+    public void jybzsm(String taskId,@ModelAttribute("user") Admin user,String formData)  {
+        Map<String,Object> form = gson.fromJson(formData,new TypeToken<Map<String, Object>>() {}.getType());
+        mouldService.jybzsm(taskId,user,form);
     }
 
     @ResponseBody
     @RequestMapping("/pmpmcl")
-    public void pmpmcl(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
-        mouldService.pmpmcl(taskId, remarks,user);
+    public void pmpmcl(String taskId,@ModelAttribute("user") Admin user,String formData)  {
+        Map<String,Object> form = gson.fromJson(formData,new TypeToken<Map<String, Object>>() {}.getType());
+        mouldService.pmpmcl(taskId,user,form);
     }
 
     @ResponseBody
     @RequestMapping("/pmqr")
-    public void pmqr(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
-        mouldService.pmqr(taskId, remarks,user);
+    public void pmqr(String taskId,@ModelAttribute("user") Admin user,String formData)  {
+        Map<String,Object> form = gson.fromJson(formData,new TypeToken<Map<String, Object>>() {}.getType());
+        mouldService.pmqr(taskId,user,form);
     }
 
     @ResponseBody
     @RequestMapping("/scmjhk")
-    public void scmjhk(String taskId, String remarks,@ModelAttribute("user") Admin user)  {
-        mouldService.scmjhk(taskId, remarks,user);
+    public void scmjhk(String taskId,@ModelAttribute("user") Admin user,String formData)  {
+        Map<String,Object> form = gson.fromJson(formData,new TypeToken<Map<String, Object>>() {}.getType());
+        mouldService.scmjhk(taskId,user,form);
     }
 
 }

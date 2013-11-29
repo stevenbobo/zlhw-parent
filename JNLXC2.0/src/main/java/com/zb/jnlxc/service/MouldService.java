@@ -369,88 +369,123 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
     @Resource
     private MongoTemplate mongoTemplate;
 
+    public BasicDBObject getMouldFlowInfo(int mouldDbId) {
+       return mongoTemplate.findOne(new Query(Criteria.where("mould.dbId").is(mouldDbId)),BasicDBObject.class,"mouldFlowCurrent");
+    }
+
     public BasicDBObject getMouldFlowInfo(String taskId) {
         Mould m=this.getMouldInfo(taskId);
-       return mongoTemplate.findOne(new Query(Criteria.where("mould.dbId").is(m.getDbId())),BasicDBObject.class,"mouldFlowCurrent");
+        return mongoTemplate.findOne(new Query(Criteria.where("mould.dbId").is(m.getDbId())),BasicDBObject.class,"mouldFlowCurrent");
     }
 
-    public void updateCombination(String taskId,Map<String,String> maps){
-        BasicDBObject o1= getMouldFlowInfo(taskId);
-        mongoTemplate.remove(o1,"mouldFlowCurrent");
-        o1.putAll(maps);
-        mongoTemplate.insert(o1,"mouldFlowCurrent");
+    public void updateCombination(int mouldDbId,Map<String,Object> maps){
+        BasicDBObject o1= getMouldFlowInfo(mouldDbId);
+        logger.info("ext mould={}",o1.toString());
+        if(o1!=null){
+            mongoTemplate.remove(new Query(Criteria.where("mould.dbId").is(mouldDbId)),"mouldFlowCurrent");
+            o1.putAll(maps);
+            mongoTemplate.insert(o1,"mouldFlowCurrent");
+        }else {
+            mongoTemplate.insert(maps,"mouldFlowCurrent");
+        }
+
+
     }
 
-    public void fxjxgcccqr(String taskId, String remarks, Admin user,Map<String,String> maps) {
+    private void completeByDefault(String taskId,Admin user,Map<String,Object> maps){
         Mould m=this.getMouldInfo(taskId);
         BasicDBObject dbObject = new BasicDBObject(maps);
+        String taskName = flowService.getTaskService().getTask(taskId).getName();
         dbObject.put("mould",m);
         dbObject.put("taskId",taskId);
-
+        dbObject.put("taskName",taskName);
+        dbObject.put("operaterid",user.getDbId());
         mongoTemplate.insert(dbObject);
-        updateCombination(taskId,maps);
+        updateCombination(m.getDbId(),dbObject);
         flowService.completeTask(taskId,user);
     }
 
-    public void fxmjsq(String taskId, String remarks, Admin user) {
+    public void fxjxgcccqr(String taskId,Admin user,Map<String,Object> maps) {
+        completeByDefault(taskId,user,maps);
     }
 
-    public void fxtmccqr(String taskId, String remarks, Admin user) {
+    public void fxmjsq(String taskId, Admin user,Map<String,Object> maps) {
+        completeByDefault(taskId,user,maps);
     }
 
-    public void jymjjwqr(String taskId, String remarks, Admin user) {
+    public void fxtmccqr(String taskId, Admin user,Map<String,Object> maps) {
+        completeByDefault(taskId,user,maps);
     }
 
-    public void jyscsy(String taskId, String remarks, Admin user) {
+    public void jymjjwqr(String taskId, Admin user,Map<String,Object> maps) {
+        completeByDefault(taskId,user,maps);
     }
 
-    public void mjrcys(String taskId, String remarks, Admin user) {
+    public void jyscsy(String taskId, Admin user,Map<String,Object> maps) {
+        completeByDefault(taskId,user,maps);
     }
 
-    public void pmsmqr(String taskId, String remarks, Admin user) {
+    public void mjrcys(String taskId, Admin user,Map<String,Object> maps) {
+        completeByDefault(taskId,user,maps);
     }
 
-    public void ppxmcl(String taskId, String remarks, Admin user) {
+    public void pmsmqr(String taskId, Admin user,Map<String,Object> maps) {
+        completeByDefault(taskId,user,maps);
     }
 
-    public void rczrrfp(String taskId, String remarks, Admin user) {
+    public void ppxmcl(String taskId, Admin user,Map<String,Object> maps) {
+        completeByDefault(taskId,user,maps);
     }
 
-    public void xmjhgrk(String taskId, String remarks, Admin user) {
+    public void rczrrfp(String taskId, Admin user,Map<String,Object> maps) {
+        completeByDefault(taskId,user,maps);
     }
 
-    public void xmjjxcl(String taskId, String remarks, Admin user) {
+    public void xmjhgrk(String taskId, Admin user,Map<String,Object> maps) {
+        completeByDefault(taskId,user,maps);
     }
 
-    public void ycmzxcl(String taskId, String remarks, Admin user) {
+    public void xmjjxcl(String taskId, Admin user,Map<String,Object> maps) {
+        completeByDefault(taskId,user,maps);
     }
 
-    public void bftmsq(String taskId, String remarks, Admin user) {
+    public void ycmzxcl(String taskId, Admin user,Map<String,Object> maps) {
+        completeByDefault(taskId,user,maps);
     }
 
-    public void ckfm(String taskId, String remarks, Admin user) {
+    public void bftmsq(String taskId, Admin user,Map<String,Object> maps) {
+        completeByDefault(taskId,user,maps);
     }
 
-    public void dhclqr(String taskId, String remarks, Admin user) {
+    public void ckfm(String taskId, Admin user,Map<String,Object> maps) {
+        completeByDefault(taskId,user,maps);
     }
 
-    public void dhklqr(String taskId, String remarks, Admin user) {
+    public void dhclqr(String taskId, Admin user,Map<String,Object> maps) {
+        completeByDefault(taskId,user,maps);
     }
 
-    public void dhxctx(String taskId, String remarks, Admin user) {
+    public void dhklqr(String taskId, Admin user,Map<String,Object> maps) {
+        completeByDefault(taskId,user,maps);
     }
 
-    public void jybzsm(String taskId, String remarks, Admin user) {
+    public void dhxctx(String taskId, Admin user,Map<String,Object> maps) {
+        completeByDefault(taskId,user,maps);
     }
 
-    public void pmpmcl(String taskId, String remarks, Admin user) {
+    public void jybzsm(String taskId, Admin user,Map<String,Object> maps) {
+        completeByDefault(taskId,user,maps);
     }
 
-    public void pmqr(String taskId, String remarks, Admin user) {
+    public void pmpmcl(String taskId, Admin user,Map<String,Object> maps) {
+        completeByDefault(taskId,user,maps);
     }
 
-    public void scmjhk(String taskId, String remarks, Admin user) {
+    public void pmqr(String taskId, Admin user,Map<String,Object> maps) {
+        completeByDefault(taskId,user,maps);
     }
 
-
+    public void scmjhk(String taskId, Admin user,Map<String,Object> maps) {
+        completeByDefault(taskId,user,maps);
+    }
 }

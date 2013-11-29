@@ -15,7 +15,7 @@ import java.util.Date;
 @Transactional
 public class MouldSizeService extends BaseService<MouldSizeDAO,MouldSize, Integer>{
     public Page loadList(Page page,String key){
-        return this.findByPageWithHQL(page,"from MouldSize t where t.size like ?", "%"+key+"%");
+        return this.findByPageWithHQL(page,"from MouldSize t where t.size like ? order by t.dbId", "%"+key+"%");
     }
 
     public void update(MouldSize mouldSize){

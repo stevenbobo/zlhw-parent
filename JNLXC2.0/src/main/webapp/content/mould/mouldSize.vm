@@ -73,7 +73,6 @@
     function newRow() {
         var row = {};
         grid.addRow(row, 0);
-
         grid.cancelEdit();
         grid.beginEditRow(row);
     }
@@ -110,8 +109,8 @@
 
     function updateRow(row_uid) {
         var row = grid.getRowByUID(row_uid);
-        var rowData = grid.getChanges();
         grid.commitEdit();
+        var rowData = grid.getChanges();
 
         var json = mini.encode(rowData);
         $.ajax({

@@ -24,7 +24,7 @@ public class Mould extends HIntTable{
     @ManyToOne
     private MouldSize mouldSize;
 	@ManyToOne
-	private AssociationCompany manufacture; //制造厂家
+	private AssociationCompany manufacture; //外协公司
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date manuDate; //制造日期
     @Temporal(TemporalType.TIMESTAMP)

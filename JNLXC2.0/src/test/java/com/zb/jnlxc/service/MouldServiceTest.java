@@ -1,10 +1,12 @@
 package com.zb.jnlxc.service;
 
 import static org.junit.Assert.fail;
-
+import static  org.mockito.Mockito.*;
 import java.io.File;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -22,6 +24,8 @@ import com.zb.jnlxc.model.Mould;
 import com.zb.jnlxc.model.MouldTestRecord;
 @ContextConfiguration(locations = "classpath:spring/applicationContext.xml")
 @TransactionConfiguration(defaultRollback=false)
+
+
 public class MouldServiceTest  extends AbstractTransactionalJUnit4SpringContextTests{
 	@Resource
 	MouldService mouldService;
@@ -104,7 +108,21 @@ public class MouldServiceTest  extends AbstractTransactionalJUnit4SpringContextT
         String path2="D:\\workspaces\\services\\zlhw-parent\\JNLXC2.0\\src\\main\\webapp\\content\\newmould";
         File file1 = new File(path1);
         File file2 = new File(path2);
+    }
 
+    @Test
+    public void updateCombination(){
+        Map<String,Object> map1 = new HashMap<String,Object>();
+        map1.put("str1","zb");
+        Mould mould1 = new Mould();
+        mould1.setDbId(10000);
+        map1.put("mould",mould1);
+        mouldService.updateCombination(10000,map1);
+        Map<String,Object> map2 = new HashMap<String,Object>();
+        map2.put("str2",3434);
+        map2.put("str1","zqh");
+        map2.put("mould",mould1);
+        mouldService.updateCombination(10000,map2);
     }
 
 }

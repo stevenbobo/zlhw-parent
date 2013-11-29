@@ -47,4 +47,10 @@ public class MouldFileGenerate {
         of.flush();
         of.close();
     }
+
+    public void getSQL(){
+
+    }
+
+
 }

@@ -18,6 +18,7 @@
     <label >名称：</label>
     <input id="name" class="mini-textbox" emptyText="请输入姓名" onenter="search" style="width:150px;" />
     <a class="mini-button" style="width:60px;" onclick="search()">查询</a>
+    <a class="mini-button" style="width:60px;" onclick="newRow()">新增</a>
 </div>
 <div id="datagrid1" class="mini-datagrid" style="width:100%;"
      url="$loadAssociationUrl"  idField="dbId" pageSize="20"

@@ -27,6 +27,13 @@ public class FlowServiceTest extends AbstractJUnit4SpringContextTests  {
 		String result4 = flowService.deployFlow(path4);
 		String result5 = flowService.deployFlow(path5);
 	}
+    @Test
+    public void testDeployMouldFlow() {
+        String path1 = "jbpm/mouldFlow.jpdl.xml";
+        String path2 = "./jbpm/mouldProcess.jpdl.xml";
+        String result1 = flowService.deployFlow(path1);
+        String result2 = flowService.deployFlow(path2);
+    }
 
 	public void testDeleteFlow(){
 		List<Deployment> list = flowService.getRepositoryService().createDeploymentQuery().list();

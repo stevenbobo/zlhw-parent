@@ -24,7 +24,7 @@ public class PowerHandler implements AssignmentHandler{
 		  }else if(powerId!=null){
 			  list=service.getPowerAdmins(powerId);
 		  }else{
-			  list=service.getPowerAdmins(execution.getName());
+			  list=service.getPowerAdmins(execution.getActivity().getName());
 		  }
 		  for(Admin admin:list){
 		  assignable.addCandidateUser(admin.getAccount());

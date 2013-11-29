@@ -27,7 +27,7 @@
 
     <import resource="classpath:spring/dataSouce-beans.xml" />
 	<import resource="classpath:spring/jbpm-beans.xml" />
-    <import resource="classpath:spring/activiti-bean.xml" />
+    <!--<import resource="classpath:spring/activiti-bean.xml" />-->
     <import resource="classpath:spring/mongodb.xml"/>
 	
 	
