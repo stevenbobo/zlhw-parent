@@ -64,6 +64,7 @@
     function setData(taskIdParm,openWindow) {
         openWindow.setWidth(600);
         openWindow.setHeight(550);
+        windowMiddle(openWindow);
         taskId = mini.clone(taskIdParm);
         initMouldInfo(taskId);
     }

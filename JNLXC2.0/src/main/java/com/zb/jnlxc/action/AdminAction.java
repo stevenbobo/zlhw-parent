@@ -220,14 +220,14 @@ public class AdminAction {
 
 
     @ResponseBody
-    @RequestMapping("/getPowerAdmins")
-    public List<Admin> getPowerAdmins(String powerName) {
+    @RequestMapping("/getPowerAdminsByName")
+    public List<Admin> getPowerAdminsByName(String powerName) {
         return adminService.getPowerAdmins(powerName);    
     }
 
     @ResponseBody
-    @RequestMapping("/getPowerAdmins")
-    public List<Admin> getPowerAdmins(Integer id) {
+    @RequestMapping("/getPowerAdminsById")
+    public List<Admin> getPowerAdminsById(Integer id) {
         return adminService.getPowerAdmins(id);    
     }
 

@@ -1,5 +1,4 @@
-pmqr
-#set($doTaskUrl=$link.setRelative('MouldAction/rczrrfp.do'))
+#set($doTaskUrl=$link.setRelative('MouldAction/bftmsq.do'))
 #set($getMouldFlowInfoURL=$link.setRelative('MouldAction/getMouldFlowInfo.do'))
 
 <body>
@@ -10,13 +9,33 @@ pmqr
         <form id="taskform" method="post">
             <table style="table-layout:fixed;">
                 <tr>
-                    <td style="width:100px;">指定修模工：</td>
+                    <td style="width:100px;">累计产量：</td>
                     <td style="width:150px;">
-                        <input name="zdxmg" id="zdxmg" class="mini-textbox" required="true" " />
+                        <input name="ljcl" id="ljcl" class="mini-textbox" readonly />
                     </td>
-                    <td tyle="width:100px;">试模机型：</td>
+                    <td tyle="width:100px;">试模次数：</td>
                     <td style="width:150px;">
-                        <input name="smjx" id="smjx" class="mini-textbox" required="true"/>
+                        <input name="smcs" id="smcs"  class="mini-textbox"   readonly />
+                    </td>
+                </tr>
+                <tr>
+                    <td>合格日期</td>
+                    <td>
+                        <input name="hgrq" class="mini-textbox" readonly/>
+                    </td>
+                    <td>退模理由</td>
+                    <td>
+                        <input name="tmly" class="mini-textbox" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>报废理由</td>
+                    <td>
+                        <input name="tmly" class="mini-textbox" />
+                    </td>
+                    <td>描述</td>
+                    <td>
+                        <input name="bfms" class="mini-textbox" />
                     </td>
                 </tr>
             </table>
@@ -24,7 +43,8 @@ pmqr
     </div>
 </fieldset>
 <div style="text-align:center;padding:10px;">
-    <a class="mini-button" onclick="doTaskYes('确定')" style="width:80px;margin-right:20px;">确定</a>
+    <a class="mini-button" onclick="doTaskYes('同意')" style="width:80px;margin-right:20px;">同意</a>
+    <a class="mini-button" onclick="doTaskYes('驳回')" style="width:80px;margin-right:20px;">驳回</a>
     <a class="mini-button" onclick="onCancel" style="width:80px;">取消</a>
 </div>
 <script type="text/javascript">
@@ -50,7 +70,7 @@ pmqr
     //标准方法接口定义
     function setData(taskIdParm,openWindow) {
         openWindow.setWidth(600);
-        openWindow.setHeight(400);
+        openWindow.setHeight(470);
         windowMiddle(openWindow);
         taskId = mini.clone(taskIdParm);
         initMouldInfo(taskId);

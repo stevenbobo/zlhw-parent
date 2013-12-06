@@ -1,6 +1,8 @@
-pmqr
-#set($doTaskUrl=$link.setRelative('MouldAction/rczrrfp.do'))
+#set($doTaskUrl=$link.setRelative('MouldAction/jybzsm.do'))
 #set($getMouldFlowInfoURL=$link.setRelative('MouldAction/getMouldFlowInfo.do'))
+#set($adminsUrl=$link.setRelative('/AdminAction/findAll.json'))
+#set($maintenancersUrl=$link.setRelative('/AdminAction/getPowerAdminsByName.do?powerName=新模技术检修处理'))
+#set($user=$session.getAttribute("user"))
 
 <body>
     #parse("content/flow/mould/mouldInfo.vm")
@@ -10,13 +12,35 @@ pmqr
         <form id="taskform" method="post">
             <table style="table-layout:fixed;">
                 <tr>
-                    <td style="width:100px;">指定修模工：</td>
+                    <td style="width:100px;">累计产量：</td>
                     <td style="width:150px;">
-                        <input name="zdxmg" id="zdxmg" class="mini-textbox" required="true" " />
+                        <input name="ljcl" id="ljcc" class="mini-textbox" readonly />
                     </td>
-                    <td tyle="width:100px;">试模机型：</td>
+                    <td tyle="width:100px;">修模人：</td>
                     <td style="width:150px;">
-                        <input name="smjx" id="smjx" class="mini-textbox" required="true"/>
+                        <input name="maintenancer"  class="mini-combobox"  url="$maintenancersUrl" textField="name" valueField="account" readonly />
+                    </td>
+                </tr>
+                <tr>
+                    <td>氮化/限产</td>
+                    <td>
+                        <input name="dhxc" id="dhxc" class="mini-textbox" />
+                    </td>
+                    <td>还库理由</td>
+                    <td>
+                        <input name="hkly" id="hkly" class="mini-textbox" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>收模时间</td>
+                    <td>
+                        <input id="smsj" name="smsj" readonly class="mini-datepicker"  nullValue="null"
+                               format="yyyy-MM-dd H:mm:ss" timeFormat="H:mm:ss" showTime="true" showOkButton="true" showClearButton="false"/>
+                    </td>
+                    <td>排模人</td>
+                    <td>
+                        <input name="pmr" id="pmr" property="editor" class="mini-combobox" url="$adminsUrl"
+                               textField="name" valueField="dbId" value="$user.getDbId()" readonly/>
                     </td>
                 </tr>
             </table>
@@ -25,6 +49,7 @@ pmqr
 </fieldset>
 <div style="text-align:center;padding:10px;">
     <a class="mini-button" onclick="doTaskYes('确定')" style="width:80px;margin-right:20px;">确定</a>
+    <a class="mini-button" onclick="doTaskYes('还库')" style="width:80px;margin-right:20px;">还库</a>
     <a class="mini-button" onclick="onCancel" style="width:80px;">取消</a>
 </div>
 <script type="text/javascript">
@@ -42,6 +67,10 @@ pmqr
             success: function (extMould) {
                 taskform.setData(extMould);
                 taskform.setChanged(false);
+                mini.get("pmr").setValue($user.getDbId());
+                mini.get("smsj").setValue(new Date());
+
+
             }
         });
     }
@@ -50,7 +79,7 @@ pmqr
     //标准方法接口定义
     function setData(taskIdParm,openWindow) {
         openWindow.setWidth(600);
-        openWindow.setHeight(400);
+        openWindow.setHeight(450);
         windowMiddle(openWindow);
         taskId = mini.clone(taskIdParm);
         initMouldInfo(taskId);

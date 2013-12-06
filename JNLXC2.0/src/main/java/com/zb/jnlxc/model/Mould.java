@@ -32,6 +32,11 @@ public class Mould extends HIntTable{
 	private Integer preProNum; //实际寿命
 	@ManyToOne
 	private Admin register; //登记人
+    @ManyToOne
+    private DataDict kmxz; //模具性质
+    @ManyToOne
+    private DataDict jyhx; //交样选项
+
 	private Byte status; //模具    0:定制1.试模 2.返修,3.可配半键报废,4判定5,彻底报废6,氮化,7,待产,8生产
 	public static enum MODEL_STATUS {  
 		  定制(0), 试模(1), 返修(2), 可配半键报废(3),判定(4),彻底报废(5),氮化(6),待产(7),生产(8) ;
@@ -302,4 +307,19 @@ public class Mould extends HIntTable{
 		this.mouldRecordCount = mouldRecordCount;
 	}
 
+    public DataDict getKmxz() {
+        return kmxz;
+    }
+
+    public void setKmxz(DataDict kmxz) {
+        this.kmxz = kmxz;
+    }
+
+    public DataDict getJyhx() {
+        return jyhx;
+    }
+
+    public void setJyhx(DataDict jyhx) {
+        this.jyhx = jyhx;
+    }
 }

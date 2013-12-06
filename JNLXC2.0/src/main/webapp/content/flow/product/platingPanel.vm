@@ -36,6 +36,7 @@
     function setData(taskIdParm, openWindow) {
         openWindow.setWidth(1000);
         openWindow.setHeight(400);
+        windowMiddle(openWindow);
         taskId = mini.clone(taskIdParm);
         initOrderInfo(taskId);
         initProductInfo(taskId);

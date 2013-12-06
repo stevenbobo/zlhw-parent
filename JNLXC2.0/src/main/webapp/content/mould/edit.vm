@@ -10,6 +10,8 @@
 #set($findAssociationUrl=$link.setRelative('/CommonAction/findAllAssociation.json'))
 #set($addUpdateMouldUrl=$link.setRelative('/MouldAction/saveUpdateMould.json'))
 #set($generateCodeUrl=$link.setRelative('/MouldAction/generateCode.json'))
+#set($jyhxUrl=$link.setRelative('/DataDictAction/findDictList.json?code=jyhx'))
+#set($kmxzUrl=$link.setRelative('/DataDictAction/findDictList.json?code=kmxz'))
 <style type="text/css">
     html, body
     {
@@ -22,15 +24,15 @@
 </style>
 <body>
 <form id="form1" method="post">
-<div class="mini-tabs" style="width:100%;height:320px" activeIndex="0">
+<div class="mini-tabs" style="width:100%;height:310px" activeIndex="0">
     <div title="模具信息">
             <table style="table-layout:fixed;">
                 <tr>
-                    <td style="width:90px;">模具编码：</td>
+                    <td style="width:120px;">模具编码：</td>
                     <td style="width:150px;">
                         <input name="code" id="code" class="mini-textbox" required="true" readonly="true"  />
                     </td>
-                    <td style="width:90px;">模具规格：</td>
+                        <td style="width:120px;">模具规格：</td>
                     <td style="width:150px;">
                         <input id="mouldsizeSelector" name="mouldSize.dbId" required="true" class="mini-buttonedit" onbuttonclick="onMouldSizeSlecte" name="mouldSize.dbId" textName="mouldSize.size"/>
                     </td>
@@ -47,16 +49,27 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="width:90px;">包产吨位(公斤)：</td>
-                    <td style="width:150px;">
+                    <td >包产吨位(公斤)：</td>
+                    <td >
                         <input name="mouldSize.bcdw" id="bcdw" readonly="true"  class="mini-textbox" />
                     </td>
-                    <td style="width:90px;">交货日期</td>
-                    <td style="width:150px;">
+                    <td >交货日期:</td>
+                    <td >
                         <input id="deadline" name="deadline" format="yyyy-MM-dd" required="true" class="mini-datepicker" ondrawdate="onDrawDate"  />
                     </td>
                 </tr>
-
+                <tr>
+                    <td>交样选项：</td>
+                    <td>
+                        <input name="jyhx.dbId" id="jyhx"   url="$jyhxUrl" required="true"
+                               textField="name" valueField="dbId" class="mini-combobox" />
+                    </td>
+                    <td>开模性质:</td>
+                    <td>
+                        <input name="kmxz.dbId" id="kmxz"   url="$kmxzUrl" required="true"
+                               textField="name" valueField="dbId" class="mini-combobox" />
+                    </td>
+                </tr>
                 <tr>
                     <td>模具单价：</td>
                     <td style="width:150px;">
@@ -85,10 +98,11 @@
 
                 </tr>
                 <tr>
-                    <td>图纸</td>
+                    <td>图纸:</td>
                     <td>
                         <input id="schemeSelector" required="true" class="mini-buttonedit" onbuttonclick="onSchemeSlecte" name="scheme.dbId" textName="scheme.name"/>
                     </td>
+                    <td>缩略图:</td>
                     <td rowspan="4">
                         <img id="bmp" height="100%" />
                     </td>
@@ -140,7 +154,7 @@
             url: "$schemeSelectedUrl",
             title: "选择列表",
             width: 800,
-            height: 400,
+            height: 430,
             ondestroy: function (action) {
                 //if (action == "close") return false;
                 if (action == "ok") {
@@ -245,7 +259,7 @@
         mini.open({
             url: "$mouldSizeSelectedVm",
             title: "选择模具规格",
-            width: 700,
+            width: 730,
             height: 400,
             ondestroy: function (action) {
                 //if (action == "close") return false;

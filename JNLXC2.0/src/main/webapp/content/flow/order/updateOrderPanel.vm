@@ -439,6 +439,7 @@ function onDrawDate(e) {
         taskId = taskid;
         openWindow.setWidth(550);
         openWindow.setHeight(600);
+        windowMiddle(openWindow);
         $.ajax({
             url: "${getOrderFormInfoUrl}",
             data:{taskId:taskId},

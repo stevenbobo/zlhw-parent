@@ -1,17 +1,20 @@
 #set($getMouldInfoUrl=$link.setRelative('/MouldAction/getMouldInfo.json'))
-#set($getMouldFlowInfoUrl=$link.setRelative('/MouldAction/getMouldFlowInfo.json'))
 #set($getBmpUrl=$link.setRelative('/SchemeAction/downImg.do'))
 #set($findAssociationUrl=$link.setRelative('/CommonAction/findAllAssociation.json'))
-<form id="form1" method="post" style="height: 230px">
-    <div class="mini-tabs" style="width:100%;height:230px" activeIndex="0">
+#set($jyxhUrl=$link.setRelative('/DataDictAction/findDictList.json?code=jyxh'))
+#set($mjxzUrl=$link.setRelative('/DataDictAction/findDictList.json?code=mjxz'))
+#set($getMouldFlowInfoURL=$link.setRelative('MouldAction/getMouldFlowInfo.do'))
+
+<form id="form1" method="post">
+    <div class="mini-tabs" style="width:100%;height:250px" activeIndex="0">
         <div title="模具信息">
             <table style="table-layout:fixed;">
                 <tr>
-                    <td style="width:120px;">模具编码：</td>
+                    <td style="width:100px;">模具编码：</td>
                     <td style="width:150px;">
                         <input name="code" id="code" class="mini-textbox" required="true" readonly="true"  />
                     </td>
-                    <td style="width:90px;">模具规格：</td>
+                    <td style="width:100px;">模具规格：</td>
                     <td style="width:150px;">
                         <input id="mouldsizeSelector" name="mouldSize.dbId" required="true" class="mini-buttonedit" onbuttonclick="onMouldSizeSlecte"  textName="mouldSize.size"/>
                     </td>
@@ -32,24 +35,36 @@
                     <td style="width:150px;">
                         <input name="mouldSize.bcdw" id="bcdw" readonly="true"  class="mini-textbox" />
                     </td>
-                    <td style="width:90px;">交货日期</td>
+                    <td style="width:90px;">交货日期:</td>
                     <td style="width:150px;">
                         <input id="deadline" name="deadline" format="yyyy-MM-dd" required="true" class="mini-datepicker" ondrawdate="onDrawDate"  />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:90px;">交样选项：</td>
+                    <td style="width:150px;">
+                        <input name="jyhx.name" id="jyhx" readonly="true"  class="mini-textbox"  />
+                    </td>
+                    <td style="width:90px;">开模性质:</td>
+                    <td style="width:150px;">
+                        <input  name="kmxz.name" id="kmxz"  required="true" class="mini-textbox"  />
                     </td>
                 </tr>
 
                 <tr>
                     <td>外协公司：</td>
                     <td>
-                        <input name="manufacture.dbId" required="true" property="editor" class="mini-combobox"   url="$findAssociationUrl"
-                               textField="name" valueField="dbId" onvaluechanged="onWaiXieChanged" />
+                        <input name="manufacture.name" required="true" property="editor"  class="mini-textbox"  />
+                    </td>
+                    <td >
+                       缩略图:
                     </td>
                     <td rowspan="4">
                         <img id="bmp" height="100%" />
                     </td>
                 </tr>
                 <tr>
-                    <td>图纸</td>
+                    <td>图纸:</td>
                     <td>
                         <input id="schemeSelector" required="true" class="mini-buttonedit" onbuttonclick="onSchemeSlecte" name="scheme.dbId" textName="scheme.name"/>
                     </td>
@@ -88,6 +103,7 @@
         $.ajax({
             url: "${getMouldInfoUrl}",
             data: {taskId: taskId},
+            type: 'post',
             cache: false,
             success: function (mould) {
                 form.setData(mould);

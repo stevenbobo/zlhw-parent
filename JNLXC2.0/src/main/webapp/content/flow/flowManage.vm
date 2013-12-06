@@ -80,7 +80,7 @@
             title: "模具流程进度", width: 650, height: 600,
             onload: function () {
                 var iframe = this.getIFrameEl();
-                iframe.contentWindow.setData(task.executionId);
+                iframe.contentWindow.setData(task.executionId,this);
             }
         });
     }

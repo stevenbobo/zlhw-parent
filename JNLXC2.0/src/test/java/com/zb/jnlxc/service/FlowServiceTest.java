@@ -6,6 +6,11 @@ import javax.annotation.Resource;
 
 import org.jbpm.api.Deployment;
 import org.jbpm.api.ProcessInstance;
+import org.jbpm.api.history.HistoryProcessInstance;
+import org.jbpm.api.task.Task;
+import org.jbpm.pvm.internal.history.model.HistoryTaskImpl;
+import org.jbpm.pvm.internal.history.model.HistoryTaskInstanceImpl;
+import org.jbpm.pvm.internal.task.TaskImpl;
 import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
@@ -50,5 +55,11 @@ public class FlowServiceTest extends AbstractJUnit4SpringContextTests  {
 //			flowService.getExecutionService().deleteProcessInstanceCascade(processInstance.getId());
 		}
 	}
+   @Test
+    public void testHistoryService(){
+        TaskImpl task = (TaskImpl) flowService.getTaskService().getTask(""+2640015);
+       HistoryTaskInstanceImpl historyTaskInstance = (HistoryTaskInstanceImpl) flowService.getHistoryService().createHistoryActivityInstanceQuery().executionId(task.getExecutionId()).orderDesc("dbid").list().get(1);
+        logger.info(historyTaskInstance.getActivityName());
+    }
 
 }

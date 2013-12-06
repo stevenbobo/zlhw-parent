@@ -1,21 +1,41 @@
 #set($doTaskUrl=$link.setRelative('MouldAction/dhklqr.do'))
+#set($getMouldFlowInfoURL=$link.setRelative('MouldAction/getMouldFlowInfo.do'))
+#set($maintenancersUrl=$link.setRelative('/AdminAction/getPowerAdminsByName.do?powerName=新模技术检修处理'))
+#set($user=$session.getAttribute("user"))
+#set($adminsUrl=$link.setRelative('/AdminAction/findAll.json'))
 
-<body>
     #parse("content/flow/mould/mouldInfo.vm")
 <fieldset id="fd1">
-    <legend><span> 试模信息</span></legend>
+    <legend><span>任务内容</span></legend>
     <div class="fieldset-body">
         <form id="taskform" method="post">
             <table style="table-layout:fixed;">
                 <tr>
-                    <td style="width:90px;">机台：</td>
+                    <td style="width:100px;">试模次数：</td>
                     <td style="width:150px;">
-                        <input name="productTeam.dbId" property="editor" required="true" class="mini-combobox"   url="$findTeamUrl"
-                               textField="name" valueField="dbId" />
+                        <input name="smcs" id="dhxc" class="mini-textbox" readonly />
                     </td>
-                    <td >用棒数量：</td>
-                    <td >
-                        <input name="useStickNum" id="code" class="mini-textbox" required="true"/>
+                    <td tyle="width:100px;">修模人：</td>
+                    <td style="width:150px;">
+                        <input name="maintenancer"  class="mini-combobox"  url="$maintenancersUrl" textField="name" valueField="account" readonly />
+                    </td>
+                </tr>
+                <tr>
+                    <td>合格日期</td>
+                    <td>
+                        <input id="hgrq" class="mini-datepicker" readonly/>
+                    </td>
+                    <td>入炉人</td>
+                    <td>
+                        <input name="rlr" id="rlr" property="editor" class="mini-combobox" url="$adminsUrl"
+                               textField="name" valueField="dbId" value="$user.getDbId()" readonly/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>入炉时间</td>
+                    <td colspan="3">
+                        <input id="rlsj" name="rlsj" readonly class="mini-datepicker"  nullValue="null" width="335px"
+                               format="yyyy-MM-dd H:mm:ss" timeFormat="H:mm:ss" showTime="true" showOkButton="true" showClearButton="false"/>
                     </td>
                 </tr>
             </table>
@@ -23,33 +43,52 @@
     </div>
 </fieldset>
 <div style="text-align:center;padding:10px;">
-    <a class="mini-button" onclick="doTaskYes("确定")" style="width:60px;margin-right:20px;">确定</a>
-    <a class="mini-button" onclick="doTaskYes("退模")" style="width:60px;margin-right:20px;">退模</a>
-    <a class="mini-button" onclick="onCancel" style="width:60px;">取消</a>
+    <a class="mini-button" onclick="doTaskYes('确定')" style="width:80px;margin-right:20px;">确定</a>
+    <a class="mini-button" onclick="onCancel" style="width:80px;">取消</a>
 </div>
 <script type="text/javascript">
     mini.parse();
     var taskId;
+
+    function initExtMouldInfo(taskIdParm) {
+        var taskform = new mini.Form("taskform");
+        //跨页面传递的数据对象，克隆后才可以安全使用
+        $.ajax({
+            url: "${getMouldFlowInfoURL}",
+            data: {taskId: taskId},
+            cache: false,
+            type: 'post',
+            success: function (extMould) {
+                taskform.setData(extMould);
+                mini.get("rlsj").setValue(new Date());
+                mini.get("rlr").setValue($user.getDbId());
+                taskform.setChanged(false);
+            }
+        });
+    }
+
     ////////////////////
     //标准方法接口定义
     function setData(taskIdParm,openWindow) {
         openWindow.setWidth(600);
-        openWindow.setHeight(600);
+        openWindow.setHeight(450);
+        windowMiddle(openWindow);
         taskId = mini.clone(taskIdParm);
         initMouldInfo(taskId);
+        initExtMouldInfo(taskId);
     }
 
-    function doTaskYes() {
-        var remarks=mini.get("mould_mcomment").getValue();
-
+    function doTaskYes(nextStep) {
         var taskform = new mini.Form("taskform");
         taskform.validate();
         if (taskform.isValid() == false) return;
         $.ajax({
             url: "$doTaskUrl",
             data: {taskId: taskId,
+                nextStep:  nextStep,
                 formData:mini.encode(taskform.getData())},
             cache: false,
+            type:'post',
             success: function () {
                 mini.alert("操作成功");
                 CloseWindow("save");
@@ -58,15 +97,6 @@
                 mini.alert("操作失败");
             }
         });
-    }
-    function onCancel(e) {
-        CloseWindow("cancel");
-    }
-
-    function CloseWindow(action) {
-        if (window.CloseOwnerWindow)
-            return window.CloseOwnerWindow(action);
-        else window.close();
     }
 </script>
 </body>

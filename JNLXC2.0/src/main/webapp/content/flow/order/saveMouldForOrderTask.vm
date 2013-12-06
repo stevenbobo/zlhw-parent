@@ -208,6 +208,7 @@
     function setData(taskIdParm,openWindow) {
         openWindow.setWidth(525);
         openWindow.setHeight(400);
+        windowMiddle(openWindow);
         $.ajax({
             url: "${getOrderFormInfoUrl}",
             data:{taskId:taskIdParm},

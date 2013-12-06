@@ -19,9 +19,9 @@ public class MouldFileGenerate {
         ve.init(p);
 
         Template t = ve.getTemplate("mouldTemplate.vm","utf-8");
-        String path1 = "D:\\workspaces\\services\\zlhw-parent\\JNLXC2.0\\src\\main\\webapp\\content\\newmould";
+        String path1 = "D:\\workspaces\\services\\zlhw-parent\\JNLXC2.0\\src\\main\\webapp\\content\\flow\\newmould";
         File dir1 = new File(path1);
-        String path2 = "D:\\workspaces\\services\\zlhw-parent\\JNLXC2.0\\src\\main\\webapp\\content\\mouldprocess";
+        String path2 = "D:\\workspaces\\services\\zlhw-parent\\JNLXC2.0\\src\\main\\webapp\\content\\flow\\mouldprocess";
         File dir2 = new File(path2);
         for(File file:dir1.listFiles()){
            change(file,t);
@@ -32,6 +32,7 @@ public class MouldFileGenerate {
     }
 
     public static void change(File file,Template t)throws Exception{
+        if(file.getName().contains("mjrcys")||file.getName().contains("rczrrfp"))  return;
         VelocityContext context = new VelocityContext();
         context.put("fileName", file.getName().replaceAll("\\.vm",""));
         StringWriter writer = new StringWriter();

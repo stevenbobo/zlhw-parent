@@ -1,21 +1,107 @@
 #set($doTaskUrl=$link.setRelative('MouldAction/ycmzxcl.do'))
+#set($getMouldFlowInfoURL=$link.setRelative('MouldAction/getMouldFlowInfo.do'))
 
 <body>
     #parse("content/flow/mould/mouldInfo.vm")
 <fieldset id="fd1">
-    <legend><span> 试模信息</span></legend>
+    <legend><span>任务内容</span></legend>
     <div class="fieldset-body">
         <form id="taskform" method="post">
             <table style="table-layout:fixed;">
                 <tr>
-                    <td style="width:90px;">机台：</td>
+                    <td style="width:100px;">合格日期：</td>
                     <td style="width:150px;">
-                        <input name="productTeam.dbId" property="editor" required="true" class="mini-combobox"   url="$findTeamUrl"
-                               textField="name" valueField="dbId" />
+                        <input name="hgrq" id="hgrq" class="mini-textbox" readonly  />
                     </td>
-                    <td >用棒数量：</td>
+                    <td tyle="width:100px;">使用机台：</td>
+                    <td style="width:150px;">
+                        <input name="syjt" id="syjt" class="mini-textbox" readonly/>
+                    </td>
+                </tr>
+                <tr>
+                    <td >排模理由：</td>
+                    <td>
+                        <input name="pmly" id="pmly" class="mini-textbox" readonly  />
+                    </td>
+                    <td >氮化/限产：</td>
                     <td >
-                        <input name="useStickNum" id="code" class="mini-textbox" required="true"/>
+                        <input name="dhxc" id="dhxc" class="mini-textbox" readonly/>
+                    </td>
+                </tr>
+                <tr>
+                    <td >累计产量：</td>
+                    <td>
+                        <input name="ljcl" id="ljcl" class="mini-textbox" readonly  />
+                    </td>
+                    <td >上机时间：</td>
+                    <td >
+                        <input name="sjsj" id="sjsj" class="mini-textbox" readonly/>
+                    </td>
+                </tr>
+                <tr>
+                    <td >产出数量：</td>
+                    <td>
+                        <input name="ccsl" id="ccsl" class="mini-textbox" readonly  />
+                    </td>
+                    <td >出料情况：</td>
+                    <td >
+                        <input name="clqk" id="clqk" class="mini-textbox" readonly/>
+                    </td>
+                </tr>
+                <tr>
+                    <td >卸模原因：</td>
+                    <td>
+                        <input name="xmyy" id="xmyy" class="mini-textbox" readonly  />
+                    </td>
+                    <td >氮化/限产：</td>
+                    <td >
+                        <input name="xmsj" id="xmsj" class="mini-textbox" readonly/>
+                    </td>
+                </tr>
+                <tr>
+                    <td >异常时段：</td>
+                    <td>
+                        <input name="ycsd" id="ycsd" class="mini-textbox" readonly " />
+                    </td>
+                    <td >泡出时间：</td>
+                    <td >
+                        <input name="pcsj" id="dhxc" class="mini-textbox" readonly/>
+                    </td>
+                </tr>
+                <tr>
+                    <td >合格还库：</td>
+                    <td>
+                        <input name="hghkly" id="hghkly" class="mini-textbox"   />
+                    </td>
+                    <td >返修申请：</td>
+                    <td >
+                        <input name="fxsqly" id="fxsqly" class="mini-textbox" />
+                    </td>
+                </tr>
+                <tr>
+                    <td >退模申请：</td>
+                    <td>
+                        <input name="tmsqly" id="tmsqly" class="mini-textbox"  />
+                    </td>
+                    <td >报废申请：</td>
+                    <td >
+                        <input name="bfsqly" id="bfsqly" class="mini-textbox" readonly/>
+                    </td>
+                </tr>
+                <tr>
+                    <td >氮化处理：</td>
+                    <td>
+                        <input name="dhclly" id="dhclly" class="mini-textbox"  />
+                    </td>
+                    <td >试模安排：</td>
+                    <td >
+                        <input name="smaply" id="smaply" class="mini-textbox" readonly/>
+                    </td>
+                </tr>
+                <tr>
+                    <td >监督试模：</td>
+                    <td>
+                        <input name="jdsm" id="jdsm" class="mini-textbox"  />
                     </td>
                 </tr>
             </table>
@@ -23,33 +109,52 @@
     </div>
 </fieldset>
 <div style="text-align:center;padding:10px;">
-    <a class="mini-button" onclick="doTaskYes("确定")" style="width:60px;margin-right:20px;">确定</a>
-    <a class="mini-button" onclick="doTaskYes("退模")" style="width:60px;margin-right:20px;">退模</a>
-    <a class="mini-button" onclick="onCancel" style="width:60px;">取消</a>
+    <a class="mini-button" onclick="doTaskYes('抛排新模处理')" style="width:80px;margin-right:20px;">抛排新模处理</a>
+    <a class="mini-button" onclick="doTaskYes('返修申请')" style="width:80px;margin-right:20px;">返修申请</a>
+    <a class="mini-button" onclick="doTaskYes('退模申请')" style="width:80px;margin-right:20px;">退模申请</a>
+    <a class="mini-button" onclick="onCancel" style="width:80px;">取消</a>
 </div>
 <script type="text/javascript">
     mini.parse();
     var taskId;
+
+    function initExtMouldInfo(taskIdParm) {
+        var taskform = new mini.Form("taskform");
+        //跨页面传递的数据对象，克隆后才可以安全使用
+        $.ajax({
+            url: "${getMouldFlowInfoURL}",
+            data: {taskId: taskId},
+            cache: false,
+            type: 'post',
+            success: function (extMould) {
+                taskform.setData(extMould);
+                taskform.setChanged(false);
+            }
+        });
+    }
+
     ////////////////////
     //标准方法接口定义
     function setData(taskIdParm,openWindow) {
         openWindow.setWidth(600);
-        openWindow.setHeight(600);
+        openWindow.setHeight(650);
+        windowMiddle(openWindow);
         taskId = mini.clone(taskIdParm);
         initMouldInfo(taskId);
+        initExtMouldInfo(taskId);
     }
 
-    function doTaskYes() {
-        var remarks=mini.get("mould_mcomment").getValue();
-
+    function doTaskYes(nextStep) {
         var taskform = new mini.Form("taskform");
         taskform.validate();
         if (taskform.isValid() == false) return;
         $.ajax({
             url: "$doTaskUrl",
             data: {taskId: taskId,
+                nextStep:  nextStep,
                 formData:mini.encode(taskform.getData())},
             cache: false,
+            type:'post',
             success: function () {
                 mini.alert("操作成功");
                 CloseWindow("save");
@@ -58,15 +163,6 @@
                 mini.alert("操作失败");
             }
         });
-    }
-    function onCancel(e) {
-        CloseWindow("cancel");
-    }
-
-    function CloseWindow(action) {
-        if (window.CloseOwnerWindow)
-            return window.CloseOwnerWindow(action);
-        else window.close();
     }
 </script>
 </body>

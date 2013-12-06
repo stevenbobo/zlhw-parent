@@ -1,5 +1,6 @@
 package com.zb.jnlxc.service;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.annotation.Resource;
@@ -7,10 +8,14 @@ import javax.annotation.Resource;
 import com.ZLHW.base.dao.QueryCondition;
 import com.mongodb.BasicDBObject;
 import com.mongodb.WriteResult;
+import com.zb.jnlxc.dao.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jbpm.api.ProcessInstance;
+import org.jbpm.api.history.HistoryProcessInstance;
+import org.jbpm.api.history.HistoryTask;
+import org.jbpm.pvm.internal.history.model.HistoryTaskInstanceImpl;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -25,10 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ZLHW.base.Exception.BaseErrorModel;
 import com.ZLHW.base.Form.Page;
 import com.ZLHW.base.service.BaseService;
-import com.zb.jnlxc.dao.MouldDAO;
-import com.zb.jnlxc.dao.MouldRecordDAO;
-import com.zb.jnlxc.dao.MouldTestRecordDAO;
-import com.zb.jnlxc.dao.SchemeDAO;
 import com.zb.jnlxc.model.Admin;
 import com.zb.jnlxc.model.Mould;
 import com.zb.jnlxc.model.Mould.MODEL_STATUS;
@@ -39,6 +40,8 @@ import com.zb.jnlxc.model.Scheme;
 @Service
 public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
 	private static final Log log = LogFactory.getLog(MouldService.class);
+    @Resource
+    private AdminDAO adminDAO;
 	@Resource
 	private SchemeDAO schemeDao;
 	@Resource
@@ -83,7 +86,15 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
 		//将模具和外协添加到流程中
 		map.put("mouldId", mould.getDbId());
 		map.put("association", mould.getManufacture().getAgent().getAccount());
-		this.startmouldFlowByKey(mould.getCode(), map);
+        //初始化试模次数
+        map.put("smcs","0");
+        map.put("isReturn",false);
+
+        Map map2 = new HashMap(map);
+        map2.put("mould",mould);
+        updateCombination(mould.getDbId(), map2);
+
+        this.startmouldFlowByKey(mould.getCode(), map);
 		return mould;
 	}
 	/**
@@ -378,9 +389,9 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
         return mongoTemplate.findOne(new Query(Criteria.where("mould.dbId").is(m.getDbId())),BasicDBObject.class,"mouldFlowCurrent");
     }
 
-    public void updateCombination(int mouldDbId,Map<String,Object> maps){
+    public void updateCombination(int mouldDbId,Map maps){
         BasicDBObject o1= getMouldFlowInfo(mouldDbId);
-        logger.info("ext mould={}",o1.toString());
+        logger.info("ext mould={}",o1);
         if(o1!=null){
             mongoTemplate.remove(new Query(Criteria.where("mould.dbId").is(mouldDbId)),"mouldFlowCurrent");
             o1.putAll(maps);
@@ -388,104 +399,143 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
         }else {
             mongoTemplate.insert(maps,"mouldFlowCurrent");
         }
-
-
     }
 
-    private void completeByDefault(String taskId,Admin user,Map<String,Object> maps){
+    private void completeByDefault(String taskId,Admin user,Map map,String nextStep){
+        completeByDefault(taskId, user, map, nextStep,new HashMap());
+    }
+
+    private void completeByDefault(String taskId,Admin user,Map map,String nextStep,Map flowMap){
         Mould m=this.getMouldInfo(taskId);
-        BasicDBObject dbObject = new BasicDBObject(maps);
         String taskName = flowService.getTaskService().getTask(taskId).getName();
-        dbObject.put("mould",m);
-        dbObject.put("taskId",taskId);
-        dbObject.put("taskName",taskName);
-        dbObject.put("operaterid",user.getDbId());
-        mongoTemplate.insert(dbObject);
-        updateCombination(m.getDbId(),dbObject);
-        flowService.completeTask(taskId,user);
+        map.put("mould",m);
+        map.put("taskId",taskId);
+        map.put("taskName",taskName);
+        map.put("operaterid",user.getDbId());
+        map.put("nextStep",nextStep);
+        mongoTemplate.insert(map,"mouldFlow");
+        if(StringUtils.isBlank(nextStep))
+            flowService.completeTask(taskId,flowMap,user);
+        else
+            flowService.completeTask(taskId,nextStep,flowMap,user);
+        updateCombination(m.getDbId(),map);
     }
 
-    public void fxjxgcccqr(String taskId,Admin user,Map<String,Object> maps) {
-        completeByDefault(taskId,user,maps);
+    public void fxjxgcccqr(String taskId,Admin user,Map maps,String nextStep) {
+        completeByDefault(taskId,user,maps,nextStep);
     }
 
-    public void fxmjsq(String taskId, Admin user,Map<String,Object> maps) {
-        completeByDefault(taskId,user,maps);
+    public void fxmjsq(String taskId, Admin user,Map maps,String nextStep) {
+        String executionId = flowService.getTaskService().getTask(taskId).getExecutionId();
+        HistoryTaskInstanceImpl hi = (HistoryTaskInstanceImpl) flowService.getHistoryService().createHistoryActivityInstanceQuery().executionId(executionId).orderDesc("dbid").list().get(1);
+        if (nextStep.equals("驳回")){
+            if("(试模)异常模转修处理".equals(hi.getActivityName())){
+                nextStep = "驳回转修";
+            }else if("新模技术检修处理".equals(hi.getActivityName())){
+                nextStep = "驳回检修";
+            }
+        }
+        completeByDefault(taskId, user, maps, nextStep);
     }
 
-    public void fxtmccqr(String taskId, Admin user,Map<String,Object> maps) {
-        completeByDefault(taskId,user,maps);
+    public void fxtmccqr(String taskId, Admin user,Map maps,String nextStep) {
+        completeByDefault(taskId,user,maps,nextStep);
     }
 
-    public void jymjjwqr(String taskId, Admin user,Map<String,Object> maps) {
-        completeByDefault(taskId,user,maps);
+    public void jymjjwqr(String taskId, Admin user,Map maps,String nextStep) {
+        completeByDefault(taskId,user,maps,nextStep);
     }
 
-    public void jyscsy(String taskId, Admin user,Map<String,Object> maps) {
-        completeByDefault(taskId,user,maps);
+    public void jyscsy(String taskId, Admin user,Map maps,String nextStep) {
+        completeByDefault(taskId,user,maps,nextStep);
     }
 
-    public void mjrcys(String taskId, Admin user,Map<String,Object> maps) {
-        completeByDefault(taskId,user,maps);
+    public void mjrcys(String taskId, Admin user,Map maps,String nextStep) {
+        completeByDefault(taskId, user, maps, nextStep);
     }
 
-    public void pmsmqr(String taskId, Admin user,Map<String,Object> maps) {
-        completeByDefault(taskId,user,maps);
+    public void pmsmqr(String taskId, Admin user,Map maps,String nextStep) {
+        completeByDefault(taskId,user,maps,nextStep);
     }
 
-    public void ppxmcl(String taskId, Admin user,Map<String,Object> maps) {
-        completeByDefault(taskId,user,maps);
+    public void ppxmcl(String taskId, Admin user,Map maps,String nextStep) {
+        if("试模".equals(nextStep)){
+            Map flowMap = getMouldFlowInfo(taskId);
+            String smcsStr = flowMap.get("smcs")+"";
+            int smcs = StringUtils.isEmpty(smcsStr)?0:Integer.parseInt(smcsStr);
+            maps.put("smcs",(smcs+1)+"");
+        }
+        completeByDefault(taskId,user,maps,nextStep);
     }
 
-    public void rczrrfp(String taskId, Admin user,Map<String,Object> maps) {
-        completeByDefault(taskId,user,maps);
+    public void rczrrfp(String taskId, Admin user,Map maps,String nextStep) {
+        Map map = new HashMap();
+        map.put("maintenancer",maps.get("maintenancer"));
+        completeByDefault(taskId, user, maps, nextStep,map);
     }
 
-    public void xmjhgrk(String taskId, Admin user,Map<String,Object> maps) {
-        completeByDefault(taskId,user,maps);
+    public void xmjhgrk(String taskId, Admin user,Map maps,String nextStep) {
+        completeByDefault(taskId,user,maps,nextStep);
     }
 
-    public void xmjjxcl(String taskId, Admin user,Map<String,Object> maps) {
-        completeByDefault(taskId,user,maps);
+    public void xmjjxcl(String taskId, Admin user,Map maps,String nextStep) {
+        completeByDefault(taskId,user,maps,nextStep);
     }
 
-    public void ycmzxcl(String taskId, Admin user,Map<String,Object> maps) {
-        completeByDefault(taskId,user,maps);
+    public void ycmzxcl(String taskId, Admin user,Map maps,String nextStep) {
+        completeByDefault(taskId,user,maps,nextStep);
     }
 
-    public void bftmsq(String taskId, Admin user,Map<String,Object> maps) {
-        completeByDefault(taskId,user,maps);
+    public void bftmsq(String taskId, Admin user,Map maps,String nextStep) {
+        String executionId = flowService.getTaskService().getTask(taskId).getExecutionId();
+        HistoryTaskInstanceImpl hi = (HistoryTaskInstanceImpl) flowService.getHistoryService().createHistoryActivityInstanceQuery().executionId(executionId).orderDesc("dbid").list().get(1);
+        if (nextStep.equals("驳回")){
+            if("(试模)异常模转修处理".equals(hi.getActivityName())){
+                nextStep = "驳回转修";
+            }else if("新模技术检修处理".equals(hi.getActivityName())){
+                nextStep = "驳回检修";
+            } else if("模具入场验收".equals(hi.getActivityName())){
+                nextStep = "驳回验收";
+            }
+        }
+        completeByDefault(taskId,user,maps,nextStep);
     }
 
-    public void ckfm(String taskId, Admin user,Map<String,Object> maps) {
-        completeByDefault(taskId,user,maps);
+    public void ckfm(String taskId, Admin user,Map maps,String nextStep) {
+        completeByDefault(taskId,user,maps,nextStep);
     }
 
-    public void dhclqr(String taskId, Admin user,Map<String,Object> maps) {
-        completeByDefault(taskId,user,maps);
+    public void dhclqr(String taskId, Admin user,Map maps,String nextStep) {
+        completeByDefault(taskId,user,maps,nextStep);
     }
 
-    public void dhklqr(String taskId, Admin user,Map<String,Object> maps) {
-        completeByDefault(taskId,user,maps);
+    public void dhklqr(String taskId, Admin user,Map maps,String nextStep) {
+        SimpleDateFormat dateformat1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        maps.put("rlsj",dateformat1.format(new Date()));
+        completeByDefault(taskId, user, maps, nextStep);
     }
 
-    public void dhxctx(String taskId, Admin user,Map<String,Object> maps) {
-        completeByDefault(taskId,user,maps);
+    public void dhxctx(String taskId, Admin user,Map maps,String nextStep) {
+        completeByDefault(taskId,user,maps,nextStep);
     }
 
-    public void jybzsm(String taskId, Admin user,Map<String,Object> maps) {
-        completeByDefault(taskId,user,maps);
+    public void jybzsm(String taskId, Admin user,Map maps,String nextStep) {
+        completeByDefault(taskId,user,maps,nextStep);
     }
 
-    public void pmpmcl(String taskId, Admin user,Map<String,Object> maps) {
-        completeByDefault(taskId,user,maps);
+    public void pmpmcl(String taskId, Admin user,Map maps,String nextStep) {
+        completeByDefault(taskId,user,maps,nextStep);
     }
 
-    public void pmqr(String taskId, Admin user,Map<String,Object> maps) {
-        completeByDefault(taskId,user,maps);
+    public void pmqr(String taskId, Admin user,Map maps,String nextStep) {
+        completeByDefault(taskId,user,maps,nextStep);
     }
 
-    public void scmjhk(String taskId, Admin user,Map<String,Object> maps) {
-        completeByDefault(taskId,user,maps);
+    public void scmjhk(String taskId, Admin user,Map maps,String nextStep) {
+        completeByDefault(taskId,user,maps,nextStep);
+    }
+
+    public void ppsmcl(String taskId, Admin user, Map maps, String nextStep) {
+        completeByDefault(taskId,user,maps,nextStep);
     }
 }

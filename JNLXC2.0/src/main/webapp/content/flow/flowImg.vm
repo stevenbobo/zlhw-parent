@@ -14,11 +14,18 @@
 </style>
 <body >
 
-<img id="flowImg" style="position:absolute;" src="" />
+<img id="flowImg" style="position:absolute;"  onload="imgLoad()" />
 </body>
 <script type="text/javascript">
     mini.parse();
-    function setData(excutionId) {
+    var openWindow;
+    function imgLoad(){
+        openWindow.setWidth($("#flowImg").width()+10);
+        openWindow.setHeight($("#flowImg").height()+30);
+        windowMiddle(openWindow);
+    }
+    function setData(excutionId,openWindow1) {
+        openWindow = openWindow1;
         $.ajax({
             url: "$getFlowStateImageByExcutionIdUrl",
             data:{excutionId:excutionId},
@@ -33,6 +40,8 @@
                     var height = imageLocate.height;
                     $("body").append("<div style=\"position:absolute ; top:"+top+"px; left:"+left+"px;width: "+width+"px;height: "+height+"px;border: #ff0000 solid 2px;\" />");
                 }
+
+
             }
         });
     }

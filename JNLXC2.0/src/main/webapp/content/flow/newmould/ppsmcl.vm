@@ -1,57 +1,74 @@
-#set($doTaskUrl=$link.setRelative('MouldAction/mjrcys.do'))
+#set($doTaskUrl=$link.setRelative('MouldAction/ppsmcl.do'))
 #set($getMouldFlowInfoURL=$link.setRelative('MouldAction/getMouldFlowInfo.do'))
+#set($adminsUrl=$link.setRelative('/AdminAction/findAll.json'))
+#set($user=$session.getAttribute("user"))
 
 <body>
     #parse("content/flow/mould/mouldInfo.vm")
 <fieldset id="fd1">
-    <legend><span> 检验内容</span></legend>
+    <legend><span>任务内容</span></legend>
     <div class="fieldset-body">
         <form id="taskform" method="post">
             <table style="table-layout:fixed;">
                 <tr>
-                    <td style="width:100px;">外径：</td>
+                    <td style="width:100px;">上机时间：</td>
                     <td style="width:150px;">
-                        <input name="waijing" id="waijing" class="mini-textbox" required="true" " />
+                        <input name="sjsj" id="sjsj" class="mini-datepicker" readonly />
                     </td>
-                    <td tyle="width:100px;">总厚：</td>
+                    <td tyle="width:100px;">产出数量：</td>
                     <td style="width:150px;">
-                        <input name="zonghou" id="zonghou" class="mini-textbox" required="true"/>
+                        <input name="ccsl"  class="mini-textbox"  readonly />
                     </td>
                 </tr>
                 <tr>
-                    <td >止口直径：</td>
-                    <td >
-                        <input name="zhihouzhijing" id="zhihouzhijing" class="mini-textbox" required="true" " />
+                    <td>出料情况</td>
+                    <td>
+                        <input id="clqk" name="clqk" class="mini-textbox" readonly/>
                     </td>
-                    <td >止口深度：</td>
-                    <td >
-                        <input name="zhihoushengdu" id="zhihoushengdu" class="mini-textbox" required="true"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td >外形倒角：</td>
-                    <td >
-                        <input name="waixingdaojiao" id="waixingdaojiao" class="mini-textbox" required="true" " />
-                    </td>
-                    <td >模具编码：</td>
-                    <td >
-                        <input name="mojubianma" id="mojubianma" class="mini-textbox" required="true"/>
+                    <td>卸模原因</td>
+                    <td>
+                        <input id="xmyy" name="xmyy" class="mini-textbox" readonly/>
                     </td>
                 </tr>
                 <tr>
-                    <td >销钉：</td>
-                    <td >
-                        <input name="xiaoding" id="xiaoding" class="mini-textbox" required="true" " />
+                    <td>异常时段</td>
+                    <td>
+                        <input id="ycsd" name="ycsd" class="mini-textbox" readonly/>
                     </td>
-                    <td >提模孔：</td>
-                    <td >
-                        <input name="timokong" id="timokong" class="mini-textbox" required="true"/>
+                    <td>卸模时间</td>
+                    <td>
+                        <input name="xmsj" id="xmsj" class="mini-datepicker" readonly />
                     </td>
                 </tr>
                 <tr>
-                    <td >硬度：</td>
-                    <td >
-                        <input name="yingdu" id="yingdu" class="mini-textbox" required="true" " />
+                    <td>还库理由</td>
+                    <td>
+                        <input name="pmxx"  id="pmxx" class="mini-textbox"  readonly />
+                    </td>
+                    <td>泡出时间</td>
+                    <td>
+                        <input id="pcsj" name="pcsj" class="mini-datepicker"  nullValue="null"
+                               format="yyyy-MM-dd H:mm:ss" timeFormat="H:mm:ss" showTime="true" showOkButton="true" showClearButton="false"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>氮化</td>
+                    <td>
+                        <input name="dh"  id="dh" class="mini-checkbox" checked="false"  />
+                    </td>
+                    <td>转修</td>
+                    <td>
+                        <input name="zx"  id="zx" class="mini-checkbox" checked="false"   />
+                    </td>
+                </tr>
+                <tr>
+                    <td>排模</td>
+                    <td>
+                        <input name="pm"  id="pm" class="mini-checkbox" checked="false" />
+                    </td>
+                    <td>入库</td>
+                    <td>
+                        <input name="rk"  id="rk" class="mini-checkbox" checked="false" />
                     </td>
                 </tr>
             </table>
@@ -59,9 +76,7 @@
     </div>
 </fieldset>
 <div style="text-align:center;padding:10px;">
-    <a class="mini-button" onclick="doTaskYes('通过')" style="width:80px;margin-right:20px;">通过</a>
-    <a class="mini-button" onclick="doTaskYes('申请报废')" style="width:80px;margin-right:20px;">申请报废</a>
-    <a class="mini-button" onclick="doTaskYes('申请返修')" style="width:80px;margin-right:20px;">申请返修</a>
+    <a class="mini-button" onclick="doTaskYes('转修')" style="width:80px;margin-right:20px;">转修</a>
     <a class="mini-button" onclick="onCancel" style="width:80px;">取消</a>
 </div>
 <script type="text/javascript">
@@ -87,7 +102,7 @@
     //标准方法接口定义
     function setData(taskIdParm,openWindow) {
         openWindow.setWidth(600);
-        openWindow.setHeight(600);
+        openWindow.setHeight(530);
         windowMiddle(openWindow);
         taskId = mini.clone(taskIdParm);
         initMouldInfo(taskId);
