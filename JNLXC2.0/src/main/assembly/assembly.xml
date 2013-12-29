@@ -21,12 +21,6 @@
             <outputDirectory>webapp</outputDirectory>
             <fileMode>0644</fileMode>
         </fileSet>
-
-        <fileSet>
-            <directory>lib</directory>
-            <outputDirectory>lib</outputDirectory>
-            <fileMode>0644</fileMode>
-        </fileSet>
     </fileSets>
     <dependencySets>
         <dependencySet>

@@ -18,7 +18,7 @@ public class SpringJettyMain {
 
     public static void main(String[] args) {
 
-        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring/springWeb-start.xml");
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring/springWeb-start.xml");
         WebAppContext webAppContext = applicationContext.getBean("webAppContext", WebAppContext.class);
         logger.info("start jetty web context context= " + webAppContext.getContextPath() + ";resource base=" + webAppContext.getResourceBase());
 
