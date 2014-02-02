@@ -1,6 +1,9 @@
-dhxctx
-#set($doTaskUrl=$link.setRelative('MouldAction/rczrrfp.do'))
+#set($doTaskUrl=$link.setRelative('MouldAction/dhxctx.do'))
 #set($getMouldFlowInfoURL=$link.setRelative('MouldAction/getMouldFlowInfo.do'))
+#set($adminsUrl=$link.setRelative('/AdminAction/findAll.json'))
+#set($maintenancersUrl=$link.setRelative('/AdminAction/getPowerAdminsByName.do?powerName=新模技术检修处理'))
+#set($user=$session.getAttribute("user"))
+
 
 <body>
     #parse("content/flow/mould/mouldInfo.vm")
@@ -10,13 +13,43 @@ dhxctx
         <form id="taskform" method="post">
             <table style="table-layout:fixed;">
                 <tr>
-                    <td style="width:100px;">指定修模工：</td>
+                    <td style="width:100px;">试模次数：</td>
                     <td style="width:150px;">
-                        <input name="zdxmg" id="zdxmg" class="mini-textbox" required="true" " />
+                        <input name="smcs" id="dhxc" class="mini-textbox" readonly />
                     </td>
-                    <td tyle="width:100px;">试模机型：</td>
+                    <td tyle="width:100px;">修模人：</td>
                     <td style="width:150px;">
-                        <input name="smjx" id="smjx" class="mini-textbox" required="true"/>
+                        <input name="maintenancer"  class="mini-combobox"  url="$maintenancersUrl" textField="name" valueField="account" readonly />
+                    </td>
+                </tr>
+                <tr>
+                    <td>合格日期</td>
+                    <td>
+                        <input id="hgrq" class="mini-datepicker" readonly/>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td >使用机台：</td>
+                    <td >
+                        <input name="syjt" id="syjt" class="mini-textbox" readonly/>
+                    </td>
+                    <td>累计产量</td>
+                    <td>
+                        <input name="ljcl" id="ljcl" class="mini-textbox" readonly/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>氮化/限产</td>
+                    <td>
+                        <input name="dhxc" id="dhxc" class="mini-textbox" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>氮化日期</td>
+                    <td colspan="3">
+                        <input id="dhrq" name="dhrq" class="mini-datepicker"  nullValue="null" width="335px"
+                               format="yyyy-MM-dd" showOkButton="true" showClearButton="false" readonly />
                     </td>
                 </tr>
             </table>
@@ -41,6 +74,7 @@ dhxctx
             type: 'post',
             success: function (extMould) {
                 taskform.setData(extMould);
+                mini.get("dhrq").setValue(new Date());
                 taskform.setChanged(false);
             }
         });
@@ -50,7 +84,7 @@ dhxctx
     //标准方法接口定义
     function setData(taskIdParm,openWindow) {
         openWindow.setWidth(600);
-        openWindow.setHeight(400);
+        openWindow.setHeight(500);
         windowMiddle(openWindow);
         taskId = mini.clone(taskIdParm);
         initMouldInfo(taskId);

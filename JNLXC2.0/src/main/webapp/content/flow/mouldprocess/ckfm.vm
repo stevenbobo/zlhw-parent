@@ -1,6 +1,9 @@
-ckfm
-#set($doTaskUrl=$link.setRelative('MouldAction/rczrrfp.do'))
+
+#set($doTaskUrl=$link.setRelative('MouldAction/ckfm.do'))
 #set($getMouldFlowInfoURL=$link.setRelative('MouldAction/getMouldFlowInfo.do'))
+#set($adminsUrl=$link.setRelative('/AdminAction/findAll.json'))
+#set($maintenancersUrl=$link.setRelative('/AdminAction/getPowerAdminsByName.do?powerName=新模技术检修处理'))
+#set($user=$session.getAttribute("user"))
 
 <body>
     #parse("content/flow/mould/mouldInfo.vm")
@@ -10,13 +13,53 @@ ckfm
         <form id="taskform" method="post">
             <table style="table-layout:fixed;">
                 <tr>
-                    <td style="width:100px;">指定修模工：</td>
+                    <td style="width:100px;">试模次数：</td>
                     <td style="width:150px;">
-                        <input name="zdxmg" id="zdxmg" class="mini-textbox" required="true" " />
+                        <input name="smcs" id="dhxc" class="mini-textbox" readonly />
                     </td>
-                    <td tyle="width:100px;">试模机型：</td>
+                    <td tyle="width:100px;">修模人：</td>
                     <td style="width:150px;">
-                        <input name="smjx" id="smjx" class="mini-textbox" required="true"/>
+                        <input name="maintenancer"  class="mini-combobox"  url="$maintenancersUrl" textField="name" valueField="account" readonly />
+                    </td>
+                </tr>
+                <tr>
+                    <td>合格日期</td>
+                    <td>
+                        <input id="hgrq" class="mini-datepicker" readonly/>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>累计产出</td>
+                    <td>
+                        <input name="smcs" id="ljcc" class="mini-textbox" readonly />
+                    </td>
+                    <td>氮化/限产</td>
+                    <td>
+                        <input name="dhxc" id="dhxc" class="mini-textbox" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>发模人</td>
+                    <td>
+                        <input id="fmr" name="fmr" property="editor" class="mini-combobox" url="$adminsUrl"
+                               textField="name" valueField="dbId"  readonly="true"/>
+                    </td>
+                    <td>发模日期</td>
+                    <td colspan="3">
+                        <input id="fmrq" name="fmrq" class="mini-datepicker"  nullValue="null" width="335px"
+                               format="yyyy-MM-dd H:mm:ss" timeFormat="H:mm:ss" showTime="true" showOkButton="true" showClearButton="false"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>发模理由</td>
+                    <td colspan="3">
+                        <input name="fmly" id="fmly" class="mini-textbox" />
+                    </td>
+                    <td>领模人</td>
+                    <td colspan="3">
+                        <input id="lmr" name="lmr" property="editor" class="mini-combobox" url="$adminsUrl"
+                               textField="name" valueField="dbId" />
                     </td>
                 </tr>
             </table>
@@ -41,6 +84,8 @@ ckfm
             type: 'post',
             success: function (extMould) {
                 taskform.setData(extMould);
+                mini.get("fmr").setValue(new Date());
+                mini.get("fmrq").setValue($user.getDbId());
                 taskform.setChanged(false);
             }
         });

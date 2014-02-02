@@ -1,5 +1,5 @@
-pmqr
-#set($doTaskUrl=$link.setRelative('MouldAction/rczrrfp.do'))
+
+#set($doTaskUrl=$link.setRelative('MouldAction/pmqr.do'))
 #set($getMouldFlowInfoURL=$link.setRelative('MouldAction/getMouldFlowInfo.do'))
 
 <body>
@@ -8,18 +8,6 @@ pmqr
     <legend><span>任务内容</span></legend>
     <div class="fieldset-body">
         <form id="taskform" method="post">
-            <table style="table-layout:fixed;">
-                <tr>
-                    <td style="width:100px;">指定修模工：</td>
-                    <td style="width:150px;">
-                        <input name="zdxmg" id="zdxmg" class="mini-textbox" required="true" " />
-                    </td>
-                    <td tyle="width:100px;">试模机型：</td>
-                    <td style="width:150px;">
-                        <input name="smjx" id="smjx" class="mini-textbox" required="true"/>
-                    </td>
-                </tr>
-            </table>
         </form>
     </div>
 </fieldset>

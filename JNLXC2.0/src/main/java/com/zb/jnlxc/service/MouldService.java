@@ -291,8 +291,19 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
 	 * @return
 	 */
 	public ProcessInstance startmouldFlowByKey(String id){
+        logger.info("开启模具流程.id={}:",id);
 		return flowService.startProcessInstanceByKey("mouldFlow",id);
 	}
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    public ProcessInstance startmouldProcessFlowByKey(String id){
+        logger.info("开启排产流程.id={}:",id);
+        return flowService.startProcessInstanceByKey("mouldProcess",id);
+    }
 	/**
 	 * 开启模具订单流程
 	 * @param id 模具订单号
@@ -302,6 +313,11 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
 		logger.info("开启模具流程.id={}:",id);
 		return flowService.startProcessInstanceByKey("mouldFlow",id,map);
 	}
+
+    public ProcessInstance startmouldProcessFlowByKey(String id,Map map){
+        logger.info("开启排产流程.id={}:",id);
+        return flowService.startProcessInstanceByKey("mouldFlow",id,map);
+    }
 
 	/**
 	 * 找到当前的流程实例

@@ -1,5 +1,5 @@
-scmjhk
-#set($doTaskUrl=$link.setRelative('MouldAction/rczrrfp.do'))
+
+#set($doTaskUrl=$link.setRelative('MouldAction/scmjhk.do'))
 #set($getMouldFlowInfoURL=$link.setRelative('MouldAction/getMouldFlowInfo.do'))
 
 <body>
@@ -10,13 +10,92 @@ scmjhk
         <form id="taskform" method="post">
             <table style="table-layout:fixed;">
                 <tr>
-                    <td style="width:100px;">指定修模工：</td>
+                    <td style="width:100px;">试模次数：</td>
                     <td style="width:150px;">
-                        <input name="zdxmg" id="zdxmg" class="mini-textbox" required="true" " />
+                        <input name="smcs" id="dhxc" class="mini-textbox" readonly />
                     </td>
-                    <td tyle="width:100px;">试模机型：</td>
+                    <td tyle="width:100px;">修模人：</td>
                     <td style="width:150px;">
-                        <input name="smjx" id="smjx" class="mini-textbox" required="true"/>
+                        <input name="maintenancer"  class="mini-combobox"  url="$maintenancersUrl" textField="name" valueField="account" readonly />
+                    </td>
+                </tr>
+                <tr>
+                    <td>合格日期</td>
+                    <td>
+                        <input id="hgrq" class="mini-datepicker" readonly/>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>累计产出</td>
+                    <td>
+                        <input name="smcs" id="ljcc" class="mini-textbox" readonly />
+                    </td>
+                    <td>氮化/限产</td>
+                    <td>
+                        <input name="dhxc" id="dhxc" class="mini-textbox" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>发模人</td>
+                    <td>
+                        <input id="fmr" name="fmr" property="editor" class="mini-combobox" url="$adminsUrl"
+                               textField="name" valueField="dbId"  readonly="true"/>
+                    </td>
+                    <td>发模日期</td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <input id="fmrq" name="fmrq" class="mini-datepicker"  nullValue="null" width="335px"
+                               format="yyyy-MM-dd H:mm:ss" timeFormat="H:mm:ss" showTime="true" showOkButton="true" showClearButton="false"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>发模理由</td>
+                    <td >
+                        <input name="fmly" id="fmly" class="mini-textbox" />
+                    </td>
+                    <td>领模人</td>
+                    <td >
+                        <input id="lmr" name="lmr" property="editor" class="mini-combobox" url="$adminsUrl"
+                               textField="name" valueField="dbId" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>使用机台</td>
+                    <td >
+                        <input name="syjt" id="syjt" class="mini-textbox" readonly />
+                    </td>
+                    <td>上机时间</td>
+                    <td >
+                        <input name="sjsj" id="sjsj" class="mini-textbox" readonly />
+                    </td>
+                </tr>
+                <tr>
+                    <td>出料情况</td>
+                    <td >
+                        <input name="clqk" id="clqk" class="mini-textbox" readonly />
+                    </td>
+                    <td>卸模原因</td>
+                    <td >
+                        <input name="xmyy" id="xmyy" class="mini-textbox" readonly />
+                    </td>
+                </tr>
+                <tr>
+                    <td>还库理由</td>
+                    <td >
+                        <input name="hkly" id="hkly" class="mini-textbox" readonly />
+                    </td>
+                    <td>还库人</td>
+                    <td >
+                        <input name="hkr" id="hkr" class="mini-textbox" readonly />
+                    </td>
+                </tr>
+                <tr>
+                    <td>还库时间</td>
+                    <td >
+                        <input name="hksj" id="hksj" class="mini-textbox" readonly />
                     </td>
                 </tr>
             </table>
@@ -50,7 +129,7 @@ scmjhk
     //标准方法接口定义
     function setData(taskIdParm,openWindow) {
         openWindow.setWidth(600);
-        openWindow.setHeight(400);
+        openWindow.setHeight(700);
         windowMiddle(openWindow);
         taskId = mini.clone(taskIdParm);
         initMouldInfo(taskId);

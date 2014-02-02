@@ -400,4 +400,10 @@ public class MouldAction {
         mouldService.scmjhk(taskId,user,form,nextStep);
     }
 
+    @ResponseBody
+    @RequestMapping("/startMouldProcessFlow")
+    public void startMouldProcessFlow( String processId){
+        mouldService.startmouldProcessFlowByKey(processId);
+    }
+
 }
