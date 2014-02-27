@@ -11,7 +11,9 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import com.zb.jnlxc.dao.*;
 import com.zb.jnlxc.form.OrderDetailForm;
+import com.zb.jnlxc.model.*;
 import com.zb.util.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,21 +27,6 @@ import com.ZLHW.base.Exception.BaseErrorModel;
 import com.ZLHW.base.Form.Page;
 import com.ZLHW.base.dao.QueryCondition;
 import com.ZLHW.base.service.BaseService;
-import com.zb.jnlxc.dao.AdminDAO;
-import com.zb.jnlxc.dao.ClientDAO;
-import com.zb.jnlxc.dao.MouldDAO;
-import com.zb.jnlxc.dao.OrderDetailDAO;
-import com.zb.jnlxc.dao.OrderFormDAO;
-import com.zb.jnlxc.dao.OrderForm_AuthorDAO;
-import com.zb.jnlxc.dao.ProductRecordDAO;
-import com.zb.jnlxc.dao.ProductRecordDetailDAO;
-import com.zb.jnlxc.model.Admin;
-import com.zb.jnlxc.model.Client;
-import com.zb.jnlxc.model.OrderDetail;
-import com.zb.jnlxc.model.OrderForm;
-import com.zb.jnlxc.model.OrderForm_Author;
-import com.zb.jnlxc.model.ProductRecord;
-import com.zb.jnlxc.model.ProductRecordDetail;
 
 @Service
 @Transactional
@@ -59,14 +46,16 @@ public class BusinessService extends BaseService<OrderFormDAO,OrderForm, Integer
 	private ProductRecordDAO productRecordDAO;
 	@Resource
 	private ProductRecordDetailDAO productRecordDetailDAO;
-	@Resource
-	private MouldDAO mouldDAO;
+    @Resource
+    private PaiChanRecordDAO paiChanRecordDAO;
 	@Resource
 	private FlowService flowService;
     @Resource
     private DataDictService dataDictService;
     @Resource
     private CityService cityService;
+    @Resource
+    private ProductTeamDAO productTeamDAO;
 
 	private List<Admin> combinClient(List<Admin> agentList,List<Client> clientList){
 		List<Admin> emptyAgentList = new ArrayList<Admin>();
@@ -139,6 +128,13 @@ public class BusinessService extends BaseService<OrderFormDAO,OrderForm, Integer
             Byte compStatus = Byte.parseByte(page.getParameter("compStatus"));
             hql.append("and t.compStatus=:compStatus ");
             queryConditions.add(new QueryCondition("compStatus", compStatus));
+        }
+        if(StringUtils.isNotBlank(page.getParameter("paiChanRecordId"))){
+            Integer paiChanRecordId = Integer.parseInt(page.getParameter("paiChanRecordId"));
+            PaiChanRecord paiChanRecord = paiChanRecordDAO.getById(paiChanRecordId);
+            String orderList = paiChanRecord.getOrderIds();
+            if(StringUtils.isNotBlank(orderList))
+                hql.append("and t.dbId in (").append(orderList).append(") ");
         }
         if(StringUtils.isNotEmpty(page.getParameter("orderType"))){
             int orderType = Integer.parseInt(page.getParameter("orderType"));
@@ -611,4 +607,46 @@ public class BusinessService extends BaseService<OrderFormDAO,OrderForm, Integer
         orderForm.setCurrentState((byte)1);
         this.update(orderForm);
     }
+
+    private String generateOrderCodes(String str){
+        String orderCodes = "";
+        String[] orderIds = str.split(",");
+        for(int a =0;a<orderIds.length;a++){
+            OrderForm orderForm = getById(Integer.parseInt(orderIds[a]));
+            orderCodes += orderForm.getCode();
+            if(a!= orderIds.length-1)
+                orderCodes+=",";
+        }
+        return orderCodes;
+    }
+
+    public void editPaiChan(String orderIds, String productTeamId,String type,String paiChanRecordId) {
+        PaiChanRecord paichanRecord = paiChanRecordDAO.loadById(Integer.parseInt(paiChanRecordId));
+        if(StringUtils.isEmpty(orderIds)||StringUtils.isEmpty(productTeamId)||StringUtils.isEmpty(type)){
+            throw new BaseErrorModel("参数异常","");
+        }
+        paichanRecord.setOrderIds(orderIds);
+        paichanRecord.setOrderCodes(generateOrderCodes(orderIds));
+        paichanRecord.setType(type);
+        ProductTeam productTeam = productTeamDAO.loadById(Integer.parseInt(productTeamId));
+        paichanRecord.setProductTeam(productTeam);
+        paiChanRecordDAO.paiChanUpdate(paichanRecord);
+    }
+
+    public void addpaiChan(String orderIds, String productTeamId,String type) {
+        PaiChanRecord paichanRecord = new PaiChanRecord();
+        paichanRecord.setEnable((byte)1);
+        if(StringUtils.isEmpty(orderIds)||StringUtils.isEmpty(productTeamId)||StringUtils.isEmpty(type)){
+            throw new BaseErrorModel("参数异常","");
+        }
+        paichanRecord.setOrderIds(orderIds);
+        paichanRecord.setOrderCodes(generateOrderCodes(orderIds));
+        paichanRecord.setType(type);
+        ProductTeam productTeam = productTeamDAO.loadById(Integer.parseInt(productTeamId));
+        paichanRecord.setProductTeam(productTeam);
+        paichanRecord.setCreateTime(new Date());
+        paiChanRecordDAO.create(paichanRecord);
+
+    }
+
 }

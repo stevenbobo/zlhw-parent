@@ -97,6 +97,8 @@
             return "跟踪单流程_" + arr[1];
         } else if (arr[0] == "mouldFlow") {
             return "模具流程_" + arr[1];
+        }else if (arr[0] == "mouldProcess") {
+            return "模具生产流程_" + arr[1];
         } else if (arr[0] == "paidan"){
             return "排单流程_" + arr[1];
         } else {

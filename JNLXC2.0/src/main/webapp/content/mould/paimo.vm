@@ -1,0 +1,154 @@
+#set($loadPaiMoRecord=$link.setRelative('/MouldAction/loadPaiChanRecord.json'))
+#set($mouldSelectedUrl=$link.setRelative('/content/mould/select.vm'))
+#set($paiMoUrl=$link.setRelative('/MouldAction/paiMo.json'))
+#set($orderSelectedUrl=$link.setRelative('/content/order/orderSelected.vm'))
+
+<style type="text/css">
+    body{
+        margin:0;padding:0;border:0;width:100%;height:100%;overflow:hidden;
+    }
+</style>
+<body>
+<div class="mini-toolbar" style="padding:2px;border:0;">
+    <table style="width:100%;">
+        <tr>
+            <td style="width:100%;">
+                <a class="mini-button" iconCls="icon-add" plain="true" onclick="addPaichan()">新增排产</a>
+                <span class="separator"></span>
+                <input id="code" class="mini-textbox" />
+                <a class="mini-button" iconCls="icon-search" plain="true" onclick="search()">查询</a>
+            </td>
+        </tr>
+    </table>
+</div>
+<!--撑满页面-->
+<div class="mini-fit" >
+
+    <div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%;"
+         url="$loadPaiMoRecord"  idField="id"
+         sizeList="[5,10,20,50]" pageSize="10"
+            >
+        <div property="columns">
+            <div type="checkcolumn" ></div>
+            <div width="40" field="dbId"  align="center" headerAlign="center" allowSort="true">ID</div>
+            <div width="40" field="productTeam.name" align="center" headerAlign="center">机台</div>
+            <div  align="center" headerAlign="center" renderer="orderListActionRenderer">订单编号</div>
+            <div  align="center" headerAlign="center" renderer="mouldListActionRenderer">分配模具</div>
+            <div width="40" name="action"  headerAlign="center" align="center" renderer="onActionRenderer" cellStyle="padding:0;">#</div>
+
+        </div>
+    </div>
+</div>
+</body>
+
+<script type="text/javascript">
+    mini.parse();
+    var grid = mini.get("datagrid1");
+    grid.load();
+
+    function search() {
+        var code = mini.get("code");
+        var parm = {
+            code:code.getValue()
+        };
+        grid.load(parm);
+    }
+
+    function isEmpty(s){
+        return ((s == undefined || s == null || s == "") ? true : false);
+    }
+
+    function mouldListActionRenderer(e){
+        var record = e.record;
+        var mouldCodes =isEmpty(record.mouldCodes)?"分配模具":record.mouldCodes;
+        if(record.enable==0){
+              return mouldCodes;
+        }else{
+            return '<a class="New_Button" href="javascript:onMouldSlecte(\'' + record.dbId + '\')">'+mouldCodes+'</a>';
+        }
+    }
+
+    function orderListActionRenderer(e){
+        var record = e.record;
+        var orderCodes =isEmpty(record.orderCodes)?"订单排产":record.orderCodes;
+        if(record.enable==0){
+            return orderCodes;
+        }else{
+            return '<a class="New_Button" href="javascript:editPaichan()">'+orderCodes+'</a>';
+        }
+    }
+
+    function onActionRenderer(e) {
+        var record = e.record;
+        if(record.enable==0||isEmpty(record.mouldCodes)){
+            return '';
+        }else{
+            return '<a class="New_Button" href="javascript:confirmPaimo(\'' + record.dbId + '\')">启动排模</a>';
+        }
+    }
+
+    function confirmPaimo(recordId){
+        $.ajax({
+            url: "$paiMoUrl",
+            data: {
+                recordId:recordId
+            },
+            success: function (text) {
+                mini.alert('操作成功');
+                grid.load();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                mini.alert(jqXHR.responseText);
+            }
+        });
+    }
+
+    function onMouldSlecte(recordId){
+        mini.open({
+            url: "$mouldSelectedUrl",
+            title: "选择列表",
+            width: 800,
+            height: 430,
+            onload: function () {
+                var iframe = this.getIFrameEl();
+                iframe.contentWindow.setData(recordId);
+            },
+            ondestroy: function (action) {
+                grid.load();
+            }
+        });
+    }
+
+    function editPaichan(){
+        var paichanRecord = grid.getSelected();
+        mini.open({
+            url: "$orderSelectedUrl",
+            title: "选择订单排产",
+            width: 1000,
+            height: 600,
+            onload: function () {
+                var iframe = this.getIFrameEl();
+                iframe.contentWindow.setData(paichanRecord);
+            },
+            ondestroy: function (action) {
+                grid.load();
+            }
+        });
+    }
+
+    function addPaichan(){
+        mini.open({
+            url: "$orderSelectedUrl",
+            title: "选择订单排产",
+            width: 1000,
+            height: 600,
+            onload: function () {
+                var iframe = this.getIFrameEl();
+                iframe.contentWindow.setData();
+            },
+            ondestroy: function (action) {
+                grid.load();
+            }
+        });
+    }
+</script>

@@ -7,7 +7,6 @@
 #set($findTeamUrl=$link.setRelative('/CommonAction/findAllTeam.json'))
 #set($paiChanUrl=$link.setRelative('/BussinessAction/paiChan.json'))
 #set($stopOrderFlow=$link.setRelative('/BussinessAction/stopOrderFlow.json'))
-#set($restartOrderFlow=$link.setRelative('/BussinessAction/restartOrderFlow.json'))
 #set($flowImgVm=$link.setRelative('/content/flow/flowImg.vm'))
 #set($clientSelectedUrl=$link.setRelative('/content/dict/clientSelecte.vm'))
 #set($findTeamUrl=$link.setRelative('/CommonAction/findAllTeamDetail.json'))
@@ -32,7 +31,7 @@
                textField="1" valueField="0"  required="true" ondrawcell="onDrawCell" />
         </br>
         #if($beanFactory.LookUp("adminService").havePower($user,"开启跟踪单"))
-            <a class="mini-button" iconCls="icon-goto" plain="true" onclick="openOrderFlow()">开启生产流程</a>
+            <a class="mini-button" iconCls="icon-goto" plain="true" onclick="openOrderFlow()">确定</a>
         #end
     </div>
     <div class="mini-fit">
@@ -49,17 +48,10 @@
             <table style="width:100%;">
                 <tr>
                     <td style="width:100%;">
-                        #if($beanFactory.LookUp("adminService").havePower($user,"订单添加"))
-                            <a class="mini-button" iconCls="icon-add" plain="true" onclick="addRow()">新增</a>
-                        #end
                         #if($beanFactory.LookUp("adminService").havePower($user,"订单查看"))
                             <a class="mini-button" iconCls="icon-edit" plain="true" onclick="viewRow()">查看</a>
                         #end
-                        #if($beanFactory.LookUp("adminService").havePower($user,"订单删除"))
-                            <a class="mini-button" iconCls="icon-remove" plain="true" onclick="removeRow()">删除</a>
-                        #end
                         <span class="separator"></span>
-                        <a class="mini-button" iconCls="icon-goto" plain="true" onclick="lookForFlow()">查看订单流程</a>
                         <div id="pager1" class="mini-pager" style="float: right"
                              sizeList="[10,20,50]">
                         </div>
@@ -74,21 +66,15 @@
                         <span class="separator"></span>
                         截止日期:<input id="endDate" class="mini-datepicker" />
                         <span class="separator"></span>
-                        排序方式:<input id="orderType"   allowInput="flase" showNullItem="true" nullItemText="选择排序方式..." class="mini-combobox"   data="[{id:0,text:'下单时间'}, {id:1, text: '交货期剩余天数'},{id:2,text:'订单重量'}, {id:3, text: '订单数量'}]"/>
                         所属客户:<input id="clientSelector"  required="true" class="mini-buttonedit" onbuttonclick="onClientSlecte" />
                     </td>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        选择城市:
-                        <input id="citySelecter" nullItemText="选择城市..."  class="mini-treeselect" url="$findCityUrl" multiSelect="false"  valueFromSelect="false"
-                               textField="name" valueField="dbId" parentField="father_dbId"   allowInput="true" />
-                        <span class="separator"></span>
                         订单状态:<input id="compStatus"  allowInput="flase" showNullItem="true" nullItemText="选择订单状态..." class="mini-combobox"  data="[{id:0,text:'未完成'}, {id:1, text: '已完成'}]"/>
                         <span class="separator"></span>
                         订单编号:<input id="code" class="mini-textbox" emptyText="订单编号" onenter="search" />
-
                         <a class="mini-button" plain="true" iconCls="icon-search" onclick="search()">查询</a>
                     </td>
                 </tr>
@@ -109,32 +95,10 @@
                 </div>
                 <div field="scheme.name"  headerAlign="center" >图纸
                 </div>
-                <div field="material.name" width="60" headerAlign="center"  >材质
+                <div field="registerDate"   dateFormat="yyyy-MM-dd">订货日期
                 </div>
-                <div field="hardness" width="60" headerAlign="center" >硬度
+                <div field="compStatus"  headerAlign="center" renderer="onGenderRenderer" >是否完成
                 </div>
-                <div field="surfaceProcess.name" width="60" headerAlign="center" >表面处理
-                </div>
-                <div field="pack.name" width="60" headerAlign="center" >包装方式
-                </div>
-                <div field="registerDate" width="100"  dateFormat="yyyy-MM-dd">订货日期
-                </div>
-                <div field="preSendDate" width="100"  dateFormat="yyyy-MM-dd">预计发货日期
-                </div>
-                <!--
-                <div field="kpm"  headerAlign="center" >米重
-                </div>
-                <div field="compWeight"  headerAlign="center" >已完成重量
-                </div>
-                <div field="totalWeight"  headerAlign="center" >总重量
-                </div>
-                -->
-                <div field="compStatus" width="60" headerAlign="center" renderer="onGenderRenderer" >是否完成
-                </div>
-
-                #if($beanFactory.LookUp("adminService").havePower($user,"暂停订单流程"))
-                    <div name="action" width="120" headerAlign="center" align="center" renderer="onActionRenderer" cellStyle="padding:0;">#</div>
-                #end
             </div>
         </div>
         <div id="detailGrid" class="mini-datagrid" style="width:100%;height:30%;"
@@ -163,23 +127,10 @@ var orderGrid = mini.get("orderGrid");
 var detailGrid = mini.get("detailGrid");
 var startFlowWindow = mini.get("startFlowWindow");
 var ordertree = mini.get("ordertree");
+var productTeamId = mini.get("productTeamId");
 
-orderGrid.load();
-detailGrid.load();
 function onDrawCell(e) {
     e.cellHtml = '<span style="color:red;">'+e.record[1]+'  '+e.record[2]+'</span>';
-}
-function onActionRenderer(e) {
-    var grid = e.sender;
-    var record = e.record;
-    var uid = record._uid;
-    var rowIndex = e.rowIndex;
-    var s='';
-    if(record.currentState==2)
-        s='<a href="javascript:restartOrderFlow('+record.dbId+')">开启订单流程</a>';
-    else
-        s='<a href="javascript:stopFlow('+record.dbId+')">暂停订单流程</a>';
-    return s;
 }
 
 function onClientSlecte(e){
@@ -204,20 +155,6 @@ function onClientSlecte(e){
     });
 }
 
-function lookForFlow(){
-    var order = orderGrid.getSelected();
-
-    var excutionId = "orderFlow."+order.code;
-    mini.open({
-        url: "$flowImgVm",
-        title: "模具流程进度", width: 650, height: 550,
-        onload: function () {
-            var iframe = this.getIFrameEl();
-            iframe.contentWindow.setData(excutionId);
-        }
-    });
-}
-
 function isEmpty(s)
 {
     return ((s == undefined || s == null || s == "") ? true : false);
@@ -231,21 +168,29 @@ function openOrderFlow(){
     }
     var combineOrders ='';
     for(var a=0;a<orderData.length;a++){
-        combineOrders +=orderData[a].dbId+",";
+        combineOrders +=orderData[a].dbId;
+        if(a!=orderData.length-1)
+            combineOrders +=","
     }
     if(isEmpty(combineOrders)){
         mini.alert("请选择需要合并的订单");
         return;
+    }
+    var paiChanRecordId;
+    if(paichanRecordCopy){
+        paiChanRecordId = paichanRecordCopy.dbId;
     }
     $.ajax({
         url: "$paiChanUrl",
         data: {
             code:combineOrders,
             productTeamId:productTeamId,
-            type:'combine'
+            type:'combine',
+            paiChanRecordId:paiChanRecordId
         },
         success: function (text) {
             mini.alert('操作成功');
+            CloseWindow("ok");
         },
         error: function (jqXHR, textStatus, errorThrown) {
             mini.alert(jqXHR.responseText);
@@ -257,34 +202,11 @@ function onCancel() {
     startFlowWindow.hide();
 }
 
-
-function onNameFilterChanged(e) {
-    var textbox = e.sender;
-    var key = textbox.getValue();
-
-    var node = tree.getSelectedNode();
-    if (node) {
-        grid.load({ dept_id: node.id, key: key });
-    }
-}
 function onGenderRenderer(e) {
     return e.value==0?"未完成":"已完成";
 }
 function onGenderRenderer2(e) {
     return e.value==0?"开票":"不开票";
-}
-function addRow() {
-    mini.open({
-        url: "$editVm",
-        title: "新增订单", width: 530, height: 590,
-        onload: function () {
-            var iframe = this.getIFrameEl();
-            iframe.contentWindow.setData("add",{});
-        },
-        ondestroy: function (action) {
-            orderGrid.load();
-        }
-    });
 }
 function viewRow() {
     var order = orderGrid.getSelected();
@@ -299,23 +221,6 @@ function viewRow() {
         });
 
 }
-function removeRow() {
-    var order = orderGrid.getSelected();
-    if (confirm("确定删除选中订单?")) {
-        $.ajax({
-            url: "$deleteOrderURL",
-            data: { orderId:order.dbId },
-            success: function (text) {
-                orderGrid.reload();
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                mini.alert(jqXHR.responseText);
-            }
-        });
-
-    }
-}
-
 
 function onOrderChanged(e){
     var grid = e.sender;
@@ -324,32 +229,32 @@ function onOrderChanged(e){
         detailGrid.load({orderId:order.dbId});
     }
 }
-
+var paichanRecordCopy;
+function setData(paichanRecord) {
+    if(paichanRecord){
+        paichanRecordCopy = mini.clone(paichanRecord);
+        productTeamId.setValue(paichanRecord.productTeamId);
+        orderGrid.load({paiChanRecordId:paichanRecord.dbId});
+    }else{
+        orderGrid.load();
+    }
+    detailGrid.load();
+}
 
 function search() {
     var startDate = mini.get("startDate");
     var endDate = mini.get("endDate");
     var code = mini.get("code");
-    var citySelecter = mini.get("citySelecter");
     var compStatus = mini.get("compStatus");
-    var orderType = mini.get("orderType");
     var clientSelector = mini.get("clientSelector");
     var parm = {
         startDate:startDate.getText(),
         endDate:endDate.getText(),
         code:code.getValue(),
-        cityId:citySelecter.getValue(),
         compStatus:compStatus.getValue(),
-        orderType:orderType.getValue(),
         clientId:clientSelector.getValue()
     };
     orderGrid.load(parm);
-}
-
-function onCloseClick(e) {
-    var obj = e.sender;
-    obj.setText("");
-    obj.setValue("");
 }
 
 function onRowDblClick(e) {
@@ -362,35 +267,7 @@ function onRowDblClick(e) {
     ordertree.addNode(order, "after");
 }
 
-function stopFlow(orderId){
-    if (confirm("确定暂停订单流程?")) {
-        $.ajax({
-            url: "$stopOrderFlow",
-            data: { orderId:orderId },
-            success: function (text) {
-                orderGrid.load();
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                mini.alert(jqXHR.responseText);
-            }
-        });
-    }
-}
 
-function restartOrderFlow(orderId){
-    if (confirm("确定开启订单流程?")) {
-        $.ajax({
-            url: "$restartOrderFlow",
-            data: { orderId:orderId },
-            success: function (text) {
-                orderGrid.load();
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                mini.alert(jqXHR.responseText);
-            }
-        });
-    }
-}
 
 /**
  * 离制定的时间较近（交货期不到两天和模具交期不到一天）的流程自动置顶（次优先）并显黄色字体，超过制定时间的流程自动置顶（最优先）并显红色字体。
@@ -417,6 +294,13 @@ function onRemoveNode(e) {
     if (node) {
         ordertree.removeNode(node);
     }
+}
+
+
+function CloseWindow(action) {
+    if (window.CloseOwnerWindow)
+        return window.CloseOwnerWindow(action);
+    else window.close();
 }
 </script>
 

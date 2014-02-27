@@ -19,3 +19,7 @@ function CloseWindow(action) {
         return window.CloseOwnerWindow(action);
     else window.close();
 }
+
+function isEmpty(s){
+    return ((s == undefined || s == null || s == "") ? true : false);
+}

@@ -1,6 +1,5 @@
 ﻿#set($menuUrl=$link.setRelative('./AdminAction/getViewTablesByAdmin.json'))
 #set($changePasswordVM=$link.setRelative('/content/user/changePassword.vm'))
-
 <style type="text/css">
     html, html body
     {
@@ -35,10 +34,7 @@
         color:Blue;
     }
     </style>
-<body>
-
 <!--<div id="layout1" class="mini-layout" style="width:100%;height:100%;"> </div> -->
-
     <div class="header"  height="30" showSplit="false" showHeader="false">
         <h1 style="margin:0;padding:0px;cursor:default;font-family:'Trebuchet MS',Arial,sans-serif;">江南铝型材管理软件</h1>
         <div class="topNav">
@@ -55,14 +51,11 @@
         </ul>
         <div class="mini-fit" style="padding-top:5px;">
             <!--Tabs-->
-            <div id="mainTabs" class="mini-tabs" activeIndex="0" style="width:100%;height:100%;padding:0;margin:0;border:0;">
+            <div id="mainTabs" class="mini-tabs" activeIndex="0" style="width:100%;height:97%;padding:0;margin:0;border:0;">
                 <div title="首页" url="" >
                 </div>
             </div>
         </div>
-
-</body>
-</html>
 <script type="text/javascript">
     mini.parse();
     var tree = mini.get("tree1");

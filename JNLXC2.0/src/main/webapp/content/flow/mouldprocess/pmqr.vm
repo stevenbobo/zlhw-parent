@@ -12,7 +12,9 @@
     </div>
 </fieldset>
 <div style="text-align:center;padding:10px;">
-    <a class="mini-button" onclick="doTaskYes('确定')" style="width:80px;margin-right:20px;">确定</a>
+    <a class="mini-button" onclick="doTaskYes('挤压班组收模')" style="width:80px;margin-right:20px;">收模</a>
+    <a class="mini-button" onclick="doTaskYes('氮化')" style="width:80px;margin-right:20px;">氮化</a>
+    <a class="mini-button" onclick="doTaskYes('转修处理')" style="width:80px;margin-right:20px;">转修</a>
     <a class="mini-button" onclick="onCancel" style="width:80px;">取消</a>
 </div>
 <script type="text/javascript">

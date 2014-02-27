@@ -10,12 +10,12 @@
    </task>
     <task form="/content/flow/newmould/jybzsm.vm" g="221,69,92,52" name="挤压班组收模">
         <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler"/>
-        <transition to="挤压模具加温确认"/>
+        <transition g="-34,-12" name="确定" to="挤压模具加温确认"/>
         <transition g="428,113:-47,-17" name="还库" to="抛排收模处理"/>
     </task>
     <task form="/content/flow/newmould/jymjjwqr.vm" g="203,142,140,52" name="挤压模具加温确认">
        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler"/>
-      <transition to="挤压生产(试模)使用"/>
+      <transition g="-35,-8" name="确定" to="挤压生产(试模)使用"/>
       <transition g="413,167:-47,-17" name="还库" to="抛排收模处理"/>
    </task>
    <task form="/content/flow/newmould/jyscsy.vm" g="194,213,159,52" name="挤压生产(试模)使用">
@@ -27,7 +27,7 @@
        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler"/>
       <transition g="-40,-3" name="确定" to="抛排收模处理"/>
    </task>
-   <task form="/content/flow/newmould/pmpmcl.vm" g="339,381,179,87" name="抛排收模处理">
+   <task form="/content/flow/newmould/ppsmcl.vm" g="339,381,179,87" name="抛排收模处理">
        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler"/>
       <transition g="-7,-25" name="转修" to="(试模)异常模转修处理"/>
       <transition g="-43,1" name="入库" to="生产模具回库"/>
@@ -63,6 +63,7 @@
       <transition g="707,353:-8,11" name="驳回" to="(试模)异常模转修处理"/>
    </task>
    <task form="/content/flow/newmould/fxtmccqr.vm" g="647,486,124,52" name="返修退模出厂确认">
+      <transition name="确定" to="end1" g="-5,-22"/>
        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler"/>
    </task>
    <task form="/content/flow/mouldprocess/scmjhk.vm" g="224,488,92,52" name="生产模具回库">
@@ -75,5 +76,5 @@
       <transition g="8,-2" name="转修处理" to="(试模)异常模转修处理"/>
       <transition g="-21,-9" name="氮化" to="氮化开炉确认"/>
    </task>
-    <end g="119,490,48,48" name="end1"/>
+    <end g="442,489,48,48" name="end1"/>
 </process>

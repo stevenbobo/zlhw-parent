@@ -18,22 +18,6 @@
 
     <div title="生产记录信息" class="mini-fit"  >
         #parse("content/flow/product/productInfo.vm")
-        <fieldset id="fd1">
-            <legend><span>  选择机台</span></legend>
-            <div class="fieldset-body">
-                <form id="taskform" method="post">
-                    <table style="table-layout:fixed;">
-                        <tr>
-                            <td style="width:90px;">选择机台：</td>
-                            <td style="width:150px;">
-                                <input name="productTeamId" property="editor" class="mini-combobox"   url="$findTeamUrl"
-                                       textField="1" valueField="0"  required="true" ondrawcell="onDrawCell" />
-                            </td>
-                        </tr>
-                    </table>
-                </form>
-            </div>
-        </fieldset>
     </div>
     #parse("content/flow/product/orderInfo_least.vm")
 
@@ -51,7 +35,7 @@
     //标准方法接口定义
     function setData(taskIdParm, openWindow) {
         openWindow.setWidth(1000);
-        openWindow.setHeight(550);
+        openWindow.setHeight(410);
         windowMiddle(openWindow);
         taskId = mini.clone(taskIdParm);
         initOrderInfo(taskId);
@@ -60,10 +44,7 @@
 
     function doTaskYes(){
         var remarks = mini.get("remarks").getValue();
-        var taskform = new mini.Form("taskform");
-        taskform.validate();
-        if (taskform.isValid() == false) return;
-        var parm =$.extend({},taskform.getData(),{taskId:taskId,remarks:remarks});
+        var parm ={taskId:taskId,remarks:remarks};
         $.ajax({
             url: "$doTaskUrl",
             data:parm,

@@ -179,7 +179,7 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
 
 
 	
-	public void startProductRecordFlow(Integer orderFormId) throws BaseErrorModel{
+	public void startProductRecordFlow(Integer orderFormId,Integer productTeamId) throws BaseErrorModel{
 		OrderForm orderForm=orderFormDAO.getById(orderFormId);
         checkOrderState(orderForm);
 		if(orderForm.getCompStatus()==(byte)1){
@@ -188,6 +188,7 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
 		String code=orderForm.getCode()+String.format("%02d", orderForm.getNextRecordNum());
 		// 开启生产记录流程
 		Map map=new HashMap();
+        map.put("productTeamId", productTeamId);
 		map.put("orderFormId", orderForm.getDbId());
 		map.put("productNum", orderForm.getNextRecordNum());
 		map.put("productCode", code);
@@ -295,12 +296,10 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
 
 
 	//车间分配机台
-	public void workshopTask(String taskId,Integer productTeamId,String wcomment,Admin user) throws BaseErrorModel{
+	public void workshopTask(String taskId,String wcomment,Admin user) throws BaseErrorModel{
         checkOrderState(taskId);
         updateOrderMcomment(taskId,wcomment);
-        Map map = new HashMap();
-		map.put("productTeamId", productTeamId);
-		flowService.completeTask(taskId,map,user);
+		flowService.completeTask(taskId,user);
 	}
 	//完成时效任务
 	public void shiXiao(String taskId,List<ProductTrace> traces,String aginghardness,String alHeatNum,String wcomment,Admin user) throws BaseErrorModel{
@@ -361,6 +360,7 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
 	public void pack(String taskId,List<ProductTrace> traces, String wcomment,Admin user) throws BaseErrorModel{
         checkOrderState(taskId);
         Integer productRecordId=(Integer)flowService.getContentMap(taskId, "productRecordId");
+        Integer productTeamId = (Integer)flowService.getContentMap(taskId, "productTeamId");
 		ProductRecord dbProductRecord=this.loadById(productRecordId);
         boolean ofcomplete = updateProductDetail(traces,dbProductRecord,user,"打包");
 		dbProductRecord.setPackager(user);
@@ -368,7 +368,7 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
 		this.update(dbProductRecord);
         //如果未完成，开启另外一张跟踪单
         if(!ofcomplete) {
-            this.startProductRecordFlow(dbProductRecord.getOrderForm().getDbId());
+            this.startProductRecordFlow(dbProductRecord.getOrderForm().getDbId(),productTeamId);
         }
         OrderForm orderForm = dbProductRecord.getOrderForm();
         orderForm.setMcomment(wcomment);

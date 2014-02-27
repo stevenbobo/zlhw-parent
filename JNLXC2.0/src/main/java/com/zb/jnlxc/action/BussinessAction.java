@@ -9,6 +9,7 @@ import com.zb.jnlxc.form.MiniPageRsp;
 import com.zb.jnlxc.form.OrderDetailForm;
 import com.zb.jnlxc.model.*;
 import com.zb.jnlxc.service.BusinessService;
+import org.apache.commons.lang.StringUtils;
 import org.jbpm.api.ProcessInstance;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -240,5 +241,15 @@ public class BussinessAction {
     @RequestMapping("/delete")
     public void delete(OrderForm orderForm) {
         businessService.delete(orderForm);    
+    }
+
+    @ResponseBody
+    @RequestMapping("/paiChan")
+    public void paiChan(String code,String productTeamId,String type,String paiChanRecordId){
+        if(StringUtils.isNotBlank(paiChanRecordId)){
+            businessService.editPaiChan(code,productTeamId,type,paiChanRecordId);
+        }else {
+            businessService.addpaiChan(code,productTeamId,type);
+        }
     }
 }

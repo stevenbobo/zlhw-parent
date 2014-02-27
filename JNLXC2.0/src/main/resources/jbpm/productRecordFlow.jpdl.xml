@@ -5,10 +5,13 @@
         <event-listener class="com.zb.jnlxc.JBPM.ProductRecordEndListener">
         </event-listener>
     </on>
-    <start g="48,21,48,48">
-      <transition to="记录挤压重量(719)"/>
+    <start g="33,9,48,48">
+      <transition to="机台负责人打印生产跟踪单"/>
     </start>
-
+        <task form="/content/flow/product/printProductRecordPanel.vm" g="175,6,181,52" name="机台负责人打印生产跟踪单">
+      <transition to="记录挤压重量(719)"/>
+        <assignment-handler class="com.zb.jnlxc.JBPM.PrintProductAssignTask" />
+    </task>
     <task form="/content/flow/product/weighingPanel.vm" g="14,91,116,52" name="记录挤压重量(719)">
         <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
             <field name="powerId">

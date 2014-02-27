@@ -6,9 +6,6 @@ import javax.annotation.Resource;
 
 import org.jbpm.api.Deployment;
 import org.jbpm.api.ProcessInstance;
-import org.jbpm.api.history.HistoryProcessInstance;
-import org.jbpm.api.task.Task;
-import org.jbpm.pvm.internal.history.model.HistoryTaskImpl;
 import org.jbpm.pvm.internal.history.model.HistoryTaskInstanceImpl;
 import org.jbpm.pvm.internal.task.TaskImpl;
 import org.junit.Test;
@@ -22,11 +19,11 @@ public class FlowServiceTest extends AbstractJUnit4SpringContextTests  {
     @Test
 	public void testDeployFlowAll() {
 		String path1 = "./jbpm/mouldFlow.jpdl.xml";
-		String path2 = "./jbpm/orderFlow.jpdl.xml";
-		String path3 = "./jbpm/paidan.jpdl.xml";
+        String path3 = "./jbpm/mouldProcess.jpdl.xml";
+        String path2 = "./jbpm/orderFlow.jpdl.xml";
 		String path4 = "./jbpm/productRecordFlow.jpdl.xml";
 		String path5 = "./jbpm/schemeFlow.jpdl.xml";
-        String path6 = "./jbpm/FaHuo.jpdl.xml";
+        String path6 = "jbpm/faHuo.jpdl.xml";
 		String result1 = flowService.deployFlow(path1);
 		String result2 = flowService.deployFlow(path2);
 		String result3 = flowService.deployFlow(path3);

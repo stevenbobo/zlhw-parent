@@ -9,39 +9,28 @@ import com.ZLHW.base.dao.QueryCondition;
 import com.mongodb.BasicDBObject;
 import com.mongodb.WriteResult;
 import com.zb.jnlxc.dao.*;
+import com.zb.jnlxc.form.MiniPageReq;
+import com.zb.jnlxc.model.*;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jbpm.api.ProcessInstance;
-import org.jbpm.api.history.HistoryProcessInstance;
-import org.jbpm.api.history.HistoryTask;
 import org.jbpm.pvm.internal.history.model.HistoryTaskInstanceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import static org.springframework.data.mongodb.core.query.Criteria.where;
-import static org.springframework.data.mongodb.core.query.Update.update;
-import static org.springframework.data.mongodb.core.query.Query.query;
-
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ZLHW.base.Exception.BaseErrorModel;
 import com.ZLHW.base.Form.Page;
 import com.ZLHW.base.service.BaseService;
-import com.zb.jnlxc.model.Admin;
-import com.zb.jnlxc.model.Mould;
 import com.zb.jnlxc.model.Mould.MODEL_STATUS;
-import com.zb.jnlxc.model.MouldTestRecord;
-import com.zb.jnlxc.model.Scheme;
 
 @Transactional
 @Service
 public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
-	private static final Log log = LogFactory.getLog(MouldService.class);
-    @Resource
-    private AdminDAO adminDAO;
+	private static final Logger log = LoggerFactory.getLogger(MouldService.class);
 	@Resource
 	private SchemeDAO schemeDao;
 	@Resource
@@ -51,7 +40,11 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
     @Resource
     private MouldRecordDAO mouldRecordDAO;
     @Resource
+    private PaiChanRecordDAO paiChanRecordDAO;
+    @Resource
     DataDictService dataDictService;
+    @Resource
+    private ProductRecordService productRecordService;
 	/**
 	 * 生成模具编号
 	 */
@@ -70,7 +63,7 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
 	 */
 	public Mould saveMould(Mould mould) throws BaseErrorModel{
         this.getDao().refresh(mould.getManufacture());
-		Map map = new HashMap();
+
 		mould.setMouldRecordCount(0);
 		mould.setCurrentState((byte)1);//修改为流程中状态
         mould.setStatus(MODEL_STATUS.定制.getValue());
@@ -82,7 +75,7 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
 		Scheme scheme = mould.getScheme();
 		scheme.setNextMouldNum(scheme.getNextMouldNum()+1);
 		this.schemeDao.update(scheme);
-		
+        Map map = new HashMap();
 		//将模具和外协添加到流程中
 		map.put("mouldId", mould.getDbId());
 		map.put("association", mould.getManufacture().getAgent().getAccount());
@@ -131,6 +124,13 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
             String key = page.getParameter("key");
             hql.append("and ( t.code like :key or t.mouldSize.size like :key )");
             queryConditions.add(new QueryCondition("key", "%"+key+"%"));
+        }
+        if(StringUtils.isNotBlank(page.getParameter("paiChanRecordId"))){
+            Integer paiChanRecordId = Integer.parseInt(page.getParameter("paiChanRecordId"));
+            PaiChanRecord paiChanRecord = paiChanRecordDAO.getById(paiChanRecordId);
+            String mouldList = paiChanRecord.getMouldIds();
+            if(StringUtils.isNotBlank(mouldList))
+                hql.append("and  t.dbId in (").append(mouldList).append(") ");
         }
         hql.append("order by ").append(page.getSortKey()).append(" ").append(page.getSortOrder());
         this.getDao().findByPageWithTmpHQL(page, hql.toString(), queryConditions);
@@ -295,14 +295,18 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
 		return flowService.startProcessInstanceByKey("mouldFlow",id);
 	}
 
-    /**
-     *
-     * @param id
-     * @return
-     */
-    public ProcessInstance startmouldProcessFlowByKey(String id){
-        logger.info("开启排产流程.id={}:",id);
-        return flowService.startProcessInstanceByKey("mouldProcess",id);
+    public ProcessInstance startmouldProcessFlowByKey(Integer record,Integer mouldId){
+        logger.info("开启排产流程.record={}:",record);
+        PaiChanRecord paiChanRecord = paiChanRecordDAO.getById(record);
+        Map map = new HashMap();
+        map.put("paiChanRecordId",paiChanRecord.getDbId());
+        //将模具和外协添加到流程中
+        map.put("mouldId", mouldId);
+        //初始化试模次数
+        map.put("smcs","0");
+        map.put("isReturn",false);
+        String key = paiChanRecord.getDbId()+"_"+mouldId;
+        return flowService.startProcessInstanceByKey("mouldProcess",key,map);
     }
 	/**
 	 * 开启模具订单流程
@@ -462,8 +466,19 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
         completeByDefault(taskId,user,maps,nextStep);
     }
 
+    /**
+     * 挤压试模使用
+     */
     public void jyscsy(String taskId, Admin user,Map maps,String nextStep) {
-        completeByDefault(taskId,user,maps,nextStep);
+        Integer paiChanRecordId = (Integer) flowService.getContentMap(taskId,"paiChanRecordId");
+        PaiChanRecord paiChanRecord = paiChanRecordDAO.getById(paiChanRecordId);
+        Integer productTeamId =paiChanRecord.getProductTeam().getDbId();
+        completeByDefault(taskId, user, maps, nextStep);
+        log.info("paiChanRecordId = {}",paiChanRecord.toString());
+        String[] orders = paiChanRecord.getOrderIds().split(",");
+        for(String orderDbid:orders){
+            productRecordService.startProductRecordFlow(Integer.parseInt(orderDbid),productTeamId);
+        }
     }
 
     public void mjrcys(String taskId, Admin user,Map maps,String nextStep) {
@@ -553,5 +568,54 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
 
     public void ppsmcl(String taskId, Admin user, Map maps, String nextStep) {
         completeByDefault(taskId,user,maps,nextStep);
+    }
+
+    public MiniPageReq loadPaiChanRecord(MiniPageReq page) {
+        List<QueryCondition> queryConditions=new ArrayList();
+        StringBuffer hql=new StringBuffer("from PaiChanRecord t where 1=1 ");
+        if(StringUtils.isNotEmpty(page.getParameter("code"))){
+            String code = page.getParameter("code");
+            hql.append("and (t.orderCodes like :key or t.mouldCodes like :key) ");
+            queryConditions.add(new QueryCondition("key", "%" + code + "%"));
+        }
+        if(StringUtils.isNotEmpty(page.getParameter("productTeamId"))){
+            String productTeamId = page.getParameter("productTeamId");
+            hql.append("and t.productTeamId = :productTeamId ");
+            queryConditions.add(new QueryCondition("productTeamId", Integer.parseInt(productTeamId)));
+        }
+        hql.append("order by ").append(page.getSortKey()).append(" ").append(page.getSortOrder());
+        this.getDao().findByPageWithTmpHQL(page, hql.toString(), queryConditions);
+        return page;
+    }
+
+    public void paiMo( Integer recordId) {
+        PaiChanRecord paiChanRecord = paiChanRecordDAO.getById(recordId);
+        String mouldList = paiChanRecord.getMouldIds();
+        if(StringUtils.isEmpty(mouldList)){
+            throw new BaseErrorModel("请先分配模具","");
+        }
+        paiChanRecord.setEnable((byte)0);
+        paiChanRecordDAO.update(paiChanRecord);
+        String[] moulds = mouldList.split(",");
+        for (String mould:moulds){
+            startmouldProcessFlowByKey(recordId,Integer.parseInt(mould));
+        }
+
+    }
+
+    public void selectMould(String mouldList, Integer recordId) {
+        PaiChanRecord paiChanRecord = paiChanRecordDAO.loadById(recordId);
+        paiChanRecord.setMouldIds(mouldList);
+        String[] mouldIds = mouldList.split(",");
+        String mouldCodes ="";
+        for(int a =0;a<mouldIds.length;a++){
+            Mould mould = getById(Integer.parseInt(mouldIds[a]));
+            mouldCodes+=mould.getCode();
+            if(a!=mouldIds.length-1){
+                mouldCodes+=",";
+            }
+        }
+        paiChanRecord.setMouldCodes(mouldCodes);
+        paiChanRecordDAO.mouldUpdate(paiChanRecord);
     }
 }

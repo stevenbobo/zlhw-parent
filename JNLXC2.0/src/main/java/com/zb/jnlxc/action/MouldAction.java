@@ -401,9 +401,23 @@ public class MouldAction {
     }
 
     @ResponseBody
-    @RequestMapping("/startMouldProcessFlow")
-    public void startMouldProcessFlow( String processId){
-        mouldService.startmouldProcessFlowByKey(processId);
+    @RequestMapping("/loadPaiChanRecord")
+    public MiniPageRsp loadPaiChanRecord(MiniPageReq page,HttpServletRequest request){
+        page.setRequest(request);
+        mouldService.loadPaiChanRecord(page);
+        return new MiniPageRsp(page.getResultData(),page.getTotalClum());
+    }
+
+    @ResponseBody
+    @RequestMapping("/paiMo")
+    public void paiMo(Integer recordId){
+        mouldService.paiMo(recordId);
+    }
+
+    @ResponseBody
+    @RequestMapping("/selectMould")
+    public void selectMould(String mouldList,Integer recordId){
+        mouldService.selectMould(mouldList,recordId);
     }
 
 }

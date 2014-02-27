@@ -35,17 +35,13 @@
       <transition g="-12,7" name="通过" to="生产部审核(712)"/>
       <transition g="8,-9" name="不通过" to="专业开单人修改订单(731)"/>
    </task>
-   <end g="271,446,48,48" name="end1"/>
-   
-   <custom class="com.zb.jnlxc.JBPM.StartProductRecordFlow" g="245,368,100,52" name="启动跟踪单流程">
-      <transition to="end1"/>
-  </custom>
+   <end g="274,390,48,48" name="end1"/>
    <fork g="282,94,48,48" name="fork1">
       <transition to="业务员核对"/>
       <transition to="重量判断"/>
    </fork>
    <join g="272,282,48,48" multiplicity="2" name="join1">
-      <transition to="启动跟踪单流程"/>
+      <transition to="end1"/>
    </join>
    <task assignee="#{moulder}" form="/content/flow/order/saveMouldForOrderTask.vm" g="426,392,211,52" name="添加模具订购单(启动模具订购流程)">
       <transition to="模具主管查看模具(714)"/>

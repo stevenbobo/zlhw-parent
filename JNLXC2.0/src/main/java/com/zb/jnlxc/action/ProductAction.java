@@ -92,7 +92,7 @@ public class ProductAction {
     @ResponseBody
     @RequestMapping("/startProductRecordFlow")
     public void startProductRecordFlow( Integer orderFormId){
-        productRecordService.startProductRecordFlow( orderFormId);
+//        productRecordService.startProductRecordFlow( orderFormId);
     }
 
     @ResponseBody
@@ -115,8 +115,8 @@ public class ProductAction {
 
     @ResponseBody
     @RequestMapping("/workshopTask")
-    public void workshopTask(String taskId, Integer productTeamId, String remarks,@ModelAttribute("user") Admin user){
-        productRecordService.workshopTask(taskId, productTeamId, remarks,user);
+    public void workshopTask(String taskId, String remarks,@ModelAttribute("user") Admin user){
+        productRecordService.workshopTask(taskId, remarks,user);
     }
 
     @ResponseBody

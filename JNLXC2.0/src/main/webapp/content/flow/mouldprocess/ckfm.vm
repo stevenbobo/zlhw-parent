@@ -27,24 +27,23 @@
                     <td>
                         <input id="hgrq" class="mini-datepicker" readonly/>
                     </td>
-
-                </tr>
-                <tr>
-                    <td>累计产出</td>
-                    <td>
-                        <input name="smcs" id="ljcc" class="mini-textbox" readonly />
-                    </td>
                     <td>氮化/限产</td>
                     <td>
                         <input name="dhxc" id="dhxc" class="mini-textbox" />
                     </td>
                 </tr>
                 <tr>
+                    <td>累计产出</td>
+                    <td>
+                        <input name="smcs" id="ljcc" class="mini-textbox" readonly />
+                    </td>
                     <td>发模人</td>
                     <td>
                         <input id="fmr" name="fmr" property="editor" class="mini-combobox" url="$adminsUrl"
                                textField="name" valueField="dbId"  readonly="true"/>
                     </td>
+                </tr>
+                <tr>
                     <td>发模日期</td>
                     <td colspan="3">
                         <input id="fmrq" name="fmrq" class="mini-datepicker"  nullValue="null" width="335px"
@@ -53,7 +52,7 @@
                 </tr>
                 <tr>
                     <td>发模理由</td>
-                    <td colspan="3">
+                    <td>
                         <input name="fmly" id="fmly" class="mini-textbox" />
                     </td>
                     <td>领模人</td>
@@ -94,8 +93,8 @@
     ////////////////////
     //标准方法接口定义
     function setData(taskIdParm,openWindow) {
-        openWindow.setWidth(600);
-        openWindow.setHeight(400);
+        openWindow.setWidth(550);
+        openWindow.setHeight(500);
         windowMiddle(openWindow);
         taskId = mini.clone(taskIdParm);
         initMouldInfo(taskId);
