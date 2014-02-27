@@ -17,7 +17,8 @@ public class PaiChanOrder extends HIntTable {
     @ManyToOne
     PaiChanRecord paiChanRecord;
     @ManyToOne
-    OrderForm orderForm;
+    OrderForm orderForm ;
+
 
     public PaiChanRecord getPaiChanRecord() {
         return paiChanRecord;
