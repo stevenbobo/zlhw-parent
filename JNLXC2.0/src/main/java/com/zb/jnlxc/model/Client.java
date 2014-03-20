@@ -1,14 +1,12 @@
 package com.zb.jnlxc.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Version;
+import javax.persistence.*;
 
 import com.ZLHW.base.HTable.HIntTable;
 import com.ZLHW.base.table.Optimistic;
 import com.ZLHW.base.table.TableDeclare;
+
+import java.util.Date;
 
 @Entity
 @Table(name="JNLXC_Client")
@@ -18,6 +16,10 @@ public class Client extends HIntTable{
 	@Column(length=30)
 	private String clientCode; //客户编号 00010327前4位是业务员编号，后四位是该业务员的第n个客户
 	private Integer nextOrderFormNum;//客户的下一个订单编号
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastOrderDate; //下订单日期
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createDate; //创建日期
 	private String name; //名称
 	@Column(length=50)
 	private String clientPhone; //客户电话
@@ -155,5 +157,19 @@ public class Client extends HIntTable{
 		this.nextOrderFormNum = nextOrderFormNum;
 	}
 
+    public Date getLastOrderDate() {
+        return lastOrderDate;
+    }
 
+    public void setLastOrderDate(Date lastOrderDate) {
+        this.lastOrderDate = lastOrderDate;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
 }

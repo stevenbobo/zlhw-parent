@@ -1,5 +1,6 @@
 package com.zb.jnlxc.service;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -59,7 +60,8 @@ public class ClientService extends BaseService<ClientDAO,Client, Integer> {
         String agentId=String.format("%1$04d", client.getAgent().getDbId());
         String clientCode = String.format("%1$04d", clientNum);
 		client.setNextOrderFormNum(1);
-		client.setClientCode(agentId+clientCode);
+		client.setClientCode(agentId + clientCode);
+        client.setCreateDate(new Date());
 		this.getDao().create(client);
 		return client;
 	}

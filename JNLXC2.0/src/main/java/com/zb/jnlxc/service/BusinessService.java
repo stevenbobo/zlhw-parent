@@ -281,8 +281,9 @@ public class BusinessService extends BaseService<OrderFormDAO,OrderForm, Integer
         Client client = clientDAO.getById(clientId);
 		//查询客户中下个订单num
 		int orderNum =client.getNextOrderFormNum();
+        String date = new SimpleDateFormat("yyyyMMdd").format(new Date());
 		//通过客户编号+客户订单数量 生成订单编号
-		String orderCode = client.getClientCode()+String.format("%04d",orderNum);
+		String orderCode = client.getClientCode()+"-"+date+"-"+String.format("%04d",orderNum);
 		return orderCode;
 	}
 	/**
@@ -304,10 +305,15 @@ public class BusinessService extends BaseService<OrderFormDAO,OrderForm, Integer
         this.getDao().getSession().refresh(orderForm.getClient());
         this.getDao().getSession().refresh(orderForm.getScheme());
 		this.create(orderForm);
-
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String now =sdf.format( new Date());
 //		更新客户中的下一个订单号
 		Client client = orderForm.getClient();
-		client.setNextOrderFormNum(client.getNextOrderFormNum()+1);
+        Date lastOrderDate = client.getLastOrderDate();
+        int num = client.getNextOrderFormNum();
+        num =lastOrderDate!=null&&(now.equals(sdf.format(lastOrderDate)))?num+1:1;
+        client.setLastOrderDate(new Date());
+		client.setNextOrderFormNum(num);
 		clientDAO.update(client);
 
 

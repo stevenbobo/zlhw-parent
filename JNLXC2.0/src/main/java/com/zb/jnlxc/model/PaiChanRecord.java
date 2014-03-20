@@ -20,6 +20,8 @@ public class PaiChanRecord extends HIntTable {
     @Column(length=250)
     private String orderIds; //订单编号
     @Column(length=250)
+    private String code;//排产编号
+    @Column(length=250)
     private String orderCodes;//订单编码列表
 
     private String type;//normal/combine/splite
@@ -98,13 +100,22 @@ public class PaiChanRecord extends HIntTable {
         this.mouldCodes = mouldCodes;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     @Override
     public String toString() {
         return "PaiChanRecord{" +
                 "orderIds='" + orderIds + '\'' +
+                ", code='" + code + '\'' +
                 ", orderCodes='" + orderCodes + '\'' +
                 ", type='" + type + '\'' +
-                ", productTeamId=" + productTeam.getDbId() +
+                ", productTeam=" + productTeam +
                 ", mouldIds='" + mouldIds + '\'' +
                 ", mouldCodes='" + mouldCodes + '\'' +
                 ", createTime=" + createTime +

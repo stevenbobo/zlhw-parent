@@ -6,6 +6,8 @@ import com.zb.jnlxc.model.*;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,6 +27,8 @@ public class PaiChanRecordDAO extends DAO<PaiChanRecord,Integer> {
     private OrderFormDAO orderFormDAO;
     @Resource
     private MouldDAO mouldDAO;
+    @Resource
+    private PaiChanRecordStatisticsDAO paiChanRecordStatisticsDAO;
 
     /**
      * 排摸列表更新
@@ -59,8 +63,14 @@ public class PaiChanRecordDAO extends DAO<PaiChanRecord,Integer> {
      * @return
      */
     public PaiChanRecord create(PaiChanRecord paiChanRecord){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String date = sdf.format(new Date());
+        Integer num = paiChanRecordStatisticsDAO.getNextPaiChanRecordNum();
+        String code = date+"-"+num;
+        paiChanRecord.setCode(code);
         super.create(paiChanRecord);
         updatePaiChanOrder(paiChanRecord);
+        paiChanRecordStatisticsDAO.newPaiChanRecord();
         return paiChanRecord;
     }
 
