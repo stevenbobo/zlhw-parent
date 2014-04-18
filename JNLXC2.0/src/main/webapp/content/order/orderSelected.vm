@@ -22,25 +22,7 @@
 </style>
 <body>
 <div class="mini-splitter" style="width:100%;height:100%;">
-<div size="240" showCollapseButton="true">
-    <div class="mini-toolbar" style="padding:2px;border-top:0;border-left:0;border-right:0;">
-        <a class="mini-button" iconCls="icon-remove" plain="true" onclick="onRemoveNode()">删除节点</a>
-        </br>
-        <span style="padding-left:5px;">选择机台：</span>
-        <input name="productTeamId" id="productTeamId" property="editor" class="mini-combobox"   url="$findTeamUrl"
-               textField="1" valueField="0"  required="true" ondrawcell="onDrawCell" />
-        </br>
-        #if($beanFactory.LookUp("adminService").havePower($user,"开启跟踪单"))
-            <a class="mini-button" iconCls="icon-goto" plain="true" onclick="openOrderFlow()">确定</a>
-        #end
-    </div>
-    <div class="mini-fit">
-        <ul id="ordertree" class="mini-tree"  style="width:100%;"
-            showTreeIcon="true" textField="code" idField="dbId" parentField="pid" resultAsTree="false"
-                >
-        </ul>
-    </div>
-</div>
+
 <div showCollapseButton="true">
 
     <div class="mini-toolbar" style="padding:2px;border-top:0;border-left:0;border-right:0;">
@@ -116,7 +98,25 @@
         </div>
     </div>
 </div>
-
+<div size="240" showCollapseButton="true">
+    <div class="mini-toolbar" style="padding:2px;border-top:0;border-left:0;border-right:0;">
+        <a class="mini-button" iconCls="icon-remove" plain="true" onclick="onRemoveNode()">删除节点</a>
+        </br>
+        <span style="padding-left:5px;">选择机台：</span>
+        <input name="productTeamId" id="productTeamId" property="editor" class="mini-combobox"   url="$findTeamUrl"
+               textField="1" valueField="0"  required="true" ondrawcell="onDrawCell" />
+        </br>
+        #if($beanFactory.LookUp("adminService").havePower($user,"开启跟踪单"))
+            <a class="mini-button" iconCls="icon-goto" plain="true" onclick="openOrderFlow()">确定</a>
+        #end
+    </div>
+    <div class="mini-fit">
+        <ul id="ordertree" class="mini-tree"  style="width:100%;"
+            showTreeIcon="true" textField="code" idField="dbId" parentField="pid" resultAsTree="false"
+                >
+        </ul>
+    </div>
+</div>
 
 <script type="text/javascript">
 mini.parse();
