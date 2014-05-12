@@ -59,7 +59,7 @@
             data: form.getData(),
             success: function(data) {
                 if(data.success==false){
-                    alert(data.errorMessage);
+                    mini.alert(data.errorMessage);
                 }
                 else{
                     loginWindow.hide();

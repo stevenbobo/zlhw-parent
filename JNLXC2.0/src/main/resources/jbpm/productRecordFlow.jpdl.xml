@@ -8,61 +8,33 @@
     <start g="33,9,48,48">
       <transition to="机台负责人打印生产跟踪单"/>
     </start>
-        <task form="/content/flow/product/printProductRecordPanel.vm" g="175,6,181,52" name="机台负责人打印生产跟踪单">
-      <transition to="记录挤压重量(719)"/>
+    <task form="/content/flow/product/printProductRecordPanel.vm" g="217,6,181,52" name="机台负责人打印生产跟踪单">
         <assignment-handler class="com.zb.jnlxc.JBPM.PrintProductAssignTask" />
-    </task>
-    <task form="/content/flow/product/weighingPanel.vm" g="14,91,116,52" name="记录挤压重量(719)">
-        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
-            <field name="powerId">
-                <int value="719"/>
-            </field>
-        </assignment-handler>
-        <transition g="4,-19" name="时效" to="时效(721)"/>
-        <transition g="-128,-63" name="喷涂" to="喷涂（728）"/>
-        <transition g="-122,-51" name="氧化" to="氧化电泳(723)"/>
-        <transition g="-28,-84" name="打包" to="打包(722)"/>
-        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
-            <field name="powerId">
-                <int value="719"/>
-            </field>
-        </assignment-handler>
-        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
-            <field name="powerId">
-                <int value="719"/>
-            </field>
-        </assignment-handler>
+        <transition to="等待排模"/>
     </task>
 
+    <sub-process  g="57,82,92,52" name="时效(721)" sub-process-key="shiXiaoProcess">
+        <transition to="exclusive1" g="194,108:"/>
+    </sub-process>
+    <end g="88,320,48,48" name="end1"/>
+    <sub-process g="67,253,92,52" name="打包(722)" sub-process-key="packageProcess">
+        <transition to="end1"/>
+    </sub-process>
+    <sub-process  g="503,254,123,52" name="氧化电泳(723)" sub-process-key="yangHuaProcess">
+        <transition to="exclusive1" g="443,276:"/>
+    </sub-process>
+    <sub-process  g="502,79,92,52" name="喷涂（728）" sub-process-key="penTuProcess">
+        <transition g="442,105:" to="exclusive1"/>
+    </sub-process>
 
-    <task form="/content/flow/product/agingPanel.vm" g="251,91,92,52" name="时效(721)">
-        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
-            <field name="powerId">
-                <int value="721"/>
-            </field>
-        </assignment-handler>
-        <transition g="-47,-55" name="氧化" to="氧化电泳(723)"/>
-        <transition g="-87,-59" name="喷涂" to="喷涂（728）"/>
-        <transition g="-86,62" name="打包" to="打包(722)"/>
-    </task>
-    <end g="259,410,48,48" name="end1"/>
-    <task form="/content/flow/product/packagePanel.vm" g="28,409,92,52" name="打包(722)">
-      <transition to="end1"/>
-    </task>
-    <task form="/content/flow/product/oxidationPanel.vm" g="298,270,123,52" name="氧化电泳(723)">
-        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
-            <field name="powerId">
-                <int value="723"/>
-            </field>
-        </assignment-handler>
-        <transition g="4,-24" name="打包" to="打包(722)"/>
-    </task>
-    <task form="/content/flow/product/platingPanel.vm" g="539,275,92,52" name="喷涂（728）">
-        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
-            <field name="powerId">
-                <int value="724"/>
-            </field>
-        </assignment-handler>
-        <transition g="6,-25" name="打包" to="打包(722)"/>
-    </task>
+   <decision g="285,156,48,48" name="exclusive1">
+       <handler class="com.zb.jnlxc.JBPM.ProcessDecisionHandler" />
+      <transition g="5,-22" name="喷涂" to="喷涂（728）"/>
+      <transition g="-7,-12" name="氧化电泳" to="氧化电泳(723)"/>
+      <transition g="-28,-8" name="时效" to="时效(721)"/>
+      <transition g="-19,-15" name="打包" to="打包(722)"/>
+   </decision>
+   <state name="等待排模" g="262,77,92,52">
+      <transition to="exclusive1"/>
+   </state>
 </process>

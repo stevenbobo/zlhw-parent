@@ -1,6 +1,4 @@
 #set($loadPaiMoRecord=$link.setRelative('/MouldAction/loadPaiChanRecord.json'))
-#set($mouldSelectedUrl=$link.setRelative('/content/mould/select.vm'))
-#set($paiMoUrl=$link.setRelative('/MouldAction/paiMo.json'))
 #set($orderSelectedUrl=$link.setRelative('/content/order/orderSelected.vm'))
 
 <style type="text/css">

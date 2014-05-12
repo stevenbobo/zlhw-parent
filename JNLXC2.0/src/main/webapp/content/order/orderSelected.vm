@@ -10,6 +10,7 @@
 #set($flowImgVm=$link.setRelative('/content/flow/flowImg.vm'))
 #set($clientSelectedUrl=$link.setRelative('/content/dict/clientSelecte.vm'))
 #set($findTeamUrl=$link.setRelative('/CommonAction/findAllTeamDetail.json'))
+#set($schemeSelectedUrl=$link.setRelative('/content/scheme/select.vm'))
 
 
 
@@ -57,6 +58,8 @@
                         订单状态:<input id="compStatus"  allowInput="flase" showNullItem="true" nullItemText="选择订单状态..." class="mini-combobox"  data="[{id:0,text:'未完成'}, {id:1, text: '已完成'}]"/>
                         <span class="separator"></span>
                         订单编号:<input id="code" class="mini-textbox" emptyText="订单编号" onenter="search" />
+                        <span class="separator"></span>
+                         图纸编号:<input id="schemeSelector" required="true" class="mini-buttonedit" onbuttonclick="onSchemeSlecte" name="scheme.dbId" textName="scheme.name"/>
                         <a class="mini-button" plain="true" iconCls="icon-search" onclick="search()">查询</a>
                     </td>
                 </tr>
@@ -247,12 +250,14 @@ function search() {
     var code = mini.get("code");
     var compStatus = mini.get("compStatus");
     var clientSelector = mini.get("clientSelector");
+    var schemeSelector = mini.get("schemeSelector");
     var parm = {
         startDate:startDate.getText(),
         endDate:endDate.getText(),
         code:code.getValue(),
         compStatus:compStatus.getValue(),
-        clientId:clientSelector.getValue()
+        clientId:clientSelector.getValue(),
+        schemeId:schemeSelector.getValue()
     };
     orderGrid.load(parm);
 }
@@ -261,10 +266,22 @@ function onRowDblClick(e) {
     var order = orderGrid.getSelected();
     var treeData = ordertree.getData();
     for(var a=0;a<treeData.length;a++){
-        if(treeData[a].dbId == order.dbId)
+        if(treeData[a].dbId == order.dbId){
+            mini.alert("无法重复添加订单");
             return;
+        }
+        if(order.scheme.dbId!=treeData[a].scheme.dbId){
+            mini.alert("由于图纸不同，无法合并订单");
+            return;
+        }
     }
     ordertree.addNode(order, "after");
+    if(mini.get("schemeSelector").getValue!=order.scheme.dbId){
+        mini.get("schemeSelector").setValue(order.scheme.dbId);
+        mini.get("schemeSelector").setText(order.scheme.name);
+    search();
+    }
+
 }
 
 
@@ -301,6 +318,31 @@ function CloseWindow(action) {
     if (window.CloseOwnerWindow)
         return window.CloseOwnerWindow(action);
     else window.close();
+}
+
+function onSchemeSlecte(e){
+    mini.open({
+        url: "$schemeSelectedUrl",
+        title: "选择列表",
+        width: 800,
+        height: 400,
+        ondestroy: function (action) {
+            //if (action == "close") return false;
+            if (action == "ok") {
+                var iframe = this.getIFrameEl();
+                var scheme = iframe.contentWindow.GetData();
+                scheme = mini.clone(scheme);    //必须
+                if (scheme) {
+                    mini.get("schemeSelector").setValue(scheme.dbId);
+                    mini.get("schemeSelector").setText(scheme.name);
+                }
+            }else{
+                mini.get("schemeSelector").setValue("");
+                mini.get("schemeSelector").setText("");
+            }
+
+        }
+    });
 }
 </script>
 

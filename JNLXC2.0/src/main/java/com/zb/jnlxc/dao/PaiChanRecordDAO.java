@@ -44,6 +44,7 @@ public class PaiChanRecordDAO extends DAO<PaiChanRecord,Integer> {
             PaiChanMould paiChanMould = new PaiChanMould();
             paiChanMould.setMould(mould);
             paiChanMould.setPaiChanRecord(paiChanRecord);
+            paiChanMould.setHasJiYa(false);
             paiChanMouldDAO.create(paiChanMould);
         }
     }
@@ -75,22 +76,29 @@ public class PaiChanRecordDAO extends DAO<PaiChanRecord,Integer> {
     }
 
     private void updatePaiChanOrder(PaiChanRecord paiChanRecord){
-        String ids = paiChanRecord.getOrderIds();
-        String[] orderIds = ids.split(",");
-        for(String id :orderIds){
-            OrderForm orderForm = orderFormDAO.loadById(Integer.parseInt(id));
-
-            if(orderIds.length>=1){
-                //合并订单不允许有重复订单排产
-                List<PaiChanOrder> list = paiChanOrderDAO.findByHQL("from PaiChanOrder t where t.orderForm.dbId=? "
-                        ,orderForm.getDbId());
-                if(list.size()>0)
-                    throw new BaseErrorModel("订单:"+orderForm.getCode()+"已排产","");
-            }
+            OrderForm orderForm = paiChanRecord.getOrderForm();
             PaiChanOrder paiChanOrder = new PaiChanOrder();
             paiChanOrder.setOrderForm(orderForm);
             paiChanOrder.setPaiChanRecord(paiChanRecord);
             paiChanOrderDAO.create(paiChanOrder);
         }
+
+    /**
+     * 检验一个排产记录的所有模具排产是否通过挤压流程
+     * @param paiChanRecord
+     * @return
+     */
+    public boolean checkJiYaFinished(PaiChanRecord paiChanRecord) {
+        boolean finished = true;
+        List<PaiChanMould> list= paiChanMouldDAO.findByHQL("from PaiChanMould t where t.paiChanRecord = ?",paiChanRecord);
+        for(PaiChanMould paiChanMould:list){
+            finished = finished&&paiChanMould.getHasJiYa();
+        }
+        return finished;
+    }
+
+    public List<PaiChanMould> findPaiChanMoulds(PaiChanRecord paiChanRecord){
+        List<PaiChanMould> list= paiChanMouldDAO.findByHQL("from PaiChanMould t where t.paiChanRecord = ?",paiChanRecord);
+        return list;
     }
 }

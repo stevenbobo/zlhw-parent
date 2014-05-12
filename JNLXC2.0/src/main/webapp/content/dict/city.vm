@@ -84,7 +84,7 @@
                         tree.removeNode(node);
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
-                        alert(jqXHR.responseText);
+                        mini.alert(jqXHR.responseText);
                     }
                 });
 
@@ -107,7 +107,7 @@
                 tree.addNode(newNode, o.operate, node);
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert(jqXHR.responseText);
+                mini.alert(jqXHR.responseText);
             }
         });
 

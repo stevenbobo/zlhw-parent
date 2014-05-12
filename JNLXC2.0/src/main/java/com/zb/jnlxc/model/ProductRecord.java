@@ -72,6 +72,10 @@ public class ProductRecord extends HIntTable{
 	private Byte enable; //0正常， 1 已删除
 	@Version  
     private Integer version;
+    @Column(length=50)
+    private String nextStep;//下道工序
+    @Column(length=50)
+    private String currentStep;//当前工序
 	/**
 	* 获取订单表
 	*/
@@ -455,8 +459,20 @@ public class ProductRecord extends HIntTable{
 	public void setVersion(Integer version) {
 		this.version = version;
 	}
-	
-	
 
+    public String getNextStep() {
+        return nextStep;
+    }
 
+    public void setNextStep(String nextStep) {
+        this.nextStep = nextStep;
+    }
+
+    public String getCurrentStep() {
+        return currentStep;
+    }
+
+    public void setCurrentStep(String currentStep) {
+        this.currentStep = currentStep;
+    }
 }

@@ -125,7 +125,7 @@
         $("#tempBmp").attr("src","${tempBmpUrl}?uniqid="+json.uniqid);
     }
     function onUploadError(e) {
-        alert("上传失败：");
+        mini.alert("上传失败：");
 
     }
 
@@ -164,7 +164,7 @@
                 CloseWindow("save");
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert(jqXHR.responseText);
+                mini.alert(jqXHR.responseText);
             }
         });
     }
