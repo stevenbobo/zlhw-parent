@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process name="faHuo" xmlns="http://jbpm.org/4.4/jpdl">
+    <start g="71,7,48,48" name="start1">
+      <transition to="仓管记录存放位置(725)"/>
+    </start>
+    <end g="74,323,48,48" name="end1"/>
+    <task form="/content/flow/product/warehousePanel.vm" g="23,90,141,52" name="仓管记录存放位置(725)">
+        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
+            <field name="powerId">
+                <int value="725"/>
+            </field>
+        </assignment-handler>
+        <transition to="发货员记录重量(726)"/>
+    </task>
+    <task form="/content/flow/product/deliveryPanel.vm" g="29,172,133,52" name="发货员记录重量(726)">
+        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
+            <field name="powerId">
+                <int value="726"/>
+            </field>
+        </assignment-handler>
+        <transition to="财务记录价格(727)"/>
+    </task>
+    <task form="/content/flow/product/financePanel.vm" g="31,251,132,52" name="财务记录价格(727)">
+        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
+            <field name="powerId">
+                <int value="727"/>
+            </field>
+        </assignment-handler>
+        <transition to="end1"/>
+    </task>
+</process>

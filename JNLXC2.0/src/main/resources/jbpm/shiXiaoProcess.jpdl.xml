@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process name="shiXiaoProcess" xmlns="http://jbpm.org/4.4/jpdl">
+   <start form="/content/flow/product/weighingPanel.vm" g="71,10,48,48" name="start1">
+      <transition g="-46,-10" name="时效" to="时效"/>
+   </start>
+   <task form="/content/flow/product/transit.vm" g="44,166,92,52" name="时效-中转">
+       <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler"/>
+      <transition g="-45,-22" name="过磅" to="时效-过磅"/>
+   </task>
+   <task form="/content/flow/product/weighingPanel.vm" g="44,253,92,52" name="时效-过磅">
+       <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler"/>
+      <transition to="end1"/>
+   </task>
+   <task form="/content/flow/product/agingPanel.vm" g="45,82,92,52" name="时效">
+       <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler"/>
+      <transition g="-45,-11" name="中转" to="时效-中转"/>
+   </task>
+   <end g="66,331,48,48" name="end1"/>
+</process>

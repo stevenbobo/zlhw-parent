@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process name="yangHuaProcess" xmlns="http://jbpm.org/4.4/jpdl">
+   <start form="/content/flow/product/weighingPanel.vm" g="71,10,48,48" name="start1">
+      <transition g="-46,-10" name="氧化" to="氧化电泳"/>
+   </start>
+   <task g="36,165,105,52" name="氧化电泳-中转" form="/content/flow/product/transit.vm">
+       <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler"/>
+      <transition g="-45,-22" name="过磅" to="氧化电泳-过磅"/>
+   </task>
+   <task g="43,253,92,52" name="氧化电泳-过磅" form="/content/flow/product/weighingPanel.vm">
+       <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler"/>
+      <transition to="end1"/>
+   </task>
+   <task g="45,82,92,52" name="氧化电泳" form="/content/flow/product/oxidationPanel.vm">
+       <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler"/>
+      <transition g="-45,-11" name="中转" to="氧化电泳-中转"/>
+   </task>
+   <end g="66,331,48,48" name="end1"/>
+</process>
