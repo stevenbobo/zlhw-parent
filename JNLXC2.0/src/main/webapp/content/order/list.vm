@@ -11,6 +11,7 @@
 #set($flowImgVm=$link.setRelative('/content/flow/flowImg.vm'))
 #set($clientSelectedUrl=$link.setRelative('/content/dict/clientSelecte.vm'))
 #set($findTeamUrl=$link.setRelative('/CommonAction/findAllTeamDetail.json'))
+#set($schemeSelectedUrl=$link.setRelative('/content/scheme/select.vm'))
 
 
 
@@ -22,27 +23,6 @@
     }
 </style>
 <body>
-<div class="mini-splitter" style="width:100%;height:100%;">
-<div size="240" showCollapseButton="true">
-    <div class="mini-toolbar" style="padding:2px;border-top:0;border-left:0;border-right:0;">
-        <a class="mini-button" iconCls="icon-remove" plain="true" onclick="onRemoveNode()">删除节点</a>
-        </br>
-        <span style="padding-left:5px;">选择机台：</span>
-        <input name="productTeamId" id="productTeamId" property="editor" class="mini-combobox"   url="$findTeamUrl"
-               textField="1" valueField="0"  required="true" ondrawcell="onDrawCell" />
-        </br>
-        #if($beanFactory.LookUp("adminService").havePower($user,"开启跟踪单"))
-            <a class="mini-button" iconCls="icon-goto" plain="true" onclick="openOrderFlow()">开启生产流程</a>
-        #end
-    </div>
-    <div class="mini-fit">
-        <ul id="ordertree" class="mini-tree"  style="width:100%;"
-            showTreeIcon="true" textField="code" idField="dbId" parentField="pid" resultAsTree="false"
-                >
-        </ul>
-    </div>
-</div>
-<div showCollapseButton="true">
 
     <div class="mini-toolbar" style="padding:2px;border-top:0;border-left:0;border-right:0;">
         <form id="searchForm" method="post">
@@ -75,6 +55,7 @@
                         截止日期:<input id="endDate" class="mini-datepicker" />
                         <span class="separator"></span>
                         排序方式:<input id="orderType"   allowInput="flase" showNullItem="true" nullItemText="选择排序方式..." class="mini-combobox"   data="[{id:0,text:'下单时间'}, {id:1, text: '交货期剩余天数'},{id:2,text:'订单重量'}, {id:3, text: '订单数量'}]"/>
+                        <span class="separator"></span>
                         所属客户:<input id="clientSelector"  required="true" class="mini-buttonedit" onbuttonclick="onClientSlecte" />
                     </td>
                     </td>
@@ -88,7 +69,9 @@
                         订单状态:<input id="compStatus"  allowInput="flase" showNullItem="true" nullItemText="选择订单状态..." class="mini-combobox"  data="[{id:0,text:'未完成'}, {id:1, text: '已完成'}]"/>
                         <span class="separator"></span>
                         订单编号:<input id="code" class="mini-textbox" emptyText="订单编号" onenter="search" />
-
+                        <span class="separator"></span>
+                        图纸编号:<input id="schemeSelector" required="true" class="mini-buttonedit" onbuttonclick="onSchemeSlecte" name="scheme.dbId" textName="scheme.name"/>
+                        <span class="separator"></span>
                         <a class="mini-button" plain="true" iconCls="icon-search" onclick="search()">查询</a>
                     </td>
                 </tr>
@@ -150,8 +133,6 @@
                 <div field="compStatus"  headerAlign="center" >完成状态</div>
             </div>
         </div>
-    </div>
-</div>
 
 
 <script type="text/javascript">
@@ -161,8 +142,6 @@ var adminGrid = mini.get("adminGrid");
 var clientGrid = mini.get("clientGrid");
 var orderGrid = mini.get("orderGrid");
 var detailGrid = mini.get("detailGrid");
-var startFlowWindow = mini.get("startFlowWindow");
-var ordertree = mini.get("ordertree");
 
 orderGrid.load();
 detailGrid.load();
@@ -222,40 +201,7 @@ function isEmpty(s)
 {
     return ((s == undefined || s == null || s == "") ? true : false);
 }
-function openOrderFlow(){
-    var orderData = ordertree.getData();
-    var productTeamId =  mini.get("productTeamId").getValue();
-    if(isEmpty(productTeamId)){
-        mini.alert("请选择机台");
-        return;
-    }
-    var combineOrders ='';
-    for(var a=0;a<orderData.length;a++){
-        combineOrders +=orderData[a].dbId+",";
-    }
-    if(isEmpty(combineOrders)){
-        mini.alert("请选择需要合并的订单");
-        return;
-    }
-    $.ajax({
-        url: "$paiChanUrl",
-        data: {
-            code:combineOrders,
-            productTeamId:productTeamId,
-            type:'combine'
-        },
-        success: function (text) {
-            mini.alert('操作成功');
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            mini.alert(jqXHR.responseText);
-        }
-    });
-}
 
-function onCancel() {
-    startFlowWindow.hide();
-}
 
 
 function onNameFilterChanged(e) {
@@ -334,6 +280,7 @@ function search() {
     var compStatus = mini.get("compStatus");
     var orderType = mini.get("orderType");
     var clientSelector = mini.get("clientSelector");
+    var schemeSelector = mini.get("schemeSelector");
     var parm = {
         startDate:startDate.getText(),
         endDate:endDate.getText(),
@@ -341,7 +288,8 @@ function search() {
         cityId:citySelecter.getValue(),
         compStatus:compStatus.getValue(),
         orderType:orderType.getValue(),
-        clientId:clientSelector.getValue()
+        clientId:clientSelector.getValue(),
+        schemeId:schemeSelector.getValue()
     };
     orderGrid.load(parm);
 }
@@ -350,16 +298,6 @@ function onCloseClick(e) {
     var obj = e.sender;
     obj.setText("");
     obj.setValue("");
-}
-
-function onRowDblClick(e) {
-    var order = orderGrid.getSelected();
-    var treeData = ordertree.getData();
-    for(var a=0;a<treeData.length;a++){
-        if(treeData[a].dbId == order.dbId)
-            return;
-    }
-    ordertree.addNode(order, "after");
 }
 
 function stopFlow(orderId){
@@ -412,11 +350,29 @@ orderGrid.on("drawcell", function (e) {
 
 });
 
-function onRemoveNode(e) {
-    var node = ordertree.getSelectedNode();
-    if (node) {
-        ordertree.removeNode(node);
-    }
+function onSchemeSlecte(e){
+    mini.open({
+        url: "$schemeSelectedUrl",
+        title: "选择列表",
+        width: 800,
+        height: 400,
+        ondestroy: function (action) {
+            //if (action == "close") return false;
+            if (action == "ok") {
+                var iframe = this.getIFrameEl();
+                var scheme = iframe.contentWindow.GetData();
+                scheme = mini.clone(scheme);    //必须
+                if (scheme) {
+                    mini.get("schemeSelector").setValue(scheme.dbId);
+                    mini.get("schemeSelector").setText(scheme.name);
+                }
+            }else{
+                mini.get("schemeSelector").setValue("");
+                mini.get("schemeSelector").setText("");
+            }
+
+        }
+    });
 }
 </script>
 

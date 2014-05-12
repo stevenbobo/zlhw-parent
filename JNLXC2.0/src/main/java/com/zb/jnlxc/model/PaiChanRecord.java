@@ -17,8 +17,8 @@ import java.util.Date;
 @Table(name="JNLXC_PaiChanRecord")
 @TableDeclare(comment = "排产记录表", tableName = "PaiChanRecord")
 public class PaiChanRecord extends HIntTable {
-    @Column(length=250)
-    private String orderIds; //订单编号
+    @ManyToOne
+    private OrderForm orderForm; //订单编号
     @Column(length=250)
     private String code;//排产编号
     @Column(length=250)
@@ -68,12 +68,12 @@ public class PaiChanRecord extends HIntTable {
         this.createTime = createTime;
     }
 
-    public String getOrderIds() {
-        return orderIds;
+    public OrderForm getOrderForm() {
+        return orderForm;
     }
 
-    public void setOrderIds(String orderIds) {
-        this.orderIds = orderIds;
+    public void setOrderForm(OrderForm orderForm) {
+        this.orderForm = orderForm;
     }
 
     public String getOrderCodes() {
@@ -111,7 +111,7 @@ public class PaiChanRecord extends HIntTable {
     @Override
     public String toString() {
         return "PaiChanRecord{" +
-                "orderIds='" + orderIds + '\'' +
+                "orderForm='" + orderForm + '\'' +
                 ", code='" + code + '\'' +
                 ", orderCodes='" + orderCodes + '\'' +
                 ", type='" + type + '\'' +

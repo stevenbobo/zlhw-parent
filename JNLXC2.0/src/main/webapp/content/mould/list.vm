@@ -131,7 +131,7 @@
                 appendTable(nodes.data)
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert(jqXHR.responseText);
+                mini.alert(jqXHR.responseText);
             }
         });
     }
@@ -149,7 +149,7 @@
                 appendTable(nodes.data)
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert(jqXHR.responseText);
+                mini.alert(jqXHR.responseText);
             }
         });
     }
@@ -185,7 +185,7 @@
 
     function onItemClick(e) {
         var item = e.sender;
-        alert(item.getText());
+        mini.alert(item.getText());
     }
 
     function startPaiDanFlow(e){
@@ -200,7 +200,7 @@
                 mini.alert("操作成功");
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert(jqXHR.responseText);
+                mini.alert(jqXHR.responseText);
             }
         });
     }

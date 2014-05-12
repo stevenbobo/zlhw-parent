@@ -179,25 +179,27 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
 
 
 	
-	public void startProductRecordFlow(Integer orderFormId,Integer productTeamId) throws BaseErrorModel{
-		OrderForm orderForm=orderFormDAO.getById(orderFormId);
+	public void startProductRecordFlow(PaiChanRecord paichanRecord) throws BaseErrorModel{
+		OrderForm orderForm=paichanRecord.getOrderForm();
         checkOrderState(orderForm);
 		if(orderForm.getCompStatus()==(byte)1){
 			throw new BaseErrorModel("该订单已完成,无法开启跟踪单流程", "");
 		}
-		String code=orderForm.getCode()+String.format("%02d", orderForm.getNextRecordNum());
+		String code=orderForm.getCode()+
+                "-"+paichanRecord.getDbId()+
+                "-"+String.format("%02d", orderForm.getNextRecordNum());
 		// 开启生产记录流程
 		Map map=new HashMap();
-        map.put("productTeamId", productTeamId);
+        map.put("productTeamId", paichanRecord.getProductTeam().getDbId());
 		map.put("orderFormId", orderForm.getDbId());
 		map.put("productNum", orderForm.getNextRecordNum());
 		map.put("productCode", code);
-		List<ProductRecord> plist=this.getDao().findByHQL("from ProductRecord p where p.orderForm=?", orderForm);
-		for(ProductRecord productRecord:plist){
-			List<ProductRecordDetail> detaillist=productRecordDetailDAO.getByProductRecord(productRecord);
-			if(detaillist.size()==0)
-				throw new BaseErrorModel("编号为"+productRecord.getCode()+"的生产跟踪单未经过过磅，\n 请先过磅", "");
-		}
+//		List<ProductRecord> plist=this.getDao().findByHQL("from ProductRecord p where p.orderForm=?", orderForm);
+//		for(ProductRecord productRecord:plist){
+//			List<ProductRecordDetail> detaillist=productRecordDetailDAO.getByProductRecord(productRecord);
+//			if(detaillist.size()==0)
+//				throw new BaseErrorModel("编号为"+productRecord.getCode()+"的生产跟踪单未经过过磅，\n 请先过磅", "");
+//		}
 		orderForm.setNextRecordNum(orderForm.getNextRecordNum()+1);
 		orderFormDAO.update(orderForm);
 		this.startProductRecordFlowByKey(code, map);
@@ -301,6 +303,28 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
         updateOrderMcomment(taskId,wcomment);
 		flowService.completeTask(taskId,user);
 	}
+
+
+
+    //完成挤压任务
+    public void jiya(String taskId,List<ProductTrace> traces,String aginghardness,String alHeatNum,String wcomment,Admin user) throws BaseErrorModel{
+        checkOrderState(taskId);
+        Integer productRecordId=(Integer)flowService.getContentMap(taskId, "productRecordId");
+        ProductRecord dbProductRecord=this.loadById(productRecordId);
+        updateProductDetail(traces,dbProductRecord,user,"挤压");
+        dbProductRecord.setAginger(user);
+        dbProductRecord.setAginghardness(aginghardness);
+        dbProductRecord.setAlHeatNum(alHeatNum);
+        dbProductRecord.setWcomment(wcomment);
+        dbProductRecord.setCurrentStep("挤压");
+        List<String> squence=dbProductRecord.getOrderForm().generateStepList();
+        String nextStep = squence.get(0);
+        dbProductRecord.setNextStep(nextStep);
+        this.update(dbProductRecord);
+        updateOrderMcomment(taskId, wcomment);
+        flowService.completeTask(taskId, nextStep, user);
+    }
+
 	//完成时效任务
 	public void shiXiao(String taskId,List<ProductTrace> traces,String aginghardness,String alHeatNum,String wcomment,Admin user) throws BaseErrorModel{
         checkOrderState(taskId);
@@ -311,8 +335,10 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
 		dbProductRecord.setAginghardness(aginghardness);
 		dbProductRecord.setAlHeatNum(alHeatNum);
 		dbProductRecord.setWcomment(wcomment);
+        dbProductRecord.setCurrentStep("时效");
         String nextStep = dbProductRecord.getOrderForm().getSurfaceProcess().getStr1();
         nextStep=StringUtils.isEmpty(nextStep)?"打包":nextStep;
+        dbProductRecord.setNextStep(nextStep);
         this.update(dbProductRecord);
         updateOrderMcomment(taskId, wcomment);
         flowService.completeTask(taskId, nextStep, user);
@@ -326,8 +352,11 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
         dbProductRecord.setOxiFilm(oxiFilm);
 		dbProductRecord.setOxifilmer(user);
 		dbProductRecord.setWcomment(wcomment);
+        dbProductRecord.setCurrentStep("氧化");
         String nextStep = dbProductRecord.getOrderForm().getSurfaceProcess().getStr2();
         nextStep=StringUtils.isEmpty(nextStep)?"打包":nextStep;
+        dbProductRecord.setNextStep(nextStep);
+
         this.update(dbProductRecord);
         updateOrderMcomment(taskId, wcomment);
         flowService.completeTask(taskId, nextStep, user);
@@ -340,9 +369,12 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
         boolean ofcomplete = updateProductDetail(traces,dbProductRecord,user,"电泳");
         dbProductRecord.setElectrophoresis(user);
 		dbProductRecord.setWcomment(wcomment);
+        dbProductRecord.setCurrentStep("电泳");
+        String nextStep = "打包";
+        dbProductRecord.setNextStep(nextStep);
         this.update(dbProductRecord);
         updateOrderMcomment(taskId, wcomment);
-        flowService.completeTask(taskId, "打包", user);
+        flowService.completeTask(taskId, nextStep, user);
 	}
 	//完成喷涂任务
 	public void plating(String taskId,List<ProductTrace> traces,String wcomment,Admin user) throws BaseErrorModel{
@@ -352,9 +384,12 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
         updateProductDetail(traces,dbProductRecord,user,"喷涂");
 		dbProductRecord.setPlater(user);
 		dbProductRecord.setWcomment(wcomment);
+        dbProductRecord.setCurrentStep("喷涂");
+        String nextStep = "打包";
+        dbProductRecord.setNextStep(nextStep);
         this.update(dbProductRecord);
         updateOrderMcomment(taskId, wcomment);
-        flowService.completeTask(taskId, "打包", user);
+        flowService.completeTask(taskId, nextStep, user);
 	}
 	//完成打包任务
 	public void pack(String taskId,List<ProductTrace> traces, String wcomment,Admin user) throws BaseErrorModel{
@@ -367,9 +402,9 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
 		dbProductRecord.setWcomment(wcomment);
 		this.update(dbProductRecord);
         //如果未完成，开启另外一张跟踪单
-        if(!ofcomplete) {
-            this.startProductRecordFlow(dbProductRecord.getOrderForm().getDbId(),productTeamId);
-        }
+//        if(!ofcomplete) {
+//            this.startProductRecordFlow(dbProductRecord.getOrderForm().getDbId(),productTeamId);
+//        }
         OrderForm orderForm = dbProductRecord.getOrderForm();
         orderForm.setMcomment(wcomment);
         orderFormDAO.update(orderForm);
@@ -417,6 +452,13 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
         orderForm.setMcomment(wcomment);
         orderFormDAO.update(orderForm);
         flowService.completeTask(taskId,user);
+    }
+
+    /**
+     * 中转处理
+     */
+    public void zhongzhuan(String taskId,List<ProductTrace> traces,String wcomment,Admin user){
+        flowService.completeTask(taskId, "",user);
     }
 
 	

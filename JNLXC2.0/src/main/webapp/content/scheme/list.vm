@@ -150,7 +150,7 @@
                 appendTable(nodes.data)
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert(jqXHR.responseText);
+                mini.alert(jqXHR.responseText);
             }
         });
     }
@@ -168,7 +168,7 @@
                 appendTable(nodes.data)
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert(jqXHR.responseText);
+                mini.alert(jqXHR.responseText);
             }
         });
     }
@@ -201,7 +201,7 @@
 
     function onItemClick(e) {
         var item = e.sender;
-        alert(item.getText());
+        mini.alert(item.getText());
     }
     function onPageChanged(e) {
         loadSchemeList(e.pageIndex, e.pageSize);
@@ -269,7 +269,7 @@
                         loadSchemeList(page.pageIndex, page.pageSize)
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
-                        alert(jqXHR.responseText);
+                        mini.alert(jqXHR.responseText);
                     }
                 });
             }

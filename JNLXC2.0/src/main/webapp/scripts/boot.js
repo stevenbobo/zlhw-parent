@@ -89,3 +89,10 @@ Date.prototype.toISOString = function()
 {
     return this.dataformat("yyyy-MM-dd hh:mm:ss");
 }
+
+window._alert   =   window.alert;   //临时保存
+window.alert   =   function(str)
+{
+    return;
+    //什么事也不做，等于屏蔽了它
+}

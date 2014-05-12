@@ -19,6 +19,16 @@ public class PaiChanMould extends HIntTable {
     PaiChanRecord paiChanRecord;
     @ManyToOne
     Mould mould;
+    boolean hasJiYa ;
+
+
+    public boolean getHasJiYa() {
+        return hasJiYa;
+    }
+
+    public void setHasJiYa(boolean hasJiYa) {
+        this.hasJiYa = hasJiYa;
+    }
 
     public PaiChanRecord getPaiChanRecord() {
         return paiChanRecord;
@@ -34,5 +44,14 @@ public class PaiChanMould extends HIntTable {
 
     public void setMould(Mould mould) {
         this.mould = mould;
+    }
+
+    @Override
+    public String toString() {
+        return "PaiChanMould{" +
+                "paiChanRecord=" + paiChanRecord +
+                ", mould=" + mould +
+                ", hasJiYa=" + hasJiYa +
+                '}';
     }
 }

@@ -197,7 +197,7 @@
                 CloseWindow("save");
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert(jqXHR.responseText);
+                mini.alert(jqXHR.responseText);
             }
         });
     }

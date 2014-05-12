@@ -100,7 +100,7 @@
                         grid.reload();
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
-                        alert(jqXHR.responseText);
+                        mini.alert(jqXHR.responseText);
                     }
                 });
             }
@@ -121,7 +121,7 @@
                 grid.reload();
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert(jqXHR.responseText);
+                mini.alert(jqXHR.responseText);
             }
         });
 

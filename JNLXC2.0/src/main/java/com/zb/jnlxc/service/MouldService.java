@@ -13,6 +13,7 @@ import com.zb.jnlxc.form.MiniPageReq;
 import com.zb.jnlxc.model.*;
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.api.ProcessInstance;
+import org.jbpm.api.task.Task;
 import org.jbpm.pvm.internal.history.model.HistoryTaskInstanceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,8 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
     private MouldRecordDAO mouldRecordDAO;
     @Resource
     private PaiChanRecordDAO paiChanRecordDAO;
+    @Resource
+    private PaiChanMouldDAO paiChanMouldDAO;
     @Resource
     DataDictService dataDictService;
     @Resource
@@ -272,7 +275,7 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
 	 * @return
 	 */
 	public List<Mould> findAllNormalMouldsByScheme(Integer schemeId){
-		return this.getDao().findByHQL("from Mould this where this.scheme.dbId=? and this.status=?",(Object)schemeId,(byte)0);
+		return this.getDao().findByHQL("from Mould this where this.scheme.dbId=? and this.status=?",schemeId,(byte)0);
 	}
 
 	
@@ -295,17 +298,17 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
 		return flowService.startProcessInstanceByKey("mouldFlow",id);
 	}
 
-    public ProcessInstance startmouldProcessFlowByKey(Integer record,Integer mouldId){
-        logger.info("开启排产流程.record={}:",record);
-        PaiChanRecord paiChanRecord = paiChanRecordDAO.getById(record);
+    public ProcessInstance startmouldProcessFlowByKey(PaiChanMould paiChanMould){
+        logger.info("开启排产流程.PaiChanMould={}:",paiChanMould);
+        PaiChanRecord paiChanRecord = paiChanMould.getPaiChanRecord();
         Map map = new HashMap();
-        map.put("paiChanRecordId",paiChanRecord.getDbId());
+        map.put("paiChanMouldId",paiChanMould.getDbId());
         //将模具和外协添加到流程中
-        map.put("mouldId", mouldId);
+        map.put("mouldId", paiChanMould.getMould().getDbId());
         //初始化试模次数
         map.put("smcs","0");
         map.put("isReturn",false);
-        String key = paiChanRecord.getDbId()+"_"+mouldId;
+        String key = paiChanRecord.getDbId()+"_"+paiChanMould.getMould().getDbId();
         return flowService.startProcessInstanceByKey("mouldProcess",key,map);
     }
 	/**
@@ -318,10 +321,6 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
 		return flowService.startProcessInstanceByKey("mouldFlow",id,map);
 	}
 
-    public ProcessInstance startmouldProcessFlowByKey(String id,Map map){
-        logger.info("开启排产流程.id={}:",id);
-        return flowService.startProcessInstanceByKey("mouldFlow",id,map);
-    }
 
 	/**
 	 * 找到当前的流程实例
@@ -470,14 +469,17 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
      * 挤压试模使用
      */
     public void jyscsy(String taskId, Admin user,Map maps,String nextStep) {
-        Integer paiChanRecordId = (Integer) flowService.getContentMap(taskId,"paiChanRecordId");
-        PaiChanRecord paiChanRecord = paiChanRecordDAO.getById(paiChanRecordId);
-        Integer productTeamId =paiChanRecord.getProductTeam().getDbId();
+        Integer paiChanMouldId = (Integer) flowService.getContentMap(taskId,"paiChanMouldId");
+        PaiChanMould paiChanMould = paiChanMouldDAO.getById(paiChanMouldId);
+        paiChanMould.setHasJiYa(true);
+        paiChanMouldDAO.update(paiChanMould);
+        PaiChanRecord paiChanRecord = paiChanMould.getPaiChanRecord();
         completeByDefault(taskId, user, maps, nextStep);
-        log.info("paiChanRecordId = {}",paiChanRecord.toString());
-        String[] orders = paiChanRecord.getOrderIds().split(",");
-        for(String orderDbid:orders){
-            productRecordService.startProductRecordFlow(Integer.parseInt(orderDbid),productTeamId);
+        log.info("paiChanRecordId = {}", paiChanRecord.toString());
+        // 当一个排产的所有排模流程通过了挤压那一步，则进入生产流程继续
+        if(paiChanRecordDAO.checkJiYaFinished(paiChanRecord)){
+            Task task = flowService.getTaskService().getTask(taskId);
+            flowService.getExecutionService().signalExecutionById(task.getExecutionId());
         }
     }
 
@@ -596,9 +598,9 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
         }
         paiChanRecord.setEnable((byte)0);
         paiChanRecordDAO.update(paiChanRecord);
-        String[] moulds = mouldList.split(",");
-        for (String mould:moulds){
-            startmouldProcessFlowByKey(recordId,Integer.parseInt(mould));
+        List<PaiChanMould> list = paiChanRecordDAO.findPaiChanMoulds(paiChanRecord);
+        for (PaiChanMould paiChanMould:list){
+            startmouldProcessFlowByKey(paiChanMould);
         }
 
     }

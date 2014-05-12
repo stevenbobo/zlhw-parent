@@ -6,11 +6,16 @@ package com.zb.jnlxc.aop; /**
 
 import java.io.IOException;
 import javax.servlet.*;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.zb.jnlxc.model.Admin;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.spi.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -21,6 +26,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  */
 @Repository
 public class LoginInterceptor extends HandlerInterceptorAdapter implements Filter {
+    private static final Log log = LogFactory.getLog(LoginInterceptor.class);
     private String loginURL = "/login.vm";
 
     @SuppressWarnings({"rawtypes", "unchecked"})
@@ -32,7 +38,16 @@ public class LoginInterceptor extends HandlerInterceptorAdapter implements Filte
         Admin user = (Admin) session.getAttribute("user");
         if (user == null)
             request.getRequestDispatcher(loginURL).forward(request, response);
-
+        else{
+            //--todo 需要删掉
+            log.info("test cookie user.getName()="+user.getName());
+            Cookie oItem;
+            // 因为Cookie 中不允许保存特殊字符, 所以采用 BASE64 编码，CookieUtil.encode()是BASE64编码方法,略..
+            oItem = new Cookie("username", user.getName());
+            oItem.setMaxAge(5*365*24*60*60);
+            oItem.setPath("/");
+            response.addCookie(oItem);
+        }
         return true;
 
     }
