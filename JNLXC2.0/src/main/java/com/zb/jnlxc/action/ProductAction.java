@@ -97,8 +97,8 @@ public class ProductAction {
 
     @ResponseBody
     @RequestMapping("/printForm")
-    public ProductRecord printForm(String taskId, String remarks,@ModelAttribute("user") Admin user) throws JRException, BaseErrorModel {
-        return productRecordService.printForm(taskId, remarks,user);
+    public void printForm(String taskId, String remarks,@ModelAttribute("user") Admin user) throws JRException, BaseErrorModel {
+        productRecordService.printForm(taskId, remarks,user);
     }
 
     @ResponseBody

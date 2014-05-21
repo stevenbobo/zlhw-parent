@@ -23,13 +23,13 @@ public class FlowServiceTest extends AbstractJUnit4SpringContextTests  {
         String path2 = "./jbpm/orderFlow.jpdl.xml";
 		String path4 = "./jbpm/productRecordFlow.jpdl.xml";
 		String path5 = "./jbpm/schemeFlow.jpdl.xml";
-        String path6 = "jbpm/faHuo.jpdl.xml";
+        String path6 = "./jbpm/faHuo.jpdl.xml";
 
-        String path7 = "jbpm/penTuProcess.jpdl.xml";
-        String path8 = "jbpm/shiXiaoProcess.jpdl.xml";
-        String path9 = "jbpm/yangHuaProcess.jpdl.xml";
-        String path10 = "jbpm/packageProcess.jpdl.xml";
-        String path11 = "jbpm/jiYaProcess.jpdl.xml";
+        String path7 = "./jbpm/penTuProcess.jpdl.xml";
+        String path8 = "./jbpm/shiXiaoProcess.jpdl.xml";
+        String path9 = "./jbpm/yangHuaProcess.jpdl.xml";
+        String path10 = "./jbpm/packageProcess.jpdl.xml";
+        String path11 = "./jbpm/jiYaProcess.jpdl.xml";
 
 		String result1 = flowService.deployFlow(path1);
 		String result2 = flowService.deployFlow(path2);
@@ -46,7 +46,7 @@ public class FlowServiceTest extends AbstractJUnit4SpringContextTests  {
 	}
 
     public void testDeployMouldFlow() {
-        String path1 = "jbpm/mouldFlow.jpdl.xml";
+        String path1 = "./jbpm/mouldFlow.jpdl.xml";
         String path2 = "./jbpm/mouldProcess.jpdl.xml";
         String result1 = flowService.deployFlow(path1);
         String result2 = flowService.deployFlow(path2);

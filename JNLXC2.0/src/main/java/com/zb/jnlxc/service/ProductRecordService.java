@@ -66,28 +66,7 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
 	 */
 	public ProductRecord getProductRecordByTaskId(String taskId){
 		Integer productRecordId = (Integer) flowService.getContentMap(taskId, "productRecordId");
-		if(productRecordId!=null)
-			return this.getById(productRecordId);
-		else{//生成虚拟生产记录与前台交互
-			OrderForm orderForm = orderFormDAO.getById(
-					(Integer) flowService.getContentMap(taskId, "orderFormId"));
-
-			String wcomment=(String)flowService.getContentMap(taskId, "wcomment");
-			ProductRecord productRecord = new ProductRecord();
-			productRecord.setRecordNum(orderForm.getNextRecordNum());
-			productRecord.setCode(orderForm.getCode()+String.format("%02d", orderForm.getNextRecordNum()));//设置跟踪单编码
-			Integer productTeamId = (Integer)flowService.getContentMap(taskId, "productTeamId");
-			ProductTeam productTeam=null;
-			if(productTeamId!=null)
-				productTeam = productTeamService.getById(productTeamId);
-			if(productTeam!=null)
-				productRecord.setCharger(adminDAO.loadById(productTeam.getCharge_dbId()));//设置机台负责人
-			productRecord.setOrderForm(orderForm);//对应的订单
-			productRecord.setNitrideNum(0);//已完成数量为0
-			productRecord.setCreateDate(new Date(System.currentTimeMillis()));//设置开跟踪单时间
-			productRecord.setWcomment(wcomment);//设置评论
-			return productRecord;
-		}
+		return this.getById(productRecordId);
 	}
 
     public List<ProductTrace> getProductTrace(String taskId){
@@ -186,24 +165,37 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
 			throw new BaseErrorModel("该订单已完成,无法开启跟踪单流程", "");
 		}
 		String code=orderForm.getCode()+
-                "-"+paichanRecord.getDbId()+
-                "-"+String.format("%02d", orderForm.getNextRecordNum());
+                "-"+paichanRecord.getDbId();
+//                +"-"+String.format("%02d", orderForm.getNextRecordNum());
 		// 开启生产记录流程
 		Map map=new HashMap();
         map.put("productTeamId", paichanRecord.getProductTeam().getDbId());
 		map.put("orderFormId", orderForm.getDbId());
 		map.put("productNum", orderForm.getNextRecordNum());
 		map.put("productCode", code);
-//		List<ProductRecord> plist=this.getDao().findByHQL("from ProductRecord p where p.orderForm=?", orderForm);
-//		for(ProductRecord productRecord:plist){
-//			List<ProductRecordDetail> detaillist=productRecordDetailDAO.getByProductRecord(productRecord);
-//			if(detaillist.size()==0)
-//				throw new BaseErrorModel("编号为"+productRecord.getCode()+"的生产跟踪单未经过过磅，\n 请先过磅", "");
-//		}
 		orderForm.setNextRecordNum(orderForm.getNextRecordNum()+1);
 		orderFormDAO.update(orderForm);
+        checkOrderState(orderForm);
+        ProductRecord productRecord = new ProductRecord();
+        productRecord.setRecordNum(orderForm.getNextRecordNum());
+        productRecord.setCode(code);//设置跟踪单编码
+        productRecord.setCharger(adminDAO.loadById(paichanRecord.getProductTeam().getCharge_dbId()));//设置机台负责人
+        productRecord.setOrderForm(orderForm);//对应的订单
+        productRecord.setProductTeam(paichanRecord.getProductTeam());//设置生产机台
+        productRecord.setNitrideNum(0);//已完成数量为0
+        productRecord.setCreateDate(new Date());//设置开跟踪单时间
+        productRecord.setCurrentState((byte)1);
+        productRecord.setSurfaceProcess(orderForm.getSurfaceProcess());
+        productRecord.setWcomment("");
+        List<String> squence=orderForm.generateStepList();
+        String nextStep = squence.get(0);
+        productRecord.setNextStep(nextStep);
+        super.create(productRecord);
+        map.put("productRecordId", productRecord.getDbId());
 		this.startProductRecordFlowByKey(code, map);
 	}
+
+
     public void updateOrderMcomment(String taskId,String wcomment){
         OrderForm orderForm = getOrderFormInfo(taskId);
         orderForm.setMcomment(wcomment);
@@ -227,30 +219,9 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
 	 * @throws JRException 
 	 * @throws BaseErrorModel 
 	 */
-	public ProductRecord printForm(String taskId,String comment,Admin user) throws JRException, BaseErrorModel  {
-        checkOrderState(taskId);
-		Integer orderFormId = (Integer) flowService.getContentMap(taskId,"orderFormId");
-		OrderForm orderForm=orderFormDAO.getById(orderFormId);
-		Integer productNum=(Integer) flowService.getContentMap(taskId, "productNum");
-		String productCode=(String) flowService.getContentMap(taskId, "productCode");
-		ProductRecord productRecord = new ProductRecord();
-		productRecord.setRecordNum(productNum);
-		productRecord.setCode(productCode);//设置跟踪单编码
-        ProductTeam productTeam = getProductTeamFormFlow(taskId);
-		productRecord.setCharger(adminDAO.loadById(productTeam.getCharge_dbId()));//设置机台负责人
-		productRecord.setOrderForm(orderForm);//对应的订单
-		productRecord.setProductTeam(productTeam);//设置生产机台
-		productRecord.setNitrideNum(0);//已完成数量为0
-		productRecord.setCreateDate(new Date());//设置开跟踪单时间
-		productRecord.setCurrentState((byte)1);
-		productRecord.setSurfaceProcess(orderForm.getSurfaceProcess());
-		productRecord.setWcomment(comment);
-		Map map = new HashMap();
-		super.create(productRecord);
-		map.put("productRecordId", productRecord.getDbId());
-		flowService.completeTask(taskId,map,user);
-		// 开启生产记录流程
-		return productRecord;
+	public void printForm(String taskId,String comment,Admin user) throws JRException, BaseErrorModel  {
+        updateOrderMcomment(taskId,comment);
+		flowService.completeTask(taskId,user);
 	}
 
     /**
@@ -273,21 +244,8 @@ public class ProductRecordService extends BaseService<ProductRecordDAO,ProductRe
 	 * @throws DocumentException 
 	 */
 	public void startCreatePDF(String taskId,OutputStream os) throws JRException, DocumentException{
-		Integer orderFormId = (Integer) flowService.getContentMap(taskId,"orderFormId");
-		OrderForm orderForm=orderFormDAO.getById(orderFormId);
-
-
-        ProductRecord productRecord = new ProductRecord();
-        productRecord.setRecordNum(orderForm.getNextRecordNum());
-        productRecord.setCode(orderForm.getCode()+String.format("%02d", orderForm.getNextRecordNum()));//设置跟踪单编码
-
-        ProductTeam productTeam = getProductTeamFormFlow(taskId);
-        if(productTeam!=null)
-            productRecord.setCharger(adminDAO.loadById(productTeam.getCharge_dbId()));//设置机台负责人
-
-		productRecord.setOrderForm(orderForm);//对应的订单
-		productRecord.setNitrideNum(0);//已完成数量为0
-		productRecord.setCreateDate(new Date(System.currentTimeMillis()));//设置开跟踪单时间
+        Integer productRecordId = (Integer) flowService.getContentMap(taskId,"productRecordId");
+        ProductRecord productRecord = getById(productRecordId);
 		reportService.exportProductRecord(productRecord,os);
 	}
 	//生产部审核

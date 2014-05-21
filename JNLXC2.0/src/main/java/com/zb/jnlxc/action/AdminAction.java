@@ -50,6 +50,7 @@ public class AdminAction {
     @Resource
     private AdminUserGroupService adminUserGroupService;
 
+
     @ResponseBody
     @RequestMapping("/editUserGroup")
     public void editUserGroup(String data)  {

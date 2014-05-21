@@ -38,18 +38,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter implements Filte
         Admin user = (Admin) session.getAttribute("user");
         if (user == null)
             request.getRequestDispatcher(loginURL).forward(request, response);
-        else{
-            //--todo 需要删掉
-            log.info("test cookie user.getName()="+user.getName());
-            Cookie oItem;
-            // 因为Cookie 中不允许保存特殊字符, 所以采用 BASE64 编码，CookieUtil.encode()是BASE64编码方法,略..
-            oItem = new Cookie("username", user.getName());
-            oItem.setMaxAge(5*365*24*60*60);
-            oItem.setPath("/");
-            response.addCookie(oItem);
-        }
         return true;
-
     }
 
 

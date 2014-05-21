@@ -12,6 +12,7 @@ import com.zb.jnlxc.dao.*;
 import com.zb.jnlxc.form.MiniPageReq;
 import com.zb.jnlxc.model.*;
 import org.apache.commons.lang.StringUtils;
+import org.jbpm.api.Execution;
 import org.jbpm.api.ProcessInstance;
 import org.jbpm.api.task.Task;
 import org.jbpm.pvm.internal.history.model.HistoryTaskInstanceImpl;
@@ -478,8 +479,10 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
         log.info("paiChanRecordId = {}", paiChanRecord.toString());
         // 当一个排产的所有排模流程通过了挤压那一步，则进入生产流程继续
         if(paiChanRecordDAO.checkJiYaFinished(paiChanRecord)){
-            Task task = flowService.getTaskService().getTask(taskId);
-            flowService.getExecutionService().signalExecutionById(task.getExecutionId());
+            String code= paiChanRecord.getOrderForm().getCode()+
+                    "-"+paiChanRecord.getDbId();
+            ProcessInstance processInstance = flowService.getExecutionService().createProcessInstanceQuery().processInstanceKey(code).uniqueResult();
+            flowService.getExecutionService().signalExecutionById(processInstance.getId());
         }
     }
 

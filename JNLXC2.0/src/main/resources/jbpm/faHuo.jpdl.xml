@@ -4,7 +4,7 @@
     <start g="71,7,48,48" name="start1">
       <transition to="仓管记录存放位置(725)"/>
     </start>
-    <end g="74,323,48,48" name="end1"/>
+    <end g="74,324,48,48" name="end1"/>
     <task form="/content/flow/product/warehousePanel.vm" g="23,90,141,52" name="仓管记录存放位置(725)">
         <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler">
             <field name="powerId">
