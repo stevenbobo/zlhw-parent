@@ -1,7 +1,6 @@
 #set($loadPaiMoRecord=$link.setRelative('/MouldAction/loadPaiChanRecord.json'))
 #set($mouldSelectedUrl=$link.setRelative('/content/mould/select.vm'))
 #set($paiMoUrl=$link.setRelative('/MouldAction/paiMo.json'))
-#set($orderSelectedUrl=$link.setRelative('/content/order/orderSelected.vm'))
 
 <style type="text/css">
     body{
@@ -13,7 +12,6 @@
     <table style="width:100%;">
         <tr>
             <td style="width:100%;">
-##                <a class="mini-button" iconCls="icon-add" plain="true" onclick="addPaichan()">新增排产</a>
                 <span class="separator"></span>
                 <input id="code" class="mini-textbox" />
                 <a class="mini-button" iconCls="icon-search" plain="true" onclick="search()">查询</a>
@@ -71,11 +69,7 @@
     function orderListActionRenderer(e){
         var record = e.record;
         var orderCodes =isEmpty(record.orderCodes)?"订单排产":record.orderCodes;
-//        if(record.enable==0){
-            return orderCodes;
-//        }else{
-//            return '<a class="New_Button" href="javascript:editPaichan()">'+orderCodes+'</a>';
-//        }
+        return orderCodes;
     }
 
     function onActionRenderer(e) {
@@ -119,36 +113,5 @@
         });
     }
 
-    function editPaichan(){
-        var paichanRecord = grid.getSelected();
-        mini.open({
-            url: "$orderSelectedUrl",
-            title: "选择订单排产",
-            width: 1000,
-            height: 600,
-            onload: function () {
-                var iframe = this.getIFrameEl();
-                iframe.contentWindow.setData(paichanRecord);
-            },
-            ondestroy: function (action) {
-                grid.load();
-            }
-        });
-    }
 
-    function addPaichan(){
-        mini.open({
-            url: "$orderSelectedUrl",
-            title: "选择订单排产",
-            width: 1000,
-            height: 600,
-            onload: function () {
-                var iframe = this.getIFrameEl();
-                iframe.contentWindow.setData();
-            },
-            ondestroy: function (action) {
-                grid.load();
-            }
-        });
-    }
 </script>

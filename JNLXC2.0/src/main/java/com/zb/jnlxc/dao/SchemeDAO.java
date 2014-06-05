@@ -3,6 +3,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.zb.jnlxc.model.PaiChanRecord;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
@@ -12,7 +13,6 @@ import com.ZLHW.base.dao.DAO;
 import com.zb.jnlxc.IDAO.IScheme;
 import com.zb.jnlxc.model.Mould;
 import com.zb.jnlxc.model.OrderForm;
-import com.zb.jnlxc.model.ProductRecord;
 import com.zb.jnlxc.model.Scheme;
 
 @Component
@@ -44,8 +44,8 @@ public class SchemeDAO extends DAO<Scheme,Integer> implements IScheme{
 		return schemeNum;
 	}
 
-	public List<ProductRecord> getProductRecordBySchemeId(int schemeId) {
-		List productRecordList=findByHQL("from ProductRecord where scheme.id=?", schemeId);
+	public List<PaiChanRecord> getProductRecordBySchemeId(int schemeId) {
+		List productRecordList=findByHQL("from PaiChanRecord t where t.orderForm.scheme.id=?", schemeId);
 		Map map=new HashMap();
 		map.put("list", productRecordList);
 		return productRecordList;

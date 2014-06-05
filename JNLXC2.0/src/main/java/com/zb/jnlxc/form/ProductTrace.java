@@ -23,6 +23,8 @@ public class ProductTrace {
     private Date preSendDate;// 预计发货日期
     private Integer uncompleteWeight ;// 待完成重量
     private Integer uncompleteQuantity;// 待完成重量
+    private Integer orderWeight ;// 待完成重量
+    private Integer orderQuantity;// 待完成重量
     private Integer finishWeight=0 ;// 待完成重量
     private Integer finishQuantiy=0;// 待完成重量
     private Byte isEnough ;// 是否已经完成 {id:0,text:'不足'}, {id:1, text: '足够'}, {id:2, text: '过量'}
@@ -138,5 +140,21 @@ public class ProductTrace {
 
     public void setFinishQuantiy(Integer finishQuantiy) {
         this.finishQuantiy = finishQuantiy;
+    }
+
+    public Integer getOrderWeight() {
+        return orderWeight;
+    }
+
+    public void setOrderWeight(Integer orderWeight) {
+        this.orderWeight = orderWeight;
+    }
+
+    public Integer getOrderQuantity() {
+        return orderQuantity;
+    }
+
+    public void setOrderQuantity(Integer orderQuantity) {
+        this.orderQuantity = orderQuantity;
     }
 }

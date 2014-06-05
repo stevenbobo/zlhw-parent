@@ -28,6 +28,9 @@
         <div field="finishQuantiy" width="60">完成数量
         </div>
         <div field="finishWeight" width="60">完成重量
+            <input property="editor" class="mini-textbox" style="width:100%;"/>
+        </div>
+        <div name="action" headerAlign="center" align="center" renderer="onActionRenderer" cellStyle="padding:0;">#
         </div>
     </div>
 </div>
@@ -49,6 +52,42 @@
     </div>
 </fieldset>
 <script type="text/javascript">
+    function onActionRenderer(e) {
+        var grid = e.sender;
+        var record = e.record;
+        var uid = record._uid;
+        var rowIndex = e.rowIndex;
+        var s = ' <a class="Edit_Button" href="javascript:editRow(\'' + uid + '\')">更新</a>';
+
+        if (grid.isEditingRow(record)) {
+            s = '<a class="Update_Button" href="javascript:updateRow(\'' + uid + '\')">保存</a>   '
+                    + '<a class="Cancel_Button" href="javascript:cancelRow(\'' + uid + '\')">取消</a>'
+        }
+        return s;
+    }
+    function cancelRow(row_uid) {
+        productTracegrid.reload();
+    }
+
+    function onRowDblClick() {
+        var productTrace = productTracegrid.getSelected();
+        if (productTrace) {
+            productTracegrid.commitEdit();
+            productTracegrid.beginEditRow(productTrace);
+        }
+    }
+    function editRow(row_uid) {
+        var row = productTracegrid.getRowByUID(row_uid);
+        if (row) {
+            productTracegrid.cancelEdit();
+            productTracegrid.beginEditRow(row);
+        }
+    }
+
+    function updateRow(row_uid) {
+        var productTrace = productTracegrid.getRowByUID(row_uid);
+        productTracegrid.commitEdit();
+    }
 
     function onEnoughRenderer(e) {
         var productTrace = e.row;

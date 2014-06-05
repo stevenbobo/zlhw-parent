@@ -1,4 +1,5 @@
 package com.zb.jnlxc.JBPM;
+import com.zb.util.Constants;
 import org.jbpm.api.listener.EventListener;
 import org.jbpm.api.listener.EventListenerExecution;
 import org.slf4j.Logger;
@@ -14,14 +15,9 @@ public class OrderFlowEndListener implements EventListener{
 	 public void notify(EventListenerExecution execution) {
 		 Integer orderFormId=(Integer) execution.getVariable("orderFormId");
 		 OrderFormDAO dao=(OrderFormDAO)BeanFactory.LookUp("orderFormDAO");
-		 OrderForm orderForm=dao.getById(orderFormId);
-		 orderForm.setCurrentState((byte)0);//设置图纸为正常
-		 try {
-			dao.update(orderForm);
-		} catch (BaseErrorModel e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		logger.info("订单流程:订单编号为{}的流程结束",execution.getKey());
+		 OrderForm orderForm=dao.loadById(orderFormId);
+		 orderForm.setCurrentState(Constants.ORDER_IN_WAITING_PAICHAN);//订单流程结束
+	     dao.update(orderForm);
+		 logger.info("订单流程:订单编号为{}的流程结束 orderid={}",execution.getKey(),orderForm.getDbId());
 	 }
 }

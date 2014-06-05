@@ -9,32 +9,37 @@
       <transition to="机台负责人打印生产跟踪单"/>
     </start>
     <task form="/content/flow/product/printProductRecordPanel.vm" g="217,6,181,52" name="机台负责人打印生产跟踪单">
-        <assignment-handler class="com.zb.jnlxc.JBPM.PrintProductAssignTask"/>
-        <transition to="等待排模"/>
+    <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler"/>
+      <transition to="exclusive1"/>
     </task>
 
     <sub-process g="57,82,92,52" name="时效(721)" sub-process-key="shiXiaoProcess">
+        <parameter-in subvar="orderFormId" var="orderFormId"/>
+        <parameter-in subvar="paichanRecordId" var="paichanRecordId"/>
         <transition g="194,108:" to="exclusive1"/>
     </sub-process>
     <end g="88,320,48,48" name="end1"/>
     <sub-process g="64,251,92,52" name="打包(722)" sub-process-key="packageProcess">
+        <parameter-in subvar="orderFormId" var="orderFormId"/>
+        <parameter-in subvar="paichanRecordId" var="paichanRecordId"/>
         <transition to="end1"/>
     </sub-process>
     <sub-process g="503,254,123,52" name="氧化电泳(723)" sub-process-key="yangHuaProcess">
+        <parameter-in subvar="orderFormId" var="orderFormId"/>
+        <parameter-in subvar="paichanRecordId" var="paichanRecordId"/>
         <transition g="443,276:" to="exclusive1"/>
     </sub-process>
     <sub-process g="502,79,92,52" name="喷涂（728）" sub-process-key="penTuProcess">
+        <parameter-in subvar="orderFormId" var="orderFormId"/>
+        <parameter-in subvar="paichanRecordId" var="paichanRecordId"/>
         <transition g="442,105:" to="exclusive1"/>
     </sub-process>
 
    <decision g="285,156,48,48" name="exclusive1">
        <handler class="com.zb.jnlxc.JBPM.ProcessDecisionHandler" />
       <transition g="5,-22" name="喷涂" to="喷涂（728）"/>
-      <transition g="-7,-12" name="氧化电泳" to="氧化电泳(723)"/>
+      <transition g="-7,-12" name="氧化" to="氧化电泳(723)"/>
       <transition g="-28,-8" name="时效" to="时效(721)"/>
       <transition g="-19,-15" name="打包" to="打包(722)"/>
    </decision>
-   <state g="262,77,92,52" name="等待排模">
-      <transition to="exclusive1"/>
-   </state>
 </process>

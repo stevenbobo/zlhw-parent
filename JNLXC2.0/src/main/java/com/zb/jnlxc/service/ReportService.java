@@ -11,20 +11,15 @@ import java.util.Map;
 import java.util.Set;
 
 import com.zb.jnlxc.dao.OrderDetailDAO;
+import com.zb.jnlxc.model.*;
 import net.sf.jasperreports.engine.JRException;
 
 import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.ZLHW.base.factory.BeanFactory;
 import com.ZLHW.base.service.BaseService;
 import com.zb.jnlxc.JasperReport.CreateReportPDF;
-import com.zb.jnlxc.model.Admin;
-import com.zb.jnlxc.model.OrderDetail;
-import com.zb.jnlxc.model.OrderForm;
-import com.zb.jnlxc.model.ProductRecord;
-import com.zb.jnlxc.model.ProductTeam;
 
 import javax.annotation.Resource;
 
@@ -38,13 +33,13 @@ public class ReportService extends BaseService{
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	/**
 	 * 以流的方式输出
-	 * @param productRecord
+	 * @param paiChanRecord
 	 * @param os
 	 * @throws JRException
 	 * @throws DocumentException 
 	 */
-	public void exportProductRecord(ProductRecord productRecord,OutputStream os) throws JRException, DocumentException{
-		OrderForm orderForm=productRecord.getOrderForm();
+	public void exportProductRecord(PaiChanRecord paiChanRecord,OutputStream os) throws JRException, DocumentException{
+		OrderForm orderForm=paiChanRecord.getOrderForm();
 		List<OrderDetail> orderFormDetails=orderDetailDAO.getByOrderForm(orderForm);
 		List list=new ArrayList();
 		for(OrderDetail orderDetail:orderFormDetails){
@@ -55,16 +50,16 @@ public class ReportService extends BaseService{
         }
 		Map parameters = new HashMap();
 		parameters.put("ReportTitle", "生产跟踪单");
-		parameters.put("time", productRecord.getCreateDate());
-		parameters.put("schemeCode", productRecord.getOrderForm().getScheme().getName());
-		parameters.put("client", productRecord.getOrderForm().getClient().getClientCode());
-        parameters.put("wcomment",productRecord.getOrderForm().getMcomment());
-        if(productRecord.getCharger()!=null)
-		    parameters.put("Charger", productRecord.getCharger().getName());
+		parameters.put("time", paiChanRecord.getCreateDate());
+		parameters.put("schemeCode", paiChanRecord.getOrderForm().getScheme().getName());
+		parameters.put("client", paiChanRecord.getOrderForm().getClient().getClientCode());
+        parameters.put("wcomment",paiChanRecord.getOrderForm().getMcomment());
+        if(paiChanRecord.getCharger()!=null)
+		    parameters.put("Charger", paiChanRecord.getCharger().getName());
         else
             parameters.put("Charger", "");
 		parameters.put("orderForm", orderForm);
-		parameters.put("recordid", productRecord.getCode());
+		parameters.put("recordid", paiChanRecord.getCode());
 		File file=new File(imagesRoot+orderForm.getScheme().getBmpSrc());
 		if(file.exists())
 			parameters.put("BaseDir", imagesRoot+orderForm.getScheme().getBmpSrc());

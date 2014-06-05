@@ -47,8 +47,6 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
     private PaiChanMouldDAO paiChanMouldDAO;
     @Resource
     DataDictService dataDictService;
-    @Resource
-    private ProductRecordService productRecordService;
 	/**
 	 * 生成模具编号
 	 */
@@ -132,9 +130,9 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
         if(StringUtils.isNotBlank(page.getParameter("paiChanRecordId"))){
             Integer paiChanRecordId = Integer.parseInt(page.getParameter("paiChanRecordId"));
             PaiChanRecord paiChanRecord = paiChanRecordDAO.getById(paiChanRecordId);
-            String mouldList = paiChanRecord.getMouldIds();
-            if(StringUtils.isNotBlank(mouldList))
-                hql.append("and  t.dbId in (").append(mouldList).append(") ");
+            Scheme scheme = paiChanRecord.getOrderForm().getScheme();
+            hql.append("and  t.scheme =:scheme ");
+            queryConditions.add(new QueryCondition("scheme", scheme));
         }
         hql.append("order by ").append(page.getSortKey()).append(" ").append(page.getSortOrder());
         this.getDao().findByPageWithTmpHQL(page, hql.toString(), queryConditions);
@@ -479,9 +477,7 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
         log.info("paiChanRecordId = {}", paiChanRecord.toString());
         // 当一个排产的所有排模流程通过了挤压那一步，则进入生产流程继续
         if(paiChanRecordDAO.checkJiYaFinished(paiChanRecord)){
-            String code= paiChanRecord.getOrderForm().getCode()+
-                    "-"+paiChanRecord.getDbId();
-            ProcessInstance processInstance = flowService.getExecutionService().createProcessInstanceQuery().processInstanceKey(code).uniqueResult();
+            ProcessInstance processInstance = flowService.getExecutionService().createProcessInstanceQuery().processInstanceKey(paiChanRecord.getCode()).uniqueResult();
             flowService.getExecutionService().signalExecutionById(processInstance.getId());
         }
     }

@@ -47,7 +47,7 @@
                     </td>
                     <td class="form-label">相关图纸：</td>
                     <td>
-                        <input id="schemeSelector" required="true" class="mini-buttonedit" onbuttonclick="onSchemeSlecte" name="scheme.dbId" textName="scheme.name"/>
+                        <input id="schemeSelector" required="true" class="mini-buttonedit"  name="scheme.dbId" textName="scheme.name"/>
                     </td>
                 </tr>
                 <tr>

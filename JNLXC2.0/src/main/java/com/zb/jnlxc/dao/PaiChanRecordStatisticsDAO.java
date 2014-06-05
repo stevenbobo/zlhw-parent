@@ -14,8 +14,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by zhengbo.zb on 14-3-19.
- */
+* Created by zhengbo.zb on 14-3-19.
+*/
 @Component
 public class PaiChanRecordStatisticsDAO extends DAO<PaiChanRecordStatistics,Integer> {
     public void newPaiChanRecord(){

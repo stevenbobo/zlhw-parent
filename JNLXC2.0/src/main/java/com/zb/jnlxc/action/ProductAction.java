@@ -1,14 +1,13 @@
 package com.zb.jnlxc.action;
 
 import com.ZLHW.base.Exception.BaseErrorModel;
-import com.ZLHW.base.Form.Page;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.zb.jnlxc.form.MiniPageReq;
 import com.zb.jnlxc.form.MiniPageRsp;
 import com.zb.jnlxc.form.ProductTrace;
 import com.zb.jnlxc.model.*;
-import com.zb.jnlxc.service.ProductRecordService;
+import com.zb.jnlxc.service.PaichanRecordService;
 import net.sf.jasperreports.engine.JRException;
 import org.dom4j.DocumentException;
 import org.jbpm.api.ProcessInstance;
@@ -24,7 +23,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.ParseException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,18 +38,12 @@ import java.util.Map;
 @SessionAttributes(value = {"user"})
 public class ProductAction {
     @Resource
-    ProductRecordService productRecordService;
-
-    @ResponseBody
-    @RequestMapping("/getProductRecordByTaskId")
-    public ProductRecord getProductRecordByTaskId(String taskId) {
-        return productRecordService.getProductRecordByTaskId(taskId);    
-    }
+    PaichanRecordService paichanRecordService;
 
     @ResponseBody
     @RequestMapping("/getProductTrace")
     public MiniPageRsp getProductTrace(String taskId){
-        List result = productRecordService.getProductTrace(taskId);
+        List result = paichanRecordService.getProductTrace(taskId);
         return new MiniPageRsp(result,result.size());
     }
 
@@ -59,12 +51,12 @@ public class ProductAction {
     public void downloadPDF(HttpServletResponse response,String taskId) throws IOException {
 
         OutputStream out = response.getOutputStream();
-        ProductRecord productRecord = productRecordService.getProductRecordByTaskId(taskId);
+        PaiChanRecord paiChanRecord = paichanRecordService.getPaiChanRecordByTaskId(taskId);
         response.setContentType("application/x-download");
         response.setHeader("Content-disposition", "attachment;filename="
-                + productRecord.getCode()+".pdf");
+                + paiChanRecord.getCode()+".pdf");
         try {
-            productRecordService.startCreatePDF(taskId,out);
+            paichanRecordService.startCreatePDF(taskId, out);
         } catch (JRException e) {
             e.printStackTrace();
         } catch (DocumentException e) {
@@ -79,52 +71,41 @@ public class ProductAction {
     @RequestMapping("/loadProductRecord")
     public MiniPageRsp loadProductRecord(MiniPageReq page,HttpServletRequest request) throws ParseException {
         page.setRequest(request);
-        productRecordService.loadProductRecordByPage(page);
+        paichanRecordService.loadProductRecordByPage(page);
         return new MiniPageRsp(page.getResultData(),page.getTotalClum());
     }
 
     @ResponseBody
     @RequestMapping("/getWorkDetail")
     public List<ProductRecordDetailHistory> getWorkDetail(int productId){
-        return productRecordService.getWorkDetail(productId);
-    }
-
-    @ResponseBody
-    @RequestMapping("/startProductRecordFlow")
-    public void startProductRecordFlow( Integer orderFormId){
-//        productRecordService.startProductRecordFlow( orderFormId);
+        return paichanRecordService.getWorkDetail(productId);
     }
 
     @ResponseBody
     @RequestMapping("/printForm")
     public void printForm(String taskId, String remarks,@ModelAttribute("user") Admin user) throws JRException, BaseErrorModel {
-        productRecordService.printForm(taskId, remarks,user);
+        paichanRecordService.printForm(taskId, remarks, user);
     }
 
     @ResponseBody
     @RequestMapping("/startCreatePDF")
     public void startCreatePDF(String taskId, OutputStream os) throws JRException, DocumentException {
-        productRecordService.startCreatePDF(taskId, os);    
+        paichanRecordService.startCreatePDF(taskId, os);
     }
 
     @ResponseBody
     @RequestMapping("/productionAudit")
     public void productionAudit(String taskId, String remarks,@ModelAttribute("user") Admin user){
-        productRecordService.productionAudit(taskId, remarks,user);
+        paichanRecordService.productionAudit(taskId, remarks, user);
     }
 
-    @ResponseBody
-    @RequestMapping("/workshopTask")
-    public void workshopTask(String taskId, String remarks,@ModelAttribute("user") Admin user){
-        productRecordService.workshopTask(taskId, remarks,user);
-    }
 
     @ResponseBody
     @RequestMapping("/shiXiao")
     public void shiXiao(String taskId,String productTraceDatail, String aginghardness, String alHeatNum, String remarks,@ModelAttribute("user") Admin user){
         Gson gson = new Gson();
         List<ProductTrace> traces = gson.fromJson(productTraceDatail,new TypeToken<List<ProductTrace>>() {}.getType());
-        productRecordService.shiXiao(taskId,traces, aginghardness, alHeatNum, remarks,user);
+        paichanRecordService.shiXiao(taskId, traces, aginghardness, alHeatNum, remarks, user);
     }
 
     @ResponseBody
@@ -132,7 +113,7 @@ public class ProductAction {
     public void yangHua(String taskId,String productTraceDatail, String oxiFilm, String remarks,@ModelAttribute("user") Admin user){
         Gson gson = new Gson();
         List<ProductTrace> traces = gson.fromJson(productTraceDatail,new TypeToken<List<ProductTrace>>() {}.getType());
-        productRecordService.yangHua(taskId,traces, oxiFilm, remarks,user);
+        paichanRecordService.yangHua(taskId, traces, oxiFilm, remarks, user);
     }
 
     @ResponseBody
@@ -140,7 +121,7 @@ public class ProductAction {
     public void dianYong(String taskId,String productTraceDatail, String remarks,@ModelAttribute("user") Admin user){
         Gson gson = new Gson();
         List<ProductTrace> traces = gson.fromJson(productTraceDatail,new TypeToken<List<ProductTrace>>() {}.getType());
-        productRecordService.dianYong(taskId,traces, remarks,user);
+        paichanRecordService.dianYong(taskId, traces, remarks, user);
     }
 
     @ResponseBody
@@ -148,7 +129,7 @@ public class ProductAction {
     public void plating(String taskId,String productTraceDatail, String remarks,@ModelAttribute("user") Admin user){
         Gson gson = new Gson();
         List<ProductTrace> traces = gson.fromJson(productTraceDatail,new TypeToken<List<ProductTrace>>() {}.getType());
-        productRecordService.plating(taskId,traces, remarks,user);
+        paichanRecordService.plating(taskId, traces, remarks, user);
     }
 
     @ResponseBody
@@ -156,7 +137,7 @@ public class ProductAction {
     public void pack(String taskId,String productTraceDatail, String remarks,@ModelAttribute("user") Admin user){
         Gson gson = new Gson();
         List<ProductTrace> traces = gson.fromJson(productTraceDatail,new TypeToken<List<ProductTrace>>() {}.getType());
-        productRecordService.pack(taskId,traces, remarks,user);
+        paichanRecordService.pack(taskId, traces, remarks, user);
     }
 
     @ResponseBody
@@ -164,7 +145,7 @@ public class ProductAction {
     public void storage(String taskId,String productTraceDatail, String storeLocation, String remarks,@ModelAttribute("user") Admin user){
         Gson gson = new Gson();
         List<ProductTrace> traces = gson.fromJson(productTraceDatail,new TypeToken<List<ProductTrace>>() {}.getType());
-        productRecordService.storage(taskId,traces, storeLocation, remarks,user);
+        paichanRecordService.storage(taskId, traces, storeLocation, remarks, user);
     }
 
     @ResponseBody
@@ -172,13 +153,13 @@ public class ProductAction {
     public void sendProduct(String taskId,String productTraceDatail, String finalWeight, String remarks,@ModelAttribute("user") Admin user){
         Gson gson = new Gson();
         List<ProductTrace> traces = gson.fromJson(productTraceDatail,new TypeToken<List<ProductTrace>>() {}.getType());
-        productRecordService.sendProduct(taskId,traces, remarks,user);
+        paichanRecordService.sendProduct(taskId, traces, remarks, user);
     }
 
     @ResponseBody
     @RequestMapping("/financialReconciliation")
     public void financialReconciliation(String taskId, int totalPrice, String remarks,@ModelAttribute("user") Admin user){
-        productRecordService.financialReconciliation(taskId, totalPrice, remarks,user);
+        paichanRecordService.financialReconciliation(taskId, totalPrice, remarks, user);
     }
 
     @ResponseBody
@@ -186,48 +167,56 @@ public class ProductAction {
     public void weight(String taskId, String remarks,String productTraceDatail,@ModelAttribute("user") Admin user){
         Gson gson = new Gson();
         List<ProductTrace> traces = gson.fromJson(productTraceDatail,new TypeToken<List<ProductTrace>>() {}.getType());
-        productRecordService.weight(taskId,traces, remarks,user);
+        paichanRecordService.weight(taskId, traces, remarks, user);
+    }
+
+    @ResponseBody
+    @RequestMapping("/transit")
+    public void transit(String taskId, String remarks,String productTraceDatail,@ModelAttribute("user") Admin user){
+        Gson gson = new Gson();
+        List<ProductTrace> traces = gson.fromJson(productTraceDatail,new TypeToken<List<ProductTrace>>() {}.getType());
+        paichanRecordService.transit(taskId, traces, remarks, user);
     }
 
     @ResponseBody
     @RequestMapping("/delete")
-    public void delete(ProductRecord productRecord){
-        productRecordService.delete(productRecord);    
+    public void delete(PaiChanRecord paiChanRecord){
+        paichanRecordService.delete(paiChanRecord);
     }
 
     @ResponseBody
     @RequestMapping("/deleteProductFlowInstanceCascade")
     public void deleteProductFlowInstanceCascade(String id){
-        productRecordService.deleteProductFlowInstanceCascade(id);    
+        paichanRecordService.deleteProductFlowInstanceCascade(id);
     }
 
     @ResponseBody
     @RequestMapping("/deployFlow")
     public String deployFlow() {
-        return productRecordService.deployFlow();    
+        return paichanRecordService.deployFlow();
     }
 
     @ResponseBody
     @RequestMapping("/getProductRecordInfo")
     public Map getProductRecordInfo(String taskId) {
-        return productRecordService.getProductRecordInfo(taskId);    
+        return paichanRecordService.getProductRecordInfo(taskId);
     }
 
     @ResponseBody
     @RequestMapping("/startProductRecordFlowByKey")
     public ProcessInstance startProductRecordFlowByKey(String id) {
-        return productRecordService.startProductRecordFlowByKey(id);    
+        return paichanRecordService.startProductRecordFlowByKey(id);
     }
 
     @ResponseBody
     @RequestMapping("/startProductRecordFlowByKey")
     public ProcessInstance startProductRecordFlowByKey(String id, Map map) {
-        return productRecordService.startProductRecordFlowByKey(id, map);    
+        return paichanRecordService.startProductRecordFlowByKey(id, map);
     }
 
     @ResponseBody
     @RequestMapping("/findProductRecordFlowInstanceByKey")
     public ProcessInstance findProductRecordFlowInstanceByKey(String id) {
-        return productRecordService.findProductRecordFlowInstanceByKey(id);    
+        return paichanRecordService.findProductRecordFlowInstanceByKey(id);
     }
 }

@@ -8,12 +8,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.zb.jnlxc.service.PaichanRecordService;
 import net.sf.jasperreports.engine.JRException;
 
 import org.dom4j.DocumentException;
 
 import com.ZLHW.base.factory.BeanFactory;
-import com.zb.jnlxc.service.ProductRecordService;
 
 public class PdfDownLoad extends HttpServlet {
 
@@ -24,7 +24,7 @@ public class PdfDownLoad extends HttpServlet {
         response.setHeader("Content-disposition", "attachment;filename="
                 + "a.pdf");
 		String taskId=request.getParameter("taskId");
-		ProductRecordService service=(ProductRecordService) BeanFactory.LookUp("ProductRecordService");
+        PaichanRecordService service=(PaichanRecordService) BeanFactory.LookUp("PaichanRecordService");
 		OutputStream out = response.getOutputStream();
 		try {
 			service.startCreatePDF(taskId,out);

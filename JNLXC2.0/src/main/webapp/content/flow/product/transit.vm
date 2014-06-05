@@ -1,60 +1,50 @@
-#set($doTaskUrl=$link.setRelative('ProductAction/printForm.do'))
-#set($downLoadPDFUrl=$link.setRelative('ProductAction/downloadPDF.do'))
+#set($doTaskUrl=$link.setRelative('ProductAction/transit.do'))
+#set($getProductTraceListUrl=$link.setRelative('ProductAction/getProductTraceList.do'))
+
 <style type="text/css">
-    html, body
-    {
-        font-size:12px;
-        padding:0;
-        margin:0;
-        border:0;
-        height:100%;
-        width: 100%;
-        overflow:hidden;
+    body{
+        margin:0;padding:0;border:0;width:100%;height:100%;overflow:visible;
     }
 </style>
-<body>
-<div class="mini-tabs" style="width:100%;height:350px" activeIndex="0">
-
+<body >
+<div class="mini-tabs" style="width:100%;" activeIndex="0">
     <div title="生产记录信息"  >
-        #parse("content/flow/product/productInfo.vm")
+        #parse("content/flow/product/productInfo_quantity.vm")
     </div>
     #parse("content/flow/product/orderInfo_least.vm")
 
 </div>
 
+
 <div style="text-align:center;padding:10px;">
-    <a class="mini-button" onclick="show()" style="width:120px;margin-right:20px;"> 查看跟踪单</a>
-##    <a class="mini-button" onclick="doTaskYes()" style="width:60px;margin-right:20px;"> 完成打印</a>
+    <a class="mini-button" onclick="doTaskYes()" style="width:60px;margin-right:20px;"> 通过</a>
     <a class="mini-button" onclick="onCancel" style="width:60px;">取消</a>
 </div>
+</body>
 #parse("content/flow/product/initJs.vm")
 <script type="text/javascript">
     mini.parse();
-    var productTracegrid = mini.get("productTracegrid");
     var taskId;
-    ////////////////////
+    var productTracegrid = mini.get("productTracegrid");
     //标准方法接口定义
     function setData(taskIdParm, openWindow) {
         openWindow.setWidth(1000);
-        openWindow.setHeight(500);
+        openWindow.setHeight(470);
         windowMiddle(openWindow);
         taskId = mini.clone(taskIdParm);
         initOrderInfo(taskId);
         initProductInfo(taskId);
     }
 
-    function show()
-    {
-        window.location.href="${downLoadPDFUrl}?taskId="+taskId;
-    }
-
     function doTaskYes(){
         var remarks = mini.get("remarks").getValue();
+        productTracegrid.commitEdit();
+        var productTraceDatail = mini.encode(productTracegrid.getData());
         $.ajax({
             url: "$doTaskUrl",
-            data:{taskId:taskId,remarks:remarks},
+            data:{taskId:taskId,productTraceDatail:productTraceDatail,remarks:remarks},
+            type:"post",
             cache: false,
-            type: 'POST',
             success: function () {
                 mini.alert("操作成功");
                 CloseWindow("save");
@@ -64,6 +54,9 @@
             }
         });
     }
+
+
+    var originalData;
 
     function onCancel(e) {
         CloseWindow("cancel");
@@ -75,4 +68,4 @@
         else window.close();
     }
 </script>
-</body>
+

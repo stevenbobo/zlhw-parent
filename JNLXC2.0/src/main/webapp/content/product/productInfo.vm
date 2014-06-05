@@ -30,7 +30,7 @@
     //标准方法接口定义
     function setData(productRecord) {
         var grid = mini.get("detailGrid");
-        grid.load({productId:productRecord.dbId});
+//        grid.load({productId:productRecord.dbId});
     }
 </script>
 </body>

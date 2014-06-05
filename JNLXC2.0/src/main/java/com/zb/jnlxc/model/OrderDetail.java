@@ -2,13 +2,7 @@ package com.zb.jnlxc.model;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Version;
+import javax.persistence.*;
 
 import com.ZLHW.base.HTable.HIntTable;
 import com.ZLHW.base.table.Optimistic;
@@ -25,12 +19,10 @@ public class OrderDetail extends HIntTable{
 	private Integer orderQuantity; //订货数量
 	private Integer orderWeight; //订货重量（千克）
     private Integer orderTotalMeter; //总米数（米）
-	private Integer minWeight; //最小重量（千克）
-	private Integer maxWeight; //最大重量（千克）
 	private Integer compQuantity; //完成数量
-	private Integer minQuantity; //最小数量
-	private Integer maxQuantity; //最大数量
 	private Integer compWeight; //完成重量（千克）
+    private Integer paichanQuantity; //正在排产数量
+    private Integer paichanWeight; //正在排产重量（千克）
 	private Byte compStatus; //完成状态0:未完成1：已完成
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date preSendDate; //预计发货日期
@@ -108,32 +100,6 @@ public class OrderDetail extends HIntTable{
 	    this.orderWeight = orderWeight;
 	}
 	/**
-	* 获取最小重量（千克）
-	*/
-	public Integer getMinWeight(){
-	    return this.minWeight;
-	}
-	/**
-	* 设置最小重量（千克）
-	* @param minWeight
-	*/
-	public void setMinWeight(Integer minWeight){
-	    this.minWeight = minWeight;
-	}
-	/**
-	* 获取最大重量（千克）
-	*/
-	public Integer getMaxWeight(){
-	    return this.maxWeight;
-	}
-	/**
-	* 设置最大重量（千克）
-	* @param maxWeight
-	*/
-	public void setMaxWeight(Integer maxWeight){
-	    this.maxWeight = maxWeight;
-	}
-	/**
 	* 获取完成数量
 	*/
 	public Integer getCompQuantity(){
@@ -145,32 +111,6 @@ public class OrderDetail extends HIntTable{
 	*/
 	public void setCompQuantity(Integer compQuantity){
 	    this.compQuantity = compQuantity;
-	}
-	/**
-	* 获取最小数量
-	*/
-	public Integer getMinQuantity(){
-	    return this.minQuantity;
-	}
-	/**
-	* 设置最小数量
-	* @param minQuantity
-	*/
-	public void setMinQuantity(Integer minQuantity){
-	    this.minQuantity = minQuantity;
-	}
-	/**
-	* 获取最大数量
-	*/
-	public Integer getMaxQuantity(){
-	    return this.maxQuantity;
-	}
-	/**
-	* 设置最大数量
-	* @param maxQuantity
-	*/
-	public void setMaxQuantity(Integer maxQuantity){
-	    this.maxQuantity = maxQuantity;
 	}
 	/**
 	* 获取完成重量（千克）
@@ -238,4 +178,19 @@ public class OrderDetail extends HIntTable{
 	    this.enable = enable;
 	}
 
+    public Integer getPaichanQuantity() {
+        return paichanQuantity;
+    }
+
+    public void setPaichanQuantity(Integer paichanQuantity) {
+        this.paichanQuantity = paichanQuantity;
+    }
+
+    public Integer getPaichanWeight() {
+        return paichanWeight;
+    }
+
+    public void setPaichanWeight(Integer paichanWeight) {
+        this.paichanWeight = paichanWeight;
+    }
 }

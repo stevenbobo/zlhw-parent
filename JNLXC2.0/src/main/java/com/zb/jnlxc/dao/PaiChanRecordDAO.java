@@ -1,6 +1,5 @@
 package com.zb.jnlxc.dao;
 
-import com.ZLHW.base.Exception.BaseErrorModel;
 import com.ZLHW.base.dao.DAO;
 import com.zb.jnlxc.model.*;
 import org.springframework.stereotype.Component;
@@ -21,10 +20,6 @@ import java.util.List;
 public class PaiChanRecordDAO extends DAO<PaiChanRecord,Integer> {
     @Resource
     private PaiChanMouldDAO paiChanMouldDAO;
-    @Resource
-    private PaiChanOrderDAO paiChanOrderDAO;
-    @Resource
-    private OrderFormDAO orderFormDAO;
     @Resource
     private MouldDAO mouldDAO;
     @Resource
@@ -55,7 +50,6 @@ public class PaiChanRecordDAO extends DAO<PaiChanRecord,Integer> {
      */
     public void paiChanUpdate(PaiChanRecord paiChanRecord){
         paiChanMouldDAO.updateHql("delete from PaiChanOrder t where t.paiChanRecord = ?",paiChanRecord);
-        updatePaiChanOrder(paiChanRecord);
     }
 
     /**
@@ -67,21 +61,13 @@ public class PaiChanRecordDAO extends DAO<PaiChanRecord,Integer> {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String date = sdf.format(new Date());
         Integer num = paiChanRecordStatisticsDAO.getNextPaiChanRecordNum();
-        String code = date+"-"+num;
+        String code = paiChanRecord.getOrderForm().getCode()+"-"+date+"-"+num;
         paiChanRecord.setCode(code);
         super.create(paiChanRecord);
-        updatePaiChanOrder(paiChanRecord);
         paiChanRecordStatisticsDAO.newPaiChanRecord();
         return paiChanRecord;
     }
 
-    private void updatePaiChanOrder(PaiChanRecord paiChanRecord){
-            OrderForm orderForm = paiChanRecord.getOrderForm();
-            PaiChanOrder paiChanOrder = new PaiChanOrder();
-            paiChanOrder.setOrderForm(orderForm);
-            paiChanOrder.setPaiChanRecord(paiChanRecord);
-            paiChanOrderDAO.create(paiChanOrder);
-        }
 
     /**
      * 检验一个排产记录的所有模具排产是否通过挤压流程
@@ -100,5 +86,23 @@ public class PaiChanRecordDAO extends DAO<PaiChanRecord,Integer> {
     public List<PaiChanMould> findPaiChanMoulds(PaiChanRecord paiChanRecord){
         List<PaiChanMould> list= paiChanMouldDAO.findByHQL("from PaiChanMould t where t.paiChanRecord = ?",paiChanRecord);
         return list;
+    }
+
+    public List<PaiChanRecord> productList(Scheme scheme) {
+		String totalhql=" from PaichanOrderDetail t where t.orderDetail.orderForm.scheme=?";
+		return findByHQL(totalhql, scheme);
+	}
+
+
+    public void deleteByOrderId(Integer orderId){
+        List<PaiChanRecord> l =getProductListByOrderId(orderId);
+        for(PaiChanRecord p:l){
+            delete(p);
+        }
+    }
+
+    public List<PaiChanRecord> getProductListByOrderId(Integer orderId){
+        String hql=" from PaiChanRecord t where t.orderForm.dbId=?";
+        return findByHQL(hql, orderId);
     }
 }

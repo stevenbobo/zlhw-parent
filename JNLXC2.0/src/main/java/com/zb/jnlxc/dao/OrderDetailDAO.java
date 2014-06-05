@@ -18,7 +18,7 @@ public class OrderDetailDAO extends DAO<OrderDetail,Integer> {
 	private static final Log log = LogFactory.getLog(OrderDetailDAO.class);
 
     @Resource
-    private ProductRecordDetailDAO productRecordDetailDAO;
+    private PaichanOrderDetailDAO paichanOrderDetailDAO;
 
 	public void delete(OrderDetail orderDetail) throws BaseErrorModel{
 		//删除图纸前查找是否有订单记录
@@ -39,11 +39,32 @@ public class OrderDetailDAO extends DAO<OrderDetail,Integer> {
     }
 
     public void updateCompWeight(OrderDetail od) {
-        Map<String,Long> map = productRecordDetailDAO.getCompDetail(od);
+        Map<String,Long> map = paichanOrderDetailDAO.getCompDetail(od);
         Long compWeight = map.get("compWeight");
         Long compQuantity = map.get("compQuantity");
         od.setCompQuantity(compQuantity.intValue());
         od.setCompWeight(compWeight.intValue());
+        this.update(od);
+    }
+
+    public void updateCompState(OrderDetail od) {
+        Map<String,Long> map = paichanOrderDetailDAO.getCompDetail(od);
+        Long compWeight = map.get("compWeight");
+        Long compQuantity = map.get("compQuantity");
+        od.setCompQuantity(compQuantity.intValue());
+        od.setCompWeight(compWeight.intValue());
+        if(compQuantity>=od.getOrderQuantity()){
+            od.setCompStatus((byte)1);
+        }
+        this.update(od);
+    }
+
+    public void updatePaichanWeight(OrderDetail od) {
+        Map<String,Long> map = paichanOrderDetailDAO.getPaichanDetail(od);
+        Long orderWeight = map.get("orderWeight");
+        Long orderQuantity = map.get("orderQuantity");
+        od.setPaichanQuantity(orderQuantity.intValue());
+        od.setPaichanWeight(orderWeight.intValue());
         this.update(od);
     }
 }

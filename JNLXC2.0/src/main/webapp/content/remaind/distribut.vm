@@ -1,0 +1,132 @@
+#set($loadOrderDetail=$link.setRelative('/BussinessAction/loadOrderDetail.json'))
+#set($distributionToOrderDetail=$link.setRelative('/RemaindProductAction/distributionToOrderDetail.json'))
+<style type="text/css">
+    body{
+        margin:0;padding:0;border:0;width:100%;height:100%;overflow:hidden;
+    }
+</style>
+
+<body>
+<div class="mini-splitter" style="width:100%;height:100%">
+    <div size="70%" showCollapseButton="false" style="padding:5px;">
+        <div class="mini-toolbar" style="text-align:center;line-height:30px;" borderStyle="border:0;">
+            <label >名称或编号：</label>
+            <input id="key"  class="mini-textbox" emptyText="名称或编号" onenter="search()" />
+            <a class="mini-button" style="width:60px;" onclick="search()">查询</a>
+            <span style="display:inline-block;width:25px;"></span>
+        </div>
+
+        <div class="mini-fit">
+
+            <div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%;"
+                 onselectionchanged="onOrderChanged"
+                 url="$loadOrderDetail"  idField="id" allowResize="true"
+                 sizeList="[10,20,30,50,100]" pageSize="20"
+                    >
+                <div property="columns">
+                    <div type="checkcolumn" ></div>
+                    <div field="dbId" align="center"  width="60"  headerAlign="center" >编号</div>
+                    <div field="orderForm.code" align="center"  headerAlign="center" >订单编号</div>
+                    <div field="setSize"  width="60"   align="center" headerAlign="center">尺寸</div>
+                    <div field="orderQuantity"  width="60"   align="center" headerAlign="center">订货数量</div>
+                    <div field="compQuantity"  width="60"   align="center" headerAlign="center">完成数量</div>
+                    <div field="orderForm.registerDate"  width="100" align="center" headerAlign="center"  dateFormat="yyyy-MM-dd">订货日期
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div showCollapseButton="false">
+        <div class="mini-toolbar" style="padding:2px;border-top:0;border-left:0;border-right:0;">
+            <a class="mini-button" style="width:120px;" onclick="confirmSelect()">确定分配</a>
+        </div>
+        未完成订购数量:<font id="orderQuantity" color="red" ></font></br>
+        胚料数量:<font id="remaindQuantity" color="red"></font></br>
+        分配数量:
+        <input id="quantity_textbox" class="mini-spinner"  value="0" minValue="0" maxValue="1000000" format="n2"/>
+    </div>
+</div>
+
+
+</body>
+
+<script type="text/javascript">
+    mini.parse();
+    var grid = mini.get("datagrid1");
+    var mouldtree = mini.get("mouldtree");
+    var remaindProductId;
+    var quantity_textbox = mini.get("quantity_textbox");
+    var remaindQuantity;
+
+
+    function search() {
+        var key = mini.get("key").getValue();
+        grid.load({ name: key,paiChanRecordId: recordId});
+    }
+
+
+    function GetData() {
+        var row = grid.getSelected();
+        return row;
+    }
+
+    function onOk() {
+        CloseWindow("ok");
+    }
+    function onCancel() {
+        CloseWindow("cancel");
+    }
+
+    function CloseWindow(action) {
+        if (window.CloseOwnerWindow)
+            return window.CloseOwnerWindow(action);
+        else window.close();
+    }
+
+    function setData(record) {
+        remaindProductId = record.dbId;
+        remaindQuantity = record.remaindQuantity;
+        $("#remaindQuantity").html(remaindQuantity);
+        grid.load({ remaindProductId: remaindProductId });
+    }
+
+    function isEmpty(s){
+        return ((s == undefined || s == null || s == "") ? true : false);
+    }
+
+    function confirmSelect(){
+        var quantity = quantity_textbox.getValue();
+        var orderDetail = grid.getSelected();
+        if(orderDetail){
+            if(isEmpty(quantity)){
+                mini.alert("请输入要分配的数量");
+                return;
+            }
+            $.ajax({
+                url: "$distributionToOrderDetail",
+                data: {
+                    quantity:quantity,
+                    remaindProductId:remaindProductId,
+                    orderDetailId:orderDetail.dbId
+                },
+                success: function (text) {
+                    mini.alert('操作成功');
+                    onOk();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    mini.alert(jqXHR.responseText);
+                }
+            });
+        }else{
+            mini.alert("请单击选择订单明细");
+        }
+    }
+
+    function onOrderChanged(e){
+        var grid = e.sender;
+        var orderDetail = grid.getSelected();
+        var unCompQunatity = orderDetail.orderQuantity-orderDetail.compQuantity;
+        $("#orderQuantity").html(unCompQunatity);
+    }
+
+</script>

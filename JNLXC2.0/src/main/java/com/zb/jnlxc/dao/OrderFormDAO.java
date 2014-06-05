@@ -5,6 +5,9 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.zb.jnlxc.model.PaiChanRecord;
+import com.zb.jnlxc.model.PaichanOrderDetail;
+import com.zb.util.Constants;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
@@ -20,9 +23,9 @@ public class OrderFormDAO extends DAO<OrderForm,Integer> {
 	@Resource
 	private OrderDetailDAO orderDetailDAO;
     @Resource
-    private ProductRecordDAO productRecordDAO;
+    private PaiChanRecordDAO paiChanRecordDAO;
     @Resource
-    private ProductRecordDetailDAO productRecordDetailDAO;
+    private PaichanOrderDetailDAO paichanOrderDetailDAO;
 
 	public OrderDetailDAO getOrderDetailDAO() {
 		return orderDetailDAO;
@@ -34,7 +37,7 @@ public class OrderFormDAO extends DAO<OrderForm,Integer> {
 
 	public void delete(OrderForm orderForm) throws BaseErrorModel{
 	    this.refresh(orderForm);
-        productRecordDAO.deleteByOrderId(orderForm.getDbId());
+        paiChanRecordDAO.deleteByOrderId(orderForm.getDbId());
 		List<OrderDetail> orderDetails = orderDetailDAO.findByHQL("from OrderDetail o where o.orderForm=?", orderForm);
 		for(OrderDetail od:orderDetails){
 			orderDetailDAO.delete(od);
@@ -43,16 +46,29 @@ public class OrderFormDAO extends DAO<OrderForm,Integer> {
 	}
 
     public void updateCompWeight(OrderForm orderForm){
-        Map<String,Long> map = productRecordDetailDAO.getCompMapByOrder(orderForm);
+        Map<String,Long> map = paichanOrderDetailDAO.getCompMapByOrder(orderForm);
         Long compWeight = map.get("compWeight");
         Long compQuantity = map.get("compQuantity");
         orderForm.setCompQuantity(compQuantity.intValue());
         orderForm.setCompWeight(compWeight.intValue());
         this.update(orderForm);
-
     }
 
 
-	
-	
+
+    public void updateCompState(OrderForm orderForm) {
+        boolean isFinished = true;
+        List<OrderDetail> orderDetails = orderDetailDAO.getByOrderForm(orderForm);
+        for(OrderDetail orderDetail:orderDetails){
+            boolean orderDetailFinished = orderDetail.getCompQuantity()>=
+                    orderDetail.getOrderQuantity();
+            isFinished = isFinished&&orderDetailFinished;
+            orderDetailDAO.updateCompState(orderDetail);
+        }
+        if(isFinished){
+            orderForm.setCurrentState(Constants.ORDER_FINISHED);
+            orderForm.setCompStatus((byte)1);
+            this.update(orderForm);
+        }
+    }
 }

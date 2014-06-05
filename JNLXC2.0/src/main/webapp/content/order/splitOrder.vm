@@ -1,0 +1,120 @@
+#set($loadOrderDeatilURL=$link.setRelative('/BussinessAction/getUnPanchanOrderDetail.json'))
+#set($findAllTeamDetail=$link.setRelative('/CommonAction/findAllTeamDetail.json'))
+#set($paiChanUrl=$link.setRelative('/BussinessAction/paiChan.json'))
+
+<body>
+<div class="fieldset-body">
+    <div style="width:100%;">
+        <div class="mini-toolbar" style="border-bottom:0;padding:0px;">
+            <table style="width:100%;">
+                <tr>
+                    <td style="width:100%;">
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div id="datagrid1" class="mini-datagrid" style="width:100%;height:180px;"
+         idField="dbId" url="$loadOrderDeatilURL"  pageSize="10" showFooter="false"
+         allowCellEdit="true" allowCellSelect="true" multiSelect="true"
+            >
+        <div property="columns">
+            <div field="setSize" name="setSize" headerAlign="center" >规格尺寸(mm)
+            </div>
+            <div field="orderQuantity" name="orderQuantity"  >订货数量（条）
+                <input property="editor" onvaluechanged="onGenderChanged(e,'orderQuantity')"  class="mini-spinner" minValue="1" maxValue="99999999" value="1"  style="width:100%;"/>
+            </div>
+            <div field="orderWeight" name="orderWeight" headerAlign="center" >订货重量（千克）
+            </div>
+            <div field="orderTotalMeter" name="orderTotalMeter" >总米数(米)
+                <input  class="mini-textbox"  style="width:100%;"/>
+            </div>
+        </div>
+    </div>
+</div>
+<fieldset id="fd2" >
+    <legend><span> 选择机台</span></legend>
+<span style="padding-left:5px;">选择机台：</span>
+<input name="productTeamId" id="productTeamId" property="editor" class="mini-combobox"   url="$findAllTeamDetail"
+       textField="1" valueField="0"  required="true" ondrawcell="onDrawCell" />
+</fieldset>
+<div style="text-align:center;padding:10px;">
+    <a class="mini-button" onclick="startPaichanFlow" style="width:100px;margin-right:20px;">开启排产</a>
+    <a class="mini-button" onclick="onCancel" style="width:60px;">取消</a>
+</div>
+</body>
+<script type="text/javascript">
+    mini.parse();
+    var grid = mini.get("datagrid1");
+    grid.hideColumn("originOrderQuantity");
+    var productTeamId = mini.get("productTeamId");
+    var originalData;
+    //标准方法接口定义
+    function setData(order) {
+        //跨页面传递的数据对象，克隆后才可以安全使用
+        originalData = mini.clone(order);
+        grid.load({ orderId:originalData.dbId },onGridLoad);
+    }
+
+    function onGridLoad(e) {
+        var result = e.result;
+        for(var a=0;a<result.data.length;a++){
+            result.data[a].originOrderQuantity = result.data[a].orderQuantity;
+        }
+
+    }
+
+    function onDrawCell(e) {
+        e.cellHtml = '<span style="color:red;">'+e.record[1]+'  '+e.record[2]+'</span>';
+    }
+
+    function startPaichanFlow(){
+        var productTeamId =  mini.get("productTeamId").getValue();
+        if(isEmpty(productTeamId)){
+            mini.alert("请选择机台");
+            return;
+        }
+        var detail = grid.getData();
+        $.ajax({
+            url: "$paiChanUrl",
+            type: 'POST',
+            data: {
+                orderId:originalData.dbId,
+                productTeamId:productTeamId,
+                orderDetailData:mini.encode(detail)
+            },
+            success: function (text) {
+                CloseWindow("ok");
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                mini.alert(jqXHR.responseText);
+            }
+        });
+    }
+
+
+    //重量=条数*定尺*米重
+    //条数=重量/(定尺*米重)
+    function onGenderChanged(e,field) {
+        var combo = e.sender;
+        var row = grid.getEditorOwnerRow(combo);
+        var originOrderQuantity = row.originOrderQuantity;
+        var kpm = originalData.kpm;
+        var setSize = row.setSize;
+        var orderQuantity = grid.getCellEditor("orderQuantity", row).getValue();
+        var orderWeight = row.orderWeight;
+//        if(orderQuantity>originOrderQuantity){
+//            mini.alert("尺寸:"+setSize+"  能够生产的最大数量为："+originOrderQuantity);
+//            row.orderQuantity = originOrderQuantity;
+//            grid.getCellEditor("orderQuantity", row).setValue(originOrderQuantity)
+//            return;
+//        }
+        if(field=='orderQuantity'){
+            row.orderWeight=orderQuantity*((row.setSize/1000.0)*kpm)/1000;
+            row.orderTotalMeter=(orderQuantity*row.setSize)/1000.0;
+        }
+        grid.doUpdate();
+    }
+</script>

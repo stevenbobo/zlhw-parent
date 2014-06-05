@@ -12,7 +12,7 @@ import java.util.Date;
 @TableDeclare(comment = "生产记录明细表历史记录", tableName = "ProductRecordDetailHistory")
 @Optimistic
 public class ProductRecordDetailHistory extends HIntTable {
-	private Integer productRecord_dbId; // 生产记录表
+	private Integer paichanRecord_dbId; // 生产记录表
 	private Integer orderDetail_dbId; // 订单明细，记录订购的产品信息
     private Integer operater_dbId;
     @Column(length=100)
@@ -44,12 +44,12 @@ public class ProductRecordDetailHistory extends HIntTable {
         this.setSize = setSize;
     }
 
-    public Integer getProductRecord_dbId() {
-        return productRecord_dbId;
+    public Integer getPaichanRecord_dbId() {
+        return paichanRecord_dbId;
     }
 
-    public void setProductRecord_dbId(Integer productRecord_dbId) {
-        this.productRecord_dbId = productRecord_dbId;
+    public void setPaichanRecord_dbId(Integer paichanRecord_dbId) {
+        this.paichanRecord_dbId = paichanRecord_dbId;
     }
 
     public Integer getOrderDetail_dbId() {
@@ -69,7 +69,7 @@ public class ProductRecordDetailHistory extends HIntTable {
 
 	/**
 	 * 设置相对于订单明细中的生产重量统计
-	 * 
+	 *
 	 * @param detailWeight
 	 */
 	public void setDetailWeight(Integer detailWeight) {
@@ -85,7 +85,7 @@ public class ProductRecordDetailHistory extends HIntTable {
 
 	/**
 	 * 设置相对于订单明细中的生产数量统计
-	 * 
+	 *
 	 * @param detailQuantity
 	 */
 	public void setDetailQuantity(Integer detailQuantity) {

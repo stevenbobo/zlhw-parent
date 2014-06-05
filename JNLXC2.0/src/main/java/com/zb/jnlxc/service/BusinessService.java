@@ -12,8 +12,10 @@ import java.util.Set;
 import javax.annotation.Resource;
 
 import com.zb.jnlxc.dao.*;
+import com.zb.jnlxc.form.MiniPageReq;
 import com.zb.jnlxc.form.OrderDetailForm;
 import com.zb.jnlxc.model.*;
+import com.zb.util.Constants;
 import com.zb.util.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,6 +34,8 @@ import com.ZLHW.base.service.BaseService;
 @Transactional
 public class BusinessService extends BaseService<OrderFormDAO,OrderForm, Integer>{
 	private static final Log log = LogFactory.getLog(BusinessService.class);
+    @Resource
+    private PaichanOrderDetailDAO paichanOrderDetailDAO;
 	@Resource
 	private OrderDetailDAO orderDetailDao;
 	@Resource
@@ -42,10 +46,6 @@ public class BusinessService extends BaseService<OrderFormDAO,OrderForm, Integer
 	private OrderForm_AuthorDAO orderForm_AuthorDAO;
 	@Resource
 	private ClientDAO clientDAO;
-	@Resource
-	private ProductRecordDAO productRecordDAO;
-	@Resource
-	private ProductRecordDetailDAO productRecordDetailDAO;
     @Resource
     private PaiChanRecordDAO paiChanRecordDAO;
 	@Resource
@@ -55,9 +55,11 @@ public class BusinessService extends BaseService<OrderFormDAO,OrderForm, Integer
     @Resource
     private CityService cityService;
     @Resource
-    private ProductRecordService productRecordService;
+    private PaichanRecordService paichanRecordService;
     @Resource
     private ProductTeamDAO productTeamDAO;
+    @Resource
+    private RemaindProductDAO remaindProductDAO;
 
 	private List<Admin> combinClient(List<Admin> agentList,List<Client> clientList){
 		List<Admin> emptyAgentList = new ArrayList<Admin>();
@@ -82,9 +84,35 @@ public class BusinessService extends BaseService<OrderFormDAO,OrderForm, Integer
         return this.getDao().findByHQL("from OrderForm o where o.scheme.id=?", schemeId);
 	}
 	
-	public List<ProductRecord> getProductRecordsByScheme(Integer schemeId){
-		return productRecordDAO.getProductRecordsByScheme(schemeId);
-	}
+//	public List<ProductRecord> getProductRecordsByScheme(Integer schemeId){
+//		return productRecordDAO.getProductRecordsByScheme(schemeId);
+//	}
+
+    public Page loadOrderDetail(MiniPageReq page, Admin user) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        List<QueryCondition> queryConditions=new ArrayList();
+        StringBuffer hql=new StringBuffer("from OrderDetail t where 1=1 ");
+        hql.append(" and compStatus = 0 ");
+        if(StringUtils.isNotEmpty(page.getParameter("remaindProductId"))){
+            int remaindProductId=Integer.parseInt(page.getParameter("remaindProductId"));
+            RemaindProduct remaindProduct = remaindProductDAO.getById(remaindProductId);
+            Scheme scheme = remaindProduct.getPaichanOrderDetail().getOrderDetail().getOrderForm().getScheme();
+            String setSize = remaindProduct.getPaichanOrderDetail().getOrderDetail().getSetSize();
+            hql.append("and t.setSize=:RefSetSize ");
+            queryConditions.add(new QueryCondition("RefSetSize", setSize));
+            hql.append("and t.orderForm.scheme=:RefScheme ");
+            queryConditions.add(new QueryCondition("RefScheme", scheme));
+        }
+        if(StringUtils.isNotEmpty(page.getParameter("code"))){
+            String code =  page.getParameter("code");
+            hql.append("and t.orderFrom.code like :code ");
+            queryConditions.add(new QueryCondition("code", "%"+code+"%"));
+        }
+        hql.append("order by dbId desc ");
+        this.getDao().findByPageWithTmpHQL(page, hql.toString(), queryConditions);
+        return page;
+    }
+
 	/**
 	 * 通过分页载入订单
 	 * @param page
@@ -116,7 +144,7 @@ public class BusinessService extends BaseService<OrderFormDAO,OrderForm, Integer
             queryConditions.add(new QueryCondition("startDate", startDate));
         }
         if(StringUtils.isNotEmpty(page.getParameter("endDate"))){
-            hql.append("and t.orderDate <:endDate ");
+            hql.append("and t.orderDate <=:endDate ");
             Date endDate=sdf.parse(page.getParameter("endDate"));
             queryConditions.add(new QueryCondition("endDate", endDate));
         }
@@ -135,6 +163,10 @@ public class BusinessService extends BaseService<OrderFormDAO,OrderForm, Integer
             Byte compStatus = Byte.parseByte(page.getParameter("compStatus"));
             hql.append("and t.compStatus=:compStatus ");
             queryConditions.add(new QueryCondition("compStatus", compStatus));
+        }
+        if(StringUtils.isNotEmpty(page.getParameter("paichan"))){
+            hql.append("and t.currentState=:currentState ");
+            queryConditions.add(new QueryCondition("currentState", Constants.ORDER_IN_WAITING_PAICHAN));
         }
         if(StringUtils.isNotBlank(page.getParameter("paiChanRecordId"))){
             Integer paiChanRecordId = Integer.parseInt(page.getParameter("paiChanRecordId"));
@@ -227,29 +259,29 @@ public class BusinessService extends BaseService<OrderFormDAO,OrderForm, Integer
 		return allUser;
 	}
 	
-	/**
-	 * 通过订单得到生产单
-	 * @param orderForm
-	 * @return
-	 */
-	public List getProductRecordsByOrderForm(OrderForm orderForm){
-		return productRecordDAO.findByHQL("from ProductRecord p where p.orderForm=?", orderForm);
-	}
-	
-	/**
-	 * 通过生产单得到订单详细
-	 * @param productRecord
-	 * @return
-	 */
-	public List getOrderDetailsByProductRecord(ProductRecord productRecord){
-		List<ProductRecordDetail> list=productRecordDetailDAO.findByHQL("from ProductRecordDetail p where p.productRecord=?", productRecord);
-		List OrderDetails=new ArrayList();
-		for(ProductRecordDetail prd:list){
-			OrderDetails.add(prd.getOrderDetail());
-		}
-		return OrderDetails;
-	}
-	
+//	/**
+//	 * 通过订单得到生产单
+//	 * @param orderForm
+//	 * @return
+//	 */
+//	public List getProductRecordsByOrderForm(OrderForm orderForm){
+//		return productRecordDAO.findByHQL("from ProductRecord p where p.orderForm=?", orderForm);
+//	}
+//
+//	/**
+//	 * 通过生产单得到订单详细
+//	 * @param productRecord
+//	 * @return
+//	 */
+//	public List getOrderDetailsByProductRecord(ProductRecord productRecord){
+//		List<ProductRecordDetail> list=productRecordDetailDAO.findByHQL("from ProductRecordDetail p where p.productRecord=?", productRecord);
+//		List OrderDetails=new ArrayList();
+//		for(ProductRecordDetail prd:list){
+//			OrderDetails.add(prd.getOrderDetail());
+//		}
+//		return OrderDetails;
+//	}
+//
 	/**
 	 * 保存已授权的业务员列表到OrderForm_Author表中
 	 * @throws BaseErrorModel 
@@ -306,7 +338,7 @@ public class BusinessService extends BaseService<OrderFormDAO,OrderForm, Integer
         orderForm.setCompQuantity(0);
 		orderForm.setOrderDate(new Date());
 		orderForm.setEnable((byte)0);
-		orderForm.setCurrentState((byte)1);
+		orderForm.setCurrentState(Constants.ORDER_IN_ORDERFLOW);
 		orderForm.setNextRecordNum(1);
 		orderForm.setCompStatus((byte)0);
         this.getDao().getSession().refresh(orderForm.getClient());
@@ -331,6 +363,8 @@ public class BusinessService extends BaseService<OrderFormDAO,OrderForm, Integer
                 orderDetailForm.setOrderForm(orderForm);
                 orderDetailForm.setCompQuantity(0);
                 orderDetailForm.setCompWeight(0);
+                orderDetailForm.setPaichanQuantity(0);
+                orderDetailForm.setPaichanWeight(0);
                 orderDetailDao.create(orderDetailForm.getOrderDetail());
                 weight+=orderDetailForm.getOrderWeight();
             }
@@ -607,7 +641,7 @@ public class BusinessService extends BaseService<OrderFormDAO,OrderForm, Integer
      */
     public void stopOrderFlow(Integer orderId) {
         OrderForm orderForm = loadById(orderId);
-        orderForm.setCurrentState((byte)2);
+        orderForm.setCurrentState(Constants.ORDER_IN_ORDERFLOW_PAUSE);
         this.update(orderForm);
 
     }
@@ -617,41 +651,65 @@ public class BusinessService extends BaseService<OrderFormDAO,OrderForm, Integer
      */
     public void restartOrderFlow(Integer orderId) {
         OrderForm orderForm = loadById(orderId);
-        orderForm.setCurrentState((byte)1);
+        orderForm.setCurrentState(Constants.ORDER_IN_ORDERFLOW);
         this.update(orderForm);
     }
 
 
-    public void editPaiChan(String orderId, String productTeamId,String type,String paiChanRecordId) {
-        PaiChanRecord paichanRecord = paiChanRecordDAO.loadById(Integer.parseInt(paiChanRecordId));
-        if(StringUtils.isEmpty(orderId)||StringUtils.isEmpty(productTeamId)||StringUtils.isEmpty(type)){
-            throw new BaseErrorModel("参数异常","");
-        }
-        OrderForm orderForm = getById(Integer.parseInt(orderId));
-        paichanRecord.setOrderForm(orderForm);
-        paichanRecord.setOrderCodes(orderForm.getCode());
-        paichanRecord.setType(type);
-        ProductTeam productTeam = productTeamDAO.loadById(Integer.parseInt(productTeamId));
-        paichanRecord.setProductTeam(productTeam);
-        paiChanRecordDAO.paiChanUpdate(paichanRecord);
-    }
 
-    public void addpaiChan(String orderId, String productTeamId,String type) {
+    public void addpaiChan(String orderId, String productTeamId,List<PaichanOrderDetail> paichanOrderDetailList) {
         PaiChanRecord paichanRecord = new PaiChanRecord();
         paichanRecord.setEnable((byte)1);
-        if(StringUtils.isEmpty(orderId)||StringUtils.isEmpty(productTeamId)||StringUtils.isEmpty(type)){
+        if(StringUtils.isEmpty(orderId)||StringUtils.isEmpty(productTeamId)){
             throw new BaseErrorModel("参数异常","");
         }
         OrderForm orderForm = getById(Integer.parseInt(orderId));
         paichanRecord.setOrderForm(orderForm);
         paichanRecord.setOrderCodes(orderForm.getCode());
-        paichanRecord.setType(type);
         ProductTeam productTeam = productTeamDAO.loadById(Integer.parseInt(productTeamId));
         paichanRecord.setProductTeam(productTeam);
-        paichanRecord.setCreateTime(new Date());
+        paichanRecord.setCreateDate(new Date());
+
+        paichanRecord.setRecordNum(orderForm.getNextRecordNum());
+        paichanRecord.setCharger(adminDao.loadById(paichanRecord.getProductTeam().getCharge_dbId()));//设置机台负责人
+        paichanRecord.setCurrentState((byte)1);
+        paichanRecord.setWcomment("");
+
         paiChanRecordDAO.create(paichanRecord);
-        productRecordService.startProductRecordFlow(paichanRecord);
+        for(PaichanOrderDetail paichanOrderDetail:paichanOrderDetailList){
+            orderDetailDao.refresh(paichanOrderDetail.getOrderDetail());
+            paichanOrderDetail.setPaichanRecord(paichanRecord);
+            paichanOrderDetailDAO.create(paichanOrderDetail);
+            orderDetailDao.updatePaichanWeight(paichanOrderDetail.getOrderDetail());
+        }
+        paichanRecordService.startProductRecordFlow(paichanRecord);
 
     }
+
+    public List getUnPanchanOrderDetail(Integer orderId) {
+        List l1 = new ArrayList();
+        List<OrderDetail> l = orderDetailDao.getByOrderForm(loadById(orderId));
+        for(OrderDetail od:l){
+            PaichanOrderDetail paichanOrderDetail = new PaichanOrderDetail();
+            paichanOrderDetail.setCompQuantity(0);
+            paichanOrderDetail.setCompWeight(0);
+            paichanOrderDetail.setSetSize(od.getSetSize());
+            paichanOrderDetail.setOrderQuantity(od.getOrderQuantity()-od.getPaichanQuantity());
+
+            paichanOrderDetail.setOrderDetail(od);
+
+            Float kpm = od.getOrderForm().getKpm();
+            Integer setSize = Integer.parseInt(od.getSetSize());
+            double orderWeight=paichanOrderDetail.getOrderQuantity()*((setSize/1000.0)*kpm)/1000;
+            double orderTotalMeter=(paichanOrderDetail.getOrderQuantity()*setSize)/1000.0;
+            paichanOrderDetail.setOrderWeight((int)orderWeight);
+            paichanOrderDetail.setOrderTotalMeter((int)orderTotalMeter);
+
+
+            l1.add(paichanOrderDetail);
+        }
+        return l1;
+    }
+
 
 }

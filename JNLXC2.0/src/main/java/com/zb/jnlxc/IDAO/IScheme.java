@@ -6,7 +6,6 @@ import java.util.Map;
 import com.ZLHW.base.dao.IDAO;
 import com.zb.jnlxc.model.Mould;
 import com.zb.jnlxc.model.OrderForm;
-import com.zb.jnlxc.model.ProductRecord;
 import com.zb.jnlxc.model.Scheme;
 
 public interface IScheme extends IDAO<Scheme, Integer>{	
@@ -30,8 +29,4 @@ public interface IScheme extends IDAO<Scheme, Integer>{
 	 */
 	List<OrderForm> getOrderFormBySchemeId(int schemeId);
 	
-	/**
-	 * 根据图纸id得到工作单列表
-	 */
-	List<ProductRecord> getProductRecordBySchemeId(int schemeId);
 }

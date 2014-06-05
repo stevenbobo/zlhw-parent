@@ -3,7 +3,7 @@ package com.zb.jnlxc.service;
 import com.ZLHW.base.factory.BeanFactory;
 import com.zb.jnlxc.model.Admin;
 import com.zb.jnlxc.model.OrderForm;
-import com.zb.jnlxc.model.ProductRecord;
+import com.zb.jnlxc.model.PaiChanRecord;
 import com.zb.jnlxc.model.ProductTeam;
 import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
@@ -46,7 +46,7 @@ public class ReportServiceTest extends AbstractJUnit4SpringContextTests {
         charge.setAccount("郑波");
         charge.setName("郑波");
         productTeam.setCharge_dbId(charge.getDbId());
-        ProductRecord productRecord = new ProductRecord();
+        PaiChanRecord productRecord = new PaiChanRecord();
         productRecord.setRecordNum(num);
         productRecord.setCode(orderForm.getCode()+num);//设置跟踪单编码
         productRecord.setCharger(charge);//设置机台负责人

@@ -27,6 +27,10 @@ import java.util.ArrayList;
  * @author liudong
  */
 public class Constants {
+    public static Byte ORDER_FINISHED = 0; //订单已完成:
+    public static Byte ORDER_IN_ORDERFLOW = 1; //订单流程中:
+    public static Byte ORDER_IN_ORDERFLOW_PAUSE = 2; //订单流程暂停中:
+    public static Byte ORDER_IN_WAITING_PAICHAN = 3; //订单流程结束，等待排产状态:
 
 	public static ArrayList<PinyinCode> pinyin = new ArrayList<PinyinCode>(395);
 	static {

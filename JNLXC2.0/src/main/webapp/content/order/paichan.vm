@@ -12,6 +12,7 @@
 #set($clientSelectedUrl=$link.setRelative('/content/dict/clientSelecte.vm'))
 #set($findTeamUrl=$link.setRelative('/CommonAction/findAllTeamDetail.json'))
 #set($schemeSelectedUrl=$link.setRelative('/content/scheme/select.vm'))
+#set($splitOrderVm=$link.setRelative('/content/order/splitOrder.vm'))
 
 
 
@@ -29,14 +30,11 @@
             <table style="width:100%;">
                 <tr>
                     <td style="width:100%;">
-                        #if($beanFactory.LookUp("adminService").havePower($user,"订单添加"))
-                            <a class="mini-button" iconCls="icon-add" plain="true" onclick="addRow()">新增</a>
+                        #if($beanFactory.LookUp("adminService").havePower($user,"订单排产"))
+                            <a class="mini-button" iconCls="icon-add" plain="true" onclick="paichan()">订单排产</a>
                         #end
                         #if($beanFactory.LookUp("adminService").havePower($user,"订单查看"))
                             <a class="mini-button" iconCls="icon-edit" plain="true" onclick="viewRow()">查看</a>
-                        #end
-                        #if($beanFactory.LookUp("adminService").havePower($user,"订单删除"))
-                            <a class="mini-button" iconCls="icon-remove" plain="true" onclick="removeRow()">删除</a>
                         #end
                         <span class="separator"></span>
                         <a class="mini-button" iconCls="icon-goto" plain="true" onclick="lookForFlow()">查看订单流程</a>
@@ -63,7 +61,7 @@
                 <tr>
                     <td>
                         选择城市:
-                        <input id="citySelecter" nullItemText="选择城市..."  class="mini-treeselect"  showClose="true" oncloseclick="onCloseClick"  url="$findCityUrl" multiSelect="false"  valueFromSelect="false"
+                        <input id="citySelecter" nullItemText="选择城市..."  class="mini-treeselect" url="$findCityUrl" multiSelect="false"  valueFromSelect="false"
                                textField="name" valueField="dbId" parentField="father_dbId"   allowInput="true" />
                         <span class="separator"></span>
                         订单状态:<input id="compStatus"  allowInput="flase" showNullItem="true" nullItemText="选择订单状态..." class="mini-combobox"  data="[{id:0,text:'未完成'}, {id:1, text: '已完成'}]"/>
@@ -114,10 +112,7 @@
                 -->
                 <div field="compStatus" width="60" headerAlign="center" renderer="onGenderRenderer" >是否完成
                 </div>
-
-                #if($beanFactory.LookUp("adminService").havePower($user,"暂停订单流程"))
-                    <div name="action" width="120" headerAlign="center" align="center" renderer="onActionRenderer" cellStyle="padding:0;">#</div>
-                #end
+                <div name="action" width="120" headerAlign="center" align="center" renderer="onActionRenderer" cellStyle="padding:0;">#</div>
             </div>
         </div>
         <div id="detailGrid" class="mini-datagrid" style="width:100%;height:30%;"
@@ -143,22 +138,10 @@ var clientGrid = mini.get("clientGrid");
 var orderGrid = mini.get("orderGrid");
 var detailGrid = mini.get("detailGrid");
 
-orderGrid.load();
+orderGrid.load({paichan:"true"});
 detailGrid.load();
 function onDrawCell(e) {
     e.cellHtml = '<span style="color:red;">'+e.record[1]+'  '+e.record[2]+'</span>';
-}
-function onActionRenderer(e) {
-    var grid = e.sender;
-    var record = e.record;
-    var uid = record._uid;
-    var rowIndex = e.rowIndex;
-    var s='';
-    if(record.currentState==2)
-        s='<a href="javascript:restartOrderFlow('+record.dbId+')">开启订单流程</a>';
-    else
-        s='<a href="javascript:stopFlow('+record.dbId+')">暂停订单流程</a>';
-    return s;
 }
 
 function onClientSlecte(e){
@@ -219,19 +202,6 @@ function onGenderRenderer(e) {
 function onGenderRenderer2(e) {
     return e.value==0?"开票":"不开票";
 }
-function addRow() {
-    mini.open({
-        url: "$editVm",
-        title: "新增订单", width: 530, height: 590,
-        onload: function () {
-            var iframe = this.getIFrameEl();
-            iframe.contentWindow.setData("add",{});
-        },
-        ondestroy: function (action) {
-            orderGrid.load();
-        }
-    });
-}
 function viewRow() {
     var order = orderGrid.getSelected();
     if(order)
@@ -245,23 +215,6 @@ function viewRow() {
         });
 
 }
-function removeRow() {
-    var order = orderGrid.getSelected();
-    if (confirm("确定删除选中订单?")) {
-        $.ajax({
-            url: "$deleteOrderURL",
-            data: { orderId:order.dbId },
-            success: function (text) {
-                orderGrid.reload();
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                mini.alert(jqXHR.responseText);
-            }
-        });
-
-    }
-}
-
 
 function onOrderChanged(e){
     var grid = e.sender;
@@ -270,7 +223,14 @@ function onOrderChanged(e){
         detailGrid.load({orderId:order.dbId});
     }
 }
-
+function onActionRenderer(e) {
+    var grid = e.sender;
+    var record = e.record;
+    var uid = record._uid;
+    var rowIndex = e.rowIndex;
+    var s='<a href="javascript:paichan()">排产</a>';
+    return s;
+}
 
 function search() {
     var startDate = mini.get("startDate");
@@ -289,30 +249,22 @@ function search() {
         compStatus:compStatus.getValue(),
         orderType:orderType.getValue(),
         clientId:clientSelector.getValue(),
-        schemeId:schemeSelector.getValue()
+        schemeId:schemeSelector.getValue(),
+        paichan:"true"
     };
     orderGrid.load(parm);
+}
+
+function onCloseClick(e) {
+    var obj = e.sender;
+    obj.setText("");
+    obj.setValue("");
 }
 
 function stopFlow(orderId){
     if (confirm("确定暂停订单流程?")) {
         $.ajax({
             url: "$stopOrderFlow",
-            data: { orderId:orderId },
-            success: function (text) {
-                orderGrid.load();
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                mini.alert(jqXHR.responseText);
-            }
-        });
-    }
-}
-
-function restartOrderFlow(orderId){
-    if (confirm("确定开启订单流程?")) {
-        $.ajax({
-            url: "$restartOrderFlow",
             data: { orderId:orderId },
             success: function (text) {
                 orderGrid.load();
@@ -369,6 +321,26 @@ function onSchemeSlecte(e){
     });
 }
 
+    function paichan(){
+        var order = orderGrid.getSelected();
+        if(order)
+            mini.open({
+                url: "$splitOrderVm",
+                title: "排产分配 订单号:"+order.code, width: 600, height: 350,
+                onload: function () {
+                    var iframe = this.getIFrameEl();
+                    iframe.contentWindow.setData(order);
+                },
+                ondestroy: function (action) {
+                    //if (action == "close") return false;
+                    if (action == "ok") {
+                        mini.alert("操作成功");
+                    }
+
+                }
+            });
+
+    }
 function onCloseClick(e) {
     e.sender.setValue("");
     e.sender.setText("");

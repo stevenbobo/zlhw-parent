@@ -1,6 +1,7 @@
 package com.zb.jnlxc.form;
 
 import com.zb.jnlxc.model.OrderDetail;
+import com.zb.jnlxc.model.PaichanOrderDetail;
 import org.springframework.beans.BeanUtils;
 
 /**
@@ -27,5 +28,13 @@ public class OrderDetailForm extends OrderDetail {
         if(orderDetail.getCompStatus()==null)
             orderDetail.setCompStatus((byte)0);
         return orderDetail;
+    }
+
+    public PaichanOrderDetail getPaichanOrderDetail(){
+        PaichanOrderDetail paichanOrderDetail = new PaichanOrderDetail();
+        BeanUtils.copyProperties(this,paichanOrderDetail);
+        if(paichanOrderDetail.getCompStatus()==null)
+            paichanOrderDetail.setCompStatus((byte)0);
+        return paichanOrderDetail;
     }
 }

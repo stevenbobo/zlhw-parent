@@ -34,7 +34,7 @@
                     </td>
                     <td style="width:90px;">模具规格：</td>
                     <td style="width:150px;">
-                        <input id="mouldsizeSelector" name="mouldSize.dbId" required="true" class="mini-buttonedit" onbuttonclick="onMouldSizeSlecte" name="mouldSize.dbId" textName="mouldSize.size"/>
+                        <input id="mouldsizeSelector" name="mouldSize.dbId" required="true" class="mini-buttonedit" showClose="true" oncloseclick="onCloseClick" onbuttonclick="onMouldSizeSlecte" name="mouldSize.dbId" textName="mouldSize.size"/>
                     </td>
                 </tr>
                 <tr>
@@ -89,7 +89,7 @@
                 <tr>
                     <td>图纸</td>
                     <td>
-                        <input id="schemeSelector" required="true" class="mini-buttonedit" onbuttonclick="onSchemeSlecte" name="scheme.dbId" textName="scheme.name"/>
+                        <input id="schemeSelector" required="true" class="mini-buttonedit" showClose="true" oncloseclick="onCloseClick" onbuttonclick="onSchemeSlecte" name="scheme.dbId" textName="scheme.name"/>
                     </td>
                     <td rowspan="4">
                         <img id="bmp" height="100%" />
@@ -272,6 +272,11 @@
     }
     function onCancel(e) {
         CloseWindow("cancel");
+    }
+
+    function onCloseClick(e) {
+        e.sender.setValue("");
+        e.sender.setText("");
     }
 
 

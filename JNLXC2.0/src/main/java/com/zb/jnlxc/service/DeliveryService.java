@@ -5,17 +5,17 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.zb.jnlxc.dao.PaiChanRecordDAO;
 import com.zb.jnlxc.dao.SchemeDAO;
 import com.zb.jnlxc.model.Admin;
+import com.zb.jnlxc.model.PaiChanRecord;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ZLHW.base.Exception.BaseErrorModel;
 import com.ZLHW.base.service.BaseService;
 import com.zb.jnlxc.dao.DeliveryDAO;
-import com.zb.jnlxc.dao.ProductRecordDAO;
 import com.zb.jnlxc.model.Delivery;
-import com.zb.jnlxc.model.ProductRecord;
 import com.zb.jnlxc.model.Scheme;
 @Transactional
 @Service
@@ -23,7 +23,7 @@ public class DeliveryService  extends BaseService<DeliveryDAO,Delivery, Integer>
     @Resource
     private SchemeDAO schemeDAO;
 	@Resource
-	private ProductRecordDAO productRecordDAO;
+	private PaiChanRecordDAO paiChanRecordDAO;
 	public Delivery create(Delivery entity,Integer schemeId,Admin user) throws BaseErrorModel {
 		entity.setDeliver(user);
 		entity.setDeliveryDate(new Date());
@@ -52,8 +52,8 @@ public class DeliveryService  extends BaseService<DeliveryDAO,Delivery, Integer>
 	}
 
 	
-	public List<ProductRecord> productList(Scheme scheme){
-		return productRecordDAO.productList(scheme);
+	public List<PaiChanRecord> productList(Scheme scheme){
+		return paiChanRecordDAO.productList(scheme);
 	}
 	
 	public List<Delivery> getDeliveryBySchemeId(Integer schemeId){

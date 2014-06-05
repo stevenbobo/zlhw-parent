@@ -4,12 +4,11 @@
 #set($editVm=$link.setRelative('/content/order/edit.vm'))
 #set($productPanelVm=$link.setRelative('/content/product/list.vm'))
 #set($deleteOrderURL=$link.setRelative('/BussinessAction/deleteOrder.json'))
-#set($findTeamUrl=$link.setRelative('/CommonAction/findAllTeam.json'))
 #set($paiChanUrl=$link.setRelative('/BussinessAction/paiChan.json'))
 #set($stopOrderFlow=$link.setRelative('/BussinessAction/stopOrderFlow.json'))
 #set($flowImgVm=$link.setRelative('/content/flow/flowImg.vm'))
 #set($clientSelectedUrl=$link.setRelative('/content/dict/clientSelecte.vm'))
-#set($findTeamUrl=$link.setRelative('/CommonAction/findAllTeamDetail.json'))
+#set($findAllTeamDetail=$link.setRelative('/CommonAction/findAllTeamDetail.json'))
 #set($schemeSelectedUrl=$link.setRelative('/content/scheme/select.vm'))
 
 
@@ -49,7 +48,7 @@
                         <span class="separator"></span>
                         截止日期:<input id="endDate" class="mini-datepicker" />
                         <span class="separator"></span>
-                        所属客户:<input id="clientSelector"  required="true" class="mini-buttonedit" onbuttonclick="onClientSlecte" />
+                        所属客户:<input id="clientSelector"  required="true" class="mini-buttonedit" onbuttonclick="onClientSlecte" showClose="true" oncloseclick="onCloseClick" />
                     </td>
                     </td>
                 </tr>
@@ -59,7 +58,7 @@
                         <span class="separator"></span>
                         订单编号:<input id="code" class="mini-textbox" emptyText="订单编号" onenter="search" />
                         <span class="separator"></span>
-                         图纸编号:<input id="schemeSelector" required="true" class="mini-buttonedit" onbuttonclick="onSchemeSlecte" name="scheme.dbId" textName="scheme.name"/>
+                         图纸编号:<input id="schemeSelector" required="true" class="mini-buttonedit" showClose="true" oncloseclick="onCloseClick" onbuttonclick="onSchemeSlecte" name="scheme.dbId" textName="scheme.name"/>
                         <a class="mini-button" plain="true" iconCls="icon-search" onclick="search()">查询</a>
                     </td>
                 </tr>
@@ -106,7 +105,7 @@
         <a class="mini-button" iconCls="icon-remove" plain="true" onclick="onRemoveNode()">删除节点</a>
         </br>
         <span style="padding-left:5px;">选择机台：</span>
-        <input name="productTeamId" id="productTeamId" property="editor" class="mini-combobox"   url="$findTeamUrl"
+        <input name="productTeamId" id="productTeamId" property="editor" class="mini-combobox"   url="$findAllTeamDetail"
                textField="1" valueField="0"  required="true" ondrawcell="onDrawCell" />
         </br>
         #if($beanFactory.LookUp("adminService").havePower($user,"开启跟踪单"))
@@ -343,6 +342,10 @@ function onSchemeSlecte(e){
 
         }
     });
+}
+function onCloseClick(e) {
+    e.sender.setValue("");
+    e.sender.setText("");
 }
 </script>
 

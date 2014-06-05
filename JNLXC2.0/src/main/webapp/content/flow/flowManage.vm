@@ -102,7 +102,7 @@
         } else if (arr[0] == "paidan"){
             return "排单流程_" + arr[1];
         } else {
-            return "";
+            return e.value;
         }
     }
 
@@ -164,6 +164,9 @@
             },
             ondestroy: function (action) {
                 grid.load();
+                if (action == "ok"||action == "save") {
+                    mini.alert("操作成功");
+                }
             }
         });
     }

@@ -40,7 +40,7 @@
                     </td>
                     <td style="width:110px;">所属客户：</td>
                     <td style="width:150px;">
-                        <input id="clientSelector"  required="true" class="mini-buttonedit" onbuttonclick="onClientSlecte" name="client.dbId" textName="client.name"/>
+                        <input id="clientSelector"  required="true" class="mini-buttonedit" showClose="true" oncloseclick="onCloseClick" onbuttonclick="onClientSlecte" name="client.dbId" textName="client.name"/>
                     </td>
                 </tr>
                 <tr>
@@ -58,7 +58,7 @@
                 <tr>
                     <td >送货地址：</td>
                     <td >
-                        <input id="citySelector" allowInput="false" class="mini-buttonedit" onbuttonclick="onCitySlecte" name="city.dbId" textName="city.name"/>
+                        <input id="citySelector" allowInput="false" class="mini-buttonedit" showClose="true" oncloseclick="onCloseClick" onbuttonclick="onCitySlecte" name="city.dbId" textName="city.name"/>
                     </td>
                     <td class="form-label">详细地址：</td>
                     <td >
@@ -73,7 +73,7 @@
 
                     <td class="form-label">相关图纸：</td>
                     <td>
-                        <input id="schemeSelector" required="true" class="mini-buttonedit" onbuttonclick="onSchemeSlecte" name="scheme.dbId" textName="scheme.name"/>
+                        <input id="schemeSelector" required="true" class="mini-buttonedit" showClose="true" oncloseclick="onCloseClick" onbuttonclick="onSchemeSlecte" name="scheme.dbId" textName="scheme.name"/>
                     </td>
                 </tr>
                 <tr>
@@ -120,7 +120,7 @@
                     </td>
                     <td>铝锭价格(元/吨)：</td>
                     <td >
-                        <input id="priceSelector" required="true" class="mini-buttonedit" allowInput="false"  onbuttonclick="onLvdingPriceSlecte" name="alPrice" textName="alPrice"/>
+                        <input id="priceSelector" required="true" class="mini-buttonedit" showClose="true" oncloseclick="onCloseClick" allowInput="false"  onbuttonclick="onLvdingPriceSlecte" name="alPrice" textName="alPrice"/>
                     </td>
 
                 </tr>
@@ -537,5 +537,10 @@
     }
     function onCancel(e) {
         CloseWindow("cancel");
+    }
+
+    function onCloseClick(e) {
+        e.sender.setValue("");
+        e.sender.setText("");
     }
 </script>

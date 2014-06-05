@@ -73,7 +73,7 @@ public class OrderForm extends HIntTable{
     private Byte payWay; //付款方式{id:0,text:'现金'}, {id:1, text: '月结'},{id:1, text: '特殊月结'}
     private Byte pickWay; //提货方式{id:0,text:'送货上门'}, {id:1, text: '自提货'}
 
-    private Byte currentState; //当前状态：0:正常1:流程中 2暂停的:
+    private Byte currentState; //:
     private Byte enable; //0正常， 1 已删除
     @Version
     private Integer version;

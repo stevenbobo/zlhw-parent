@@ -9,7 +9,7 @@
 <body >
 <div class="mini-tabs" style="width:100%;" activeIndex="0">
     <div title="生产记录信息"  >
-        #parse("content/flow/product/productInfo.vm")
+        #parse("content/flow/product/productInfo_weight.vm")
     </div>
     #parse("content/flow/product/orderInfo_least.vm")
 
@@ -38,6 +38,7 @@
 
     function doTaskYes(){
         var remarks = mini.get("remarks").getValue();
+        productTracegrid.commitEdit();
         var productTraceDatail = mini.encode(productTracegrid.getData());
         $.ajax({
             url: "$doTaskUrl",
@@ -52,20 +53,6 @@
                 mini.alert(jqXHR.responseText);
             }
         });
-    }
-
-
-    function addRow() {
-        var initsize = productTracegrid.getData()[0].dbId;
-        var newRow = {orderDetailId:initsize,weight:0,quantity:0};
-        grid2.addRow(newRow, 0);
-        grid2.validateRow(newRow);   //加入新行，马上验证新行
-    }
-    function removeRow() {
-        var rows = grid2.getSelecteds();
-        if (rows.length > 0) {
-            grid2.removeRows(rows, true);
-        }
     }
 
     var originalData;

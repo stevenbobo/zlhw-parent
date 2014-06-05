@@ -1,8 +1,8 @@
 package com.zb.jnlxc.JBPM;
 
 import com.ZLHW.base.factory.BeanFactory;
-import com.zb.jnlxc.dao.ProductRecordDAO;
-import com.zb.jnlxc.model.ProductRecord;
+import com.zb.jnlxc.dao.PaiChanRecordDAO;
+import com.zb.jnlxc.model.PaiChanRecord;
 import org.jbpm.api.jpdl.DecisionHandler;
 import org.jbpm.api.model.OpenExecution;
 
@@ -12,9 +12,9 @@ import org.jbpm.api.model.OpenExecution;
 public class ProcessDecisionHandler implements DecisionHandler {
     @Override
     public String decide(OpenExecution openExecution) {
-        Integer productRecordId=(Integer) openExecution.getVariable("productRecordId");
-        ProductRecordDAO dao=(ProductRecordDAO) BeanFactory.LookUp("productRecordDAO");
-        ProductRecord productRecord=dao.getById(productRecordId);
-        return productRecord.getNextStep();
+        Integer paichanRecordId=(Integer) openExecution.getVariable("paichanRecordId");
+        PaiChanRecordDAO dao=(PaiChanRecordDAO)BeanFactory.LookUp("paiChanRecordDAO");
+        PaiChanRecord paiChanRecord=dao.loadById(paichanRecordId);
+        return paiChanRecord.getNextStep();
     }
 }

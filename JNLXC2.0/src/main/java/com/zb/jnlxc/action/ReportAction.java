@@ -1,7 +1,7 @@
 package com.zb.jnlxc.action;
 
-import com.zb.jnlxc.model.ProductRecord;
-import com.zb.jnlxc.service.ProductRecordService;
+import com.zb.jnlxc.model.PaiChanRecord;
+import com.zb.jnlxc.service.PaichanRecordService;
 import com.zb.jnlxc.service.ReportService;
 import net.sf.jasperreports.engine.JRException;
 import org.dom4j.DocumentException;
@@ -27,20 +27,20 @@ import java.io.OutputStream;
 @SessionAttributes(value = {"user"})
 public class ReportAction  {
     @Resource
-    ProductRecordService productRecordService;
+    PaichanRecordService paichanRecordService;
     @Resource
     ReportService reportService;
 
     @ResponseBody
     @RequestMapping("/exportProductRecord")
-    public void exportProductRecord(Integer productRecordId, HttpServletResponse response) throws JRException, DocumentException, IOException {
+    public void exportProductRecord(Integer paichanRecordId, HttpServletResponse response) throws JRException, DocumentException, IOException {
         response.setContentType("application/x-download");
         response.setHeader("Content-disposition", "attachment;filename="
                 + "a.pdf");
         OutputStream out = response.getOutputStream();
         try {
-            ProductRecord productRecord = productRecordService.getById(productRecordId);
-            reportService.exportProductRecord(productRecord, out);
+            PaiChanRecord paiChanRecord = paichanRecordService.getById(paichanRecordId);
+            reportService.exportProductRecord(paiChanRecord, out);
         } catch (JRException e) {
             e.printStackTrace();
         } catch (DocumentException e) {

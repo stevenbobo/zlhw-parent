@@ -45,17 +45,25 @@ public class BussinessAction {
         return new MiniPageRsp( businessService.getOrderFormsByScheme(schemeId));
     }
 
-    @ResponseBody
-    @RequestMapping("/getProductRecordsByScheme")
-    public MiniPageRsp getProductRecordsByScheme(Integer schemeId) {
-        return new MiniPageRsp(businessService.getProductRecordsByScheme(schemeId));
-    }
+//    @ResponseBody
+//    @RequestMapping("/getProductRecordsByScheme")
+//    public MiniPageRsp getProductRecordsByScheme(Integer schemeId) {
+//        return new MiniPageRsp(businessService.getProductRecordsByScheme(schemeId));
+//    }
 
     @ResponseBody
     @RequestMapping("/loadOrderForm")
     public MiniPageRsp loadOrderForm(MiniPageReq page,@ModelAttribute("user") Admin user,HttpServletRequest request) throws ParseException {
         page.setRequest(request);
          businessService.loadOrderForm(page,user);
+        return new MiniPageRsp(page.getResultData(),page.getTotalClum());
+    }
+
+    @ResponseBody
+    @RequestMapping("/loadOrderDetail")
+    public MiniPageRsp loadOrderDetail(MiniPageReq page,@ModelAttribute("user") Admin user,HttpServletRequest request) throws ParseException {
+        page.setRequest(request);
+        businessService.loadOrderDetail(page,user);
         return new MiniPageRsp(page.getResultData(),page.getTotalClum());
     }
 
@@ -71,6 +79,13 @@ public class BussinessAction {
     @RequestMapping("/getOrderDetail")
     public MiniPageRsp getOrderDetail(Integer orderId){
         List data =  businessService.getOrderDetail(orderId);
+        return new MiniPageRsp(data,data.size());
+    }
+
+    @ResponseBody
+    @RequestMapping("/getUnPanchanOrderDetail")
+    public MiniPageRsp getUnPanchanOrderDetail(Integer orderId){
+        List data =  businessService.getUnPanchanOrderDetail(orderId);
         return new MiniPageRsp(data,data.size());
     }
 
@@ -112,17 +127,13 @@ public class BussinessAction {
         return businessService.getAllAgents();    
     }
 
-    @ResponseBody
-    @RequestMapping("/getProductRecordsByOrderForm")
-    public List getProductRecordsByOrderForm(OrderForm orderForm) {
-        return businessService.getProductRecordsByOrderForm(orderForm);    
-    }
+//    @ResponseBody
+//    @RequestMapping("/getProductRecordsByOrderForm")
+//    public List getProductRecordsByOrderForm(OrderForm orderForm) {
+//        return businessService.getProductRecordsByOrderForm(orderForm);
+//    }
 
-    @ResponseBody
-    @RequestMapping("/getOrderDetailsByProductRecord")
-    public List getOrderDetailsByProductRecord(ProductRecord productRecord) {
-        return businessService.getOrderDetailsByProductRecord(productRecord);    
-    }
+
 
 
     @ResponseBody
@@ -245,11 +256,8 @@ public class BussinessAction {
 
     @ResponseBody
     @RequestMapping("/paiChan")
-    public void paiChan(String code,String productTeamId,String type,String paiChanRecordId){
-        if(StringUtils.isNotBlank(paiChanRecordId)){
-            businessService.editPaiChan(code,productTeamId,type,paiChanRecordId);
-        }else {
-            businessService.addpaiChan(code,productTeamId,type);
-        }
+    public void paiChan(String orderId,String productTeamId,String orderDetailData){
+        List<PaichanOrderDetail> paichanOrderDetailList = gson.fromJson(orderDetailData,new TypeToken<List<PaichanOrderDetail>>(){}.getType());
+        businessService.addpaiChan(orderId,productTeamId,paichanOrderDetailList);
     }
 }
