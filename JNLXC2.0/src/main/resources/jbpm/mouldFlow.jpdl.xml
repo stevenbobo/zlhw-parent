@@ -12,7 +12,7 @@
        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler"/>
       <transition g="-32,-11" name="通过" to="入厂责任人分配"/>
       <transition g="565,73:-128,4" name="申请报废" to="报废退模申请"/>
-      <transition g="15,64;9,550;561,552:165,-469" name="申请返修" to="返修模具申请"/>
+      <transition g="15,64;9,550;563,550:165,-469" name="申请返修" to="返修模具申请"/>
    </task>
    <task form="/content/flow/newmould/rczrrfp.vm" g="266,134,140,52" name="入厂责任人分配">
        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler"/>
@@ -79,7 +79,7 @@
    </task>
    <task form="/content/flow/newmould/ppsmcl.vm" g="45,501,92,52" name="抛排收模处理">
        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler"/>
-      <transition g="815,526:-10,-22" name="转修" to="(试模)异常模转修处理"/>
+      <transition g="809,526:-10,-22" name="转修" to="(试模)异常模转修处理"/>
    </task>
    <task form="/content/flow/newmould/ycmzxcl.vm" g="730,231,159,52" name="(试模)异常模转修处理">
        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler"/>

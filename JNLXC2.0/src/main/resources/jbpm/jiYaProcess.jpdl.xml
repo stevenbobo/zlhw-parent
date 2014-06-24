@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <process name="jiYaProcess" xmlns="http://jbpm.org/4.4/jpdl">
-   <start form="/content/flow/product/weighingPanel.vm" g="71,10,48,48" name="start1">
+   <start form="/content/flow/product/weighingPanel.vm" g="67,7,48,48" name="start1">
       <transition g="-46,-10" name="时效" to="挤压"/>
    </start>
    <task form="/content/flow/product/transit.vm" g="44,166,92,52" name="挤压-中转">
@@ -16,5 +16,5 @@
        <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler"/>
       <transition g="-45,-11" name="中转" to="挤压-中转"/>
    </task>
-   <end g="66,331,48,48" name="end1"/>
+   <end g="69,326,48,48" name="end1"/>
 </process>
