@@ -109,9 +109,10 @@
     </div>
 </fieldset>
 <div style="text-align:center;padding:10px;">
-    <a class="mini-button" onclick="doTaskYes('抛排新模处理')" style="width:80px;margin-right:20px;">抛排新模处理</a>
     <a class="mini-button" onclick="doTaskYes('返修申请')" style="width:80px;margin-right:20px;">返修申请</a>
     <a class="mini-button" onclick="doTaskYes('退模申请')" style="width:80px;margin-right:20px;">退模申请</a>
+    <a class="mini-button" onclick="doTaskYes('抛排新模处理')" style="width:80px;margin-right:20px;">抛排新模处理</a>
+    <a class="mini-button" onclick="doTaskYes('抛排收模处理')" style="width:80px;margin-right:20px;">抛排收模处理</a>
     <a class="mini-button" onclick="onCancel" style="width:80px;">取消</a>
 </div>
 <script type="text/javascript">

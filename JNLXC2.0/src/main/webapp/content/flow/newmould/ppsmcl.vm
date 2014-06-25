@@ -76,6 +76,7 @@
     </div>
 </fieldset>
 <div style="text-align:center;padding:10px;">
+    <a class="mini-button" onclick="doTaskYes('入库')" style="width:80px;margin-right:20px;">转修</a>
     <a class="mini-button" onclick="doTaskYes('转修')" style="width:80px;margin-right:20px;">转修</a>
     <a class="mini-button" onclick="onCancel" style="width:80px;">取消</a>
 </div>
