@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="zlhw-bussiness:war">
-    <output-path>$PROJECT_DIR$/zlhw-bussiness/target</output-path>
-    <root id="archive" name="zlhw-bussiness-0.0.1-SNAPSHOT.war">
-      <element id="artifact" artifact-name="zlhw-bussiness:war exploded" />
-    </root>
-  </artifact>
-</component>

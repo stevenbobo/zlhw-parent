@@ -4,7 +4,6 @@
   <artifactId>zlhw-parent</artifactId>
   <version>1.0.2</version>
     <modules>
-        <module>zlhw-test</module>
         <module>zlhw-core</module>
         <module>zlhw-common</module>
         <module>zlhw-bussiness</module>
