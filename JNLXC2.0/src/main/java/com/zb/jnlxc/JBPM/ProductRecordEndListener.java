@@ -18,11 +18,8 @@ public class ProductRecordEndListener implements EventListener{
 		 Integer paichanRecordId=(Integer) execution.getVariable("paichanRecordId");
          PaiChanRecordDAO dao=(PaiChanRecordDAO)BeanFactory.LookUp("paiChanRecordDAO");
          OrderFormDAO orderFormDAO=(OrderFormDAO)BeanFactory.LookUp("orderFormDAO");
-         RemaindProductDAO remaindProductDAO = (RemaindProductDAO)BeanFactory.LookUp("remaindProductDAO");
 		 PaiChanRecord paiChanRecord=dao.loadById(paichanRecordId);
-         paiChanRecord.setCurrentState((byte)0);//设置排产结束
          OrderForm orderForm = paiChanRecord.getOrderForm();
-         remaindProductDAO.storeRemainProduct(orderForm,paiChanRecord);
          orderFormDAO.updateCompState(orderForm);
 
 		dao.update(paiChanRecord);

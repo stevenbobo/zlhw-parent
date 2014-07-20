@@ -14,7 +14,6 @@ import org.apache.commons.logging.LogFactory;
 import org.dom4j.DocumentException;
 import org.jbpm.api.Execution;
 import org.jbpm.api.ProcessInstance;
-import org.jbpm.api.identity.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
@@ -53,19 +52,22 @@ public class PaichanRecordService extends BaseService<PaiChanRecordDAO,PaiChanRe
     AdminDAO adminDAO;
     @Resource
     private MongoTemplate mongoTemplate;
+    @Resource
+    private SubPaichanRecordDAO subPaichanRecordDAO;
 
 	/**
 	 * 通过任务id查询生产记录
 	 * @param taskId
 	 * @return
 	 */
-	public PaiChanRecord getPaiChanRecordByTaskId(String taskId){
-		Integer paichanRecordId = (Integer) flowService.getContentMap(taskId, "paichanRecordId");
-		return this.getById(paichanRecordId);
+	public SubPaichanRecord getSubPaiChanRecordByTaskId(String taskId){
+		Integer paichanRecordId = (Integer) flowService.getContentMap(taskId, "subPaichanRecordId");
+		return subPaichanRecordDAO.getById(paichanRecordId);
 	}
 
     public List<ProductTrace> getProductTrace(String taskId){
-        PaiChanRecord paiChanRecord = getPaiChanRecordByTaskId(taskId);
+        SubPaichanRecord subPaichanRecord = getSubPaiChanRecordByTaskId(taskId);
+        PaiChanRecord paiChanRecord = subPaichanRecord.getPaiChanRecord();
         OrderForm orderForm = paiChanRecord.getOrderForm();
         List<PaichanOrderDetail> paichanOrderDetailList =
                 paichanOrderDetailDAO.findByPaichan(paiChanRecord.getDbId());
@@ -77,9 +79,9 @@ public class PaichanRecordService extends BaseService<PaiChanRecordDAO,PaiChanRe
             productTrace.setFinishQuantiy(paichanOrderDetail.getCompQuantity());
             productTrace.setFinishWeight(paichanOrderDetail.getCompWeight());
             OrderDetail orderDetail = paichanOrderDetail.getOrderDetail();
-            productTrace.setAginghardness(paiChanRecord.getAginghardness());
+            productTrace.setAginghardness(subPaichanRecord.getAginghardness());
             productTrace.setOxideFilm(orderForm.getOxideFilm());
-            productTrace.setAlHeatNum(paiChanRecord.getAlHeatNum());
+            productTrace.setAlHeatNum(subPaichanRecord.getAlHeatNum());
             productTrace.setOrderQuantity(paichanOrderDetail.getOrderQuantity());
             productTrace.setOrderWeight(paichanOrderDetail.getOrderWeight());
             productTrace.setUncompleteQuantity(paichanOrderDetail.getOrderQuantity()-paichanOrderDetail.getCompQuantity());
@@ -87,7 +89,7 @@ public class PaichanRecordService extends BaseService<PaiChanRecordDAO,PaiChanRe
             productTrace.setDbId(orderDetail.getDbId());
             productTrace.setOrderDetail(orderDetail);
             productTrace.setSetSize(orderDetail.getSetSize());
-            productTrace.setAlHeatNum(paiChanRecord.getAlHeatNum());
+            productTrace.setAlHeatNum(subPaichanRecord.getAlHeatNum());
             productTrace.setPack(orderDetail.getOrderForm().getPack());
             productTrace.setPreSendDate(orderDetail.getOrderForm().getPreSendDate());
             productTrace.setEnough(orderDetail.getCompStatus());
@@ -202,7 +204,7 @@ public class PaichanRecordService extends BaseService<PaiChanRecordDAO,PaiChanRe
 	 * @throws org.dom4j.DocumentException
 	 */
 	public void startCreatePDF(String taskId,OutputStream os) throws JRException, DocumentException{
-        PaiChanRecord paiChanRecord = getPaiChanRecordByTaskId(taskId);
+        PaiChanRecord paiChanRecord = getSubPaiChanRecordByTaskId(taskId).getPaiChanRecord();
 		reportService.exportProductRecord(paiChanRecord,os);
 	}
 	//生产部审核
@@ -227,20 +229,20 @@ public class PaichanRecordService extends BaseService<PaiChanRecordDAO,PaiChanRe
     //完成挤压任务
     public void jiya(String taskId,List<ProductTrace> traces,String aginghardness,String alHeatNum,String wcomment,Admin user) throws BaseErrorModel{
         checkOrderState(taskId);
-        PaiChanRecord paiChanRecord = getPaiChanRecordByTaskId(taskId);
-        updateProductDetail(traces,paiChanRecord,user,"挤压");
-        paiChanRecord.setAginger(user);
-        paiChanRecord.setAginghardness(aginghardness);
-        paiChanRecord.setAlHeatNum(alHeatNum);
-        paiChanRecord.setWcomment(wcomment);
-        paiChanRecord.setCurrentStep("挤压");
-        List<String> squence=paiChanRecord.getOrderForm().generateStepList();
+        SubPaichanRecord subPaiChanRecord = getSubPaiChanRecordByTaskId(taskId);
+        updateProductDetail(traces,subPaiChanRecord.getPaiChanRecord(),user,"挤压");
+        subPaiChanRecord.setAginger(user);
+        subPaiChanRecord.setAginghardness(aginghardness);
+        subPaiChanRecord.setAlHeatNum(alHeatNum);
+        subPaiChanRecord.setWcomment(wcomment);
+        subPaiChanRecord.setCurrentStep("挤压");
+        List<String> squence=subPaiChanRecord.getOrderForm().generateStepList();
         String nextStep = squence.get(0);
-        paiChanRecord.setNextStep(nextStep);
-        this.update(paiChanRecord);
+        subPaiChanRecord.setNextStep(nextStep);
+        this.update(subPaiChanRecord);
         updateOrderMcomment(taskId, wcomment);
         flowService.completeTask(taskId, user);
-        recordForPaichan(paiChanRecord,user);
+        recordForPaichan(subPaiChanRecord,user);
     }
 
 
@@ -248,7 +250,7 @@ public class PaichanRecordService extends BaseService<PaiChanRecordDAO,PaiChanRe
 	//完成时效任务
 	public void shiXiao(String taskId,List<ProductTrace> traces,String aginghardness,String alHeatNum,String wcomment,Admin user) throws BaseErrorModel{
         checkOrderState(taskId);
-        PaiChanRecord paiChanRecord = getPaiChanRecordByTaskId(taskId);
+        PaiChanRecord paiChanRecord = getSubPaiChanRecordByTaskId(taskId);
         updateProductDetail(traces,paiChanRecord,user,"时效");
         paiChanRecord.setAginger(user);
         paiChanRecord.setAginghardness(aginghardness);
@@ -266,7 +268,7 @@ public class PaichanRecordService extends BaseService<PaiChanRecordDAO,PaiChanRe
 	//完成氧化任务
 	public void yangHua(String taskId,List<ProductTrace> traces,String oxiFilm,String wcomment,Admin user) throws BaseErrorModel{
         checkOrderState(taskId);
-        PaiChanRecord paiChanRecord = getPaiChanRecordByTaskId(taskId);
+        PaiChanRecord paiChanRecord = getSubPaiChanRecordByTaskId(taskId);
         boolean ofcomplete = updateProductDetail(traces,paiChanRecord,user,"氧化");
         paiChanRecord.setOxiFilm(oxiFilm);
         paiChanRecord.setOxifilmer(user);
@@ -284,7 +286,7 @@ public class PaichanRecordService extends BaseService<PaiChanRecordDAO,PaiChanRe
 	//完成电泳任务
 	public void dianYong(String taskId,List<ProductTrace> traces,String wcomment,Admin user) throws BaseErrorModel{
         checkOrderState(taskId);
-        PaiChanRecord paiChanRecord = getPaiChanRecordByTaskId(taskId);
+        PaiChanRecord paiChanRecord = getSubPaiChanRecordByTaskId(taskId);
         boolean ofcomplete = updateProductDetail(traces,paiChanRecord,user,"电泳");
         paiChanRecord.setElectrophoresis(user);
         paiChanRecord.setWcomment(wcomment);
@@ -299,7 +301,7 @@ public class PaichanRecordService extends BaseService<PaiChanRecordDAO,PaiChanRe
 	//完成喷涂任务
 	public void plating(String taskId,List<ProductTrace> traces,String wcomment,Admin user) throws BaseErrorModel{
         checkOrderState(taskId);
-        PaiChanRecord paiChanRecord = getPaiChanRecordByTaskId(taskId);
+        PaiChanRecord paiChanRecord = getSubPaiChanRecordByTaskId(taskId);
         updateProductDetail(traces,paiChanRecord,user,"喷涂");
         paiChanRecord.setPlater(user);
         paiChanRecord.setWcomment(wcomment);
@@ -330,7 +332,7 @@ public class PaichanRecordService extends BaseService<PaiChanRecordDAO,PaiChanRe
 	//仓管记录存放位置
 	public void storage(String taskId,List<ProductTrace> traces,String storeLocation,String wcomment,Admin user) throws BaseErrorModel{
         checkOrderState(taskId);
-        PaiChanRecord paiChanRecord = getPaiChanRecordByTaskId(taskId);
+        PaiChanRecord paiChanRecord = getSubPaiChanRecordByTaskId(taskId);
         updateProductDetail(traces,paiChanRecord,user,"仓管记录存放位置");
         paiChanRecord.setWarehouser(user);
         paiChanRecord.setStoreLocation(storeLocation);
@@ -345,7 +347,7 @@ public class PaichanRecordService extends BaseService<PaiChanRecordDAO,PaiChanRe
 	//发货员发货
 	public void sendProduct(String taskId,List<ProductTrace> traces,String wcomment,Admin user) throws BaseErrorModel{
         checkOrderState(taskId);
-        PaiChanRecord paiChanRecord = getPaiChanRecordByTaskId(taskId);
+        PaiChanRecord paiChanRecord = getSubPaiChanRecordByTaskId(taskId);
         updateProductDetail(traces,paiChanRecord,user,"发货员发货");
         paiChanRecord.setSender(user);
         paiChanRecord.setWcomment(wcomment);
@@ -359,7 +361,7 @@ public class PaichanRecordService extends BaseService<PaiChanRecordDAO,PaiChanRe
 	//财务核对
 	public void financialReconciliation(String taskId,int totalPrice,String wcomment,Admin user) throws BaseErrorModel{
         checkOrderState(taskId);
-        PaiChanRecord paiChanRecord = getPaiChanRecordByTaskId(taskId);
+        PaiChanRecord paiChanRecord = getSubPaiChanRecordByTaskId(taskId);
         paiChanRecord.setTotalPrice(totalPrice);
         paiChanRecord.setFinancer(user);
         paiChanRecord.setWcomment(wcomment);
@@ -380,7 +382,7 @@ public class PaichanRecordService extends BaseService<PaiChanRecordDAO,PaiChanRe
 	public void weight(String taskId,List<ProductTrace> traces,String wcomment,Admin user) throws BaseErrorModel {
         checkOrderState(taskId);
         checkWeight(traces);
-        PaiChanRecord paiChanRecord = getPaiChanRecordByTaskId(taskId);
+        PaiChanRecord paiChanRecord = getSubPaiChanRecordByTaskId(taskId);
         OrderForm orderForm = paiChanRecord.getOrderForm();
         paiChanRecord.setWcomment(wcomment);
         orderForm.setMcomment(wcomment);
@@ -395,7 +397,7 @@ public class PaichanRecordService extends BaseService<PaiChanRecordDAO,PaiChanRe
     public void transit(String taskId, List<ProductTrace> traces, String wcomment, Admin user) {
         checkOrderState(taskId);
         checkQuantity(traces);
-        PaiChanRecord paiChanRecord = getPaiChanRecordByTaskId(taskId);
+        PaiChanRecord paiChanRecord = getSubPaiChanRecordByTaskId(taskId);
         OrderForm orderForm = paiChanRecord.getOrderForm();
         paiChanRecord.setWcomment(wcomment);
         orderForm.setMcomment(wcomment);
@@ -488,7 +490,7 @@ public class PaichanRecordService extends BaseService<PaiChanRecordDAO,PaiChanRe
 	 * @return
 	 */
 	public Map getProductRecordInfo(String taskId){
-        PaiChanRecord paiChanRecord = getPaiChanRecordByTaskId(taskId);
+        PaiChanRecord paiChanRecord = getSubPaiChanRecordByTaskId(taskId);
 		OrderForm orderForm=paiChanRecord.getOrderForm();
 
 		Map map=new HashMap();

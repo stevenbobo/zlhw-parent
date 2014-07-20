@@ -37,6 +37,8 @@ public class Mould extends HIntTable{
     @ManyToOne
     private DataDict jyhx; //交样选项
 
+    private Integer compWeight; //完成重量
+
 	private Byte status; //模具    0:定制1.试模 2.返修,3.可配半键报废,4判定5,彻底报废6,氮化,7,待产,8生产
 	public static enum MODEL_STATUS {  
 		  定制(0), 试模(1), 返修(2), 可配半键报废(3),判定(4),彻底报废(5),氮化(6),待产(7),生产(8) ;
@@ -321,5 +323,13 @@ public class Mould extends HIntTable{
 
     public void setJyhx(DataDict jyhx) {
         this.jyhx = jyhx;
+    }
+
+    public Integer getCompWeight() {
+        return compWeight;
+    }
+
+    public void setCompWeight(Integer compWeight) {
+        this.compWeight = compWeight;
     }
 }

@@ -93,17 +93,4 @@ public class DataDict extends HIntTable{
         this.editDate = editDate;
     }
 
-    @Override
-    public String toString() {
-        final StringBuffer sb = new StringBuffer();
-        sb.append("DataDict");
-        sb.append("{name='").append(name).append('\'');
-        sb.append(", dataDictCatalog=").append(dataDictCatalog);
-        sb.append(", editDate=").append(editDate);
-        sb.append(", str1='").append(str1).append('\'');
-        sb.append(", str2='").append(str2).append('\'');
-        sb.append(", str3='").append(str3).append('\'');
-        sb.append('}');
-        return sb.toString();
-    }
 }

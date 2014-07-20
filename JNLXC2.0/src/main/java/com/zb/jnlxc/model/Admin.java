@@ -127,21 +127,4 @@ public class Admin extends HIntTable implements User{
         this.userGroups = userGroups;
     }
 
-    @Override
-    public String toString() {
-        final StringBuffer sb = new StringBuffer();
-        sb.append("Admin");
-        sb.append("{account='").append(account).append('\'');
-        sb.append(", name='").append(name).append('\'');
-        sb.append(", password='").append(password).append('\'');
-        sb.append(", nextClientNum=").append(nextClientNum);
-        sb.append(", userGroups=").append(userGroups);
-        sb.append(", state=").append(state);
-        sb.append(", addDate=").append(addDate);
-        sb.append(", lastlogin=").append(lastlogin);
-        sb.append(", depart=").append(depart);
-        sb.append(", email='").append(email).append('\'');
-        sb.append('}');
-        return sb.toString();
-    }
 }

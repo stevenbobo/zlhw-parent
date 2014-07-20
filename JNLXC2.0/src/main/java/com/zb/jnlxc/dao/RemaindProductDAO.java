@@ -19,10 +19,10 @@ public class RemaindProductDAO  extends DAO<RemaindProduct,Integer> {
 
     /**
      * 保存胚料记录
-     * @param orderForm
      * @param paiChanRecord
      */
-    public void storeRemainProduct(OrderForm orderForm,PaiChanRecord paiChanRecord){
+    public void storeRemainProduct(PaiChanRecord paiChanRecord){
+        OrderForm orderForm = paiChanRecord.getOrderForm();
         boolean isFinished = true;
         List<PaichanOrderDetail> paichanOrderDetailList = paichanOrderDetailDAO.findByPaichan(paiChanRecord.getDbId());
         for(PaichanOrderDetail paichanOrderDetail:paichanOrderDetailList){
