@@ -8,6 +8,7 @@ import java.nio.charset.Charset;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.codehaus.jackson.JsonEncoding;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -23,6 +24,7 @@ import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -41,7 +43,14 @@ public class MappingGsonConverter extends AbstractHttpMessageConverter<Object> {
     public static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
 
 //    private ObjectMapper objectMapper = new ObjectMapper();
-    private Gson gson = new Gson();
+    private Gson gson;
+
+    @PostConstruct
+    private void init(){
+        gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd HH:mm:ss")
+                .create();
+    }
 
     private boolean prefixJson = false;
 
@@ -101,7 +110,6 @@ public class MappingGsonConverter extends AbstractHttpMessageConverter<Object> {
             throws IOException, HttpMessageNotWritableException {
 
         try {
-//            outputMessage.getHeaders().setContentType(MediaType.parseMediaType("text/html;charset=UTF-8"));
             outputMessage.getBody().write(gson.toJson(object).getBytes("utf-8"));
         }
         catch (JsonProcessingException ex) {
