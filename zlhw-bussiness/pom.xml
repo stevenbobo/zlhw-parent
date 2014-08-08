@@ -4,7 +4,7 @@
 	<groupId>org.zlhw</groupId>
 	<artifactId>zlhw-bussiness</artifactId>
 	<packaging>war</packaging>
-	<version>1.0.2</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<parent>
 		<groupId>org.zlhw</groupId>
   		<artifactId>zlhw-parent</artifactId>
@@ -14,7 +14,7 @@
 		<dependency>
 			<groupId>org.zlhw</groupId>
 			<artifactId>zlhw-common</artifactId>
-			<version>1.0.2</version>
+			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>

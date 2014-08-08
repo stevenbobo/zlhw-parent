@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>zlhw-common</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.2</version>
+    <version>1.0.1-SNAPSHOT</version>
     <parent>
         <groupId>org.zlhw</groupId>
         <artifactId>zlhw-parent</artifactId>
