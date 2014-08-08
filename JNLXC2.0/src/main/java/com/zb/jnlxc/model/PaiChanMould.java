@@ -46,4 +46,12 @@ public class PaiChanMould extends HIntTable {
         this.mould = mould;
     }
 
+    @Override
+    public String toString() {
+        return "PaiChanMould{" +
+                "paiChanRecord=" + paiChanRecord +
+                ", mould=" + mould +
+                ", hasJiYa=" + hasJiYa +
+                '}';
+    }
 }

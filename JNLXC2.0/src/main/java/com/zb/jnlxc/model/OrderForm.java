@@ -554,4 +554,45 @@ public class OrderForm extends HIntTable{
         return squence;
     }
 
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this).
+                append("code", code).
+                append("nextRecordNum", nextRecordNum).
+                append("material", material).
+                append("client", client).
+                append("kaidan", kaidan).
+                append("scheme", scheme).
+                append("pack", pack).
+                append("city", city).
+                append("address", address).
+                append("oxideFilm", oxideFilm).
+                append("surfaceProcess", surfaceProcess).
+                append("hardness", hardness).
+                append("doEletr", doEletr).
+                append("path", path).
+                append("kpm", kpm).
+                append("alPrice", alPrice).
+                append("processingFee", processingFee).
+                append("m_price", m_price).
+                append("orderDate", orderDate).
+                append("registerDate", registerDate).
+                append("deadline", deadline).
+                append("factSendDate", factSendDate).
+                append("preSendDate", preSendDate).
+                append("compStatus", compStatus).
+                append("totalWeight", totalWeight).
+                append("compWeight", compWeight).
+                append("compQuantity", compQuantity).
+                append("mcomment", mcomment).
+                append("shixiao", shixiao).
+                append("includeTax", includeTax).
+                append("bill", bill).
+                append("payWay", payWay).
+                append("pickWay", pickWay).
+                append("currentState", currentState).
+                append("enable", enable).
+                append("version", version).
+                toString();
+    }
 }

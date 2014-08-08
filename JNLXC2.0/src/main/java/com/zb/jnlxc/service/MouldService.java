@@ -47,8 +47,6 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
     private PaiChanMouldDAO paiChanMouldDAO;
     @Resource
     DataDictService dataDictService;
-    @Resource
-    RemaindProductDAO remaindProductDAO;
 	/**
 	 * 生成模具编号
 	 */
@@ -480,9 +478,6 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
         // 当一个排产的所有排模流程通过了挤压那一步，则进入生产流程继续
         if(paiChanRecordDAO.checkJiYaFinished(paiChanRecord)){
             ProcessInstance processInstance = flowService.getExecutionService().createProcessInstanceQuery().processInstanceKey(paiChanRecord.getCode()).uniqueResult();
-            paiChanRecord.setCurrentState((byte)0);//设置排产结束
-            paiChanRecordDAO.update(paiChanRecord);
-            remaindProductDAO.storeRemainProduct(paiChanRecord);
             flowService.getExecutionService().signalExecutionById(processInstance.getId());
         }
     }

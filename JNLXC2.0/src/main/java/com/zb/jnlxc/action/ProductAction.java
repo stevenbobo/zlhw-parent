@@ -51,7 +51,7 @@ public class ProductAction {
     public void downloadPDF(HttpServletResponse response,String taskId) throws IOException {
 
         OutputStream out = response.getOutputStream();
-        PaiChanRecord paiChanRecord = paichanRecordService.getSubPaiChanRecordByTaskId(taskId);
+        PaiChanRecord paiChanRecord = paichanRecordService.getPaiChanRecordByTaskId(taskId);
         response.setContentType("application/x-download");
         response.setHeader("Content-disposition", "attachment;filename="
                 + paiChanRecord.getCode()+".pdf");

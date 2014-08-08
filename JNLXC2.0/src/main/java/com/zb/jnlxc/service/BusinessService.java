@@ -673,7 +673,6 @@ public class BusinessService extends BaseService<OrderFormDAO,OrderForm, Integer
         paichanRecord.setRecordNum(orderForm.getNextRecordNum());
         paichanRecord.setCharger(adminDao.loadById(paichanRecord.getProductTeam().getCharge_dbId()));//设置机台负责人
         paichanRecord.setCurrentState((byte)1);
-        paichanRecord.setDistributeFinished(false);
         paichanRecord.setWcomment("");
 
         paiChanRecordDAO.create(paichanRecord);

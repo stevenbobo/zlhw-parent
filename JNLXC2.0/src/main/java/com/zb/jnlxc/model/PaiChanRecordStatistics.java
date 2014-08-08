@@ -33,4 +33,11 @@ public class PaiChanRecordStatistics extends HIntTable {
         this.nextPaiChanRecordNum = nextPaiChanRecordNum;
     }
 
+    @Override
+    public String toString() {
+        return "PaiChanRecordStatistics{" +
+                "createDate='" + createDate + '\'' +
+                ", nextPaiChanRecordNum=" + nextPaiChanRecordNum +
+                '}';
+    }
 }

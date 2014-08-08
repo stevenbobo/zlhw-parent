@@ -22,7 +22,6 @@
             <div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%;"
                  url="$loadMouldUrl"  idField="id" allowResize="true"
                  onrowdblclick="onRowDblClick"
-                 onselectionchanged="onSelectionChanged"
                  sizeList="[10,20,30,50,100]" pageSize="20"
                     >
                 <div property="columns">
@@ -30,7 +29,7 @@
                     <div field="code"  headerAlign="center" allowSort="true">编号</div>
                     <div field="mouldSize.size"  headerAlign="center" allowSort="true">规格</div>
                     <div field="scheme.code"   align="center" >图纸编号</div>
-                    <div field="manuDate"  align="center" >已完成产量</div>
+                    <div field="manuDate"  align="center" >设计日期</div>
                 </div>
             </div>
         </div>
@@ -46,7 +45,7 @@
             showTreeIcon="true" textField="code" idField="dbId" parentField="pid" resultAsTree="false"
                 >
         </ul>
-        <img id="bmp" width="100%"  />
+        <img id="bmp" width="200"  />
     </div>
 </div>
 
