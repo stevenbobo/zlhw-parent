@@ -70,6 +70,9 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
 		mould.setCurrentState((byte)1);//修改为流程中状态
         mould.setStatus(MODEL_STATUS.定制.getValue());
         mould.setManuDate(new Date());
+        if(mould.getManufacture()==null){
+            mould.setFinishedBySelf(false);
+        }
         this.create(mould);
 		
 		//更新图纸的下一个模具号
@@ -77,14 +80,7 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
 		Scheme scheme = mould.getScheme();
 		scheme.setNextMouldNum(scheme.getNextMouldNum()+1);
 		this.schemeDao.update(scheme);
-        Map map = new HashMap();
-		//将模具和外协添加到流程中
-		map.put("mouldId", mould.getDbId());
-		map.put("association", mould.getManufacture().getAgent().getAccount());
-        //初始化试模次数
-        map.put("smcs","0");
-        map.put("isReturn",false);
-
+        Map map = getFlowMap(mould);
         Map map2 = new HashMap(map);
         map2.put("mould",mould);
         updateCombination(mould.getDbId(), map2);
@@ -92,6 +88,25 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
         this.startmouldFlowByKey(mould.getCode(), map);
 		return mould;
 	}
+
+    private Map getFlowMap(Mould mould){
+        Map map = new HashMap();
+        //将模具和外协添加到流程中
+        map.put("mouldId", mould.getDbId());
+        map.put("association", mould.getManufacture().getAgent().getAccount());
+        //初始化试模次数
+        map.put("smcs","0");
+        map.put("isReturn",false);
+        return map;
+    }
+
+    public void finishMouldBySelf(Integer mouldDbId){
+        Mould mould = loadById(mouldDbId);
+        mould.setFinishedBySelf(true);
+        mould.setFinishedDate(new Date());
+        update(mould);
+        this.startmouldFlowByKey(mould.getCode(), getFlowMap(mould));
+    }
 	/**
 	 * 保存模具，完成流程任务
 	 * @param mould 模具

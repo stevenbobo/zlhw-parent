@@ -32,7 +32,10 @@
             <input property="editor" class="mini-combobox" style="width:100%;"  url="$mouldTypeUrl" textField="name" valueField="dbId" />
         </div>
         <div field="price" vtype="required;int" width="100"  >模具定价(元)
-            <input property="editor" class="mini-spinner" minValue="0" maxValue="200" value="25" style="width:100%;"/>
+            <input property="editor" class="mini-spinner" minValue="0" maxValue="200" value="0" style="width:100%;"/>
+        </div>
+        <div field="mjclks" vtype="required;int" width="100"  >模具出料孔数
+            <input property="editor" class="mini-spinner" minValue="0" maxValue="20" value="0" style="width:100%;"/>
         </div>
         <div field="pmprice" width="120" vtype="required;int" align="center" headerAlign="center" >配模价(元)
             <input property="editor" class="mini-spinner" minValue="0"  value="0" style="width:100%;"/>

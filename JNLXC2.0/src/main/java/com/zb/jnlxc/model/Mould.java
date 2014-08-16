@@ -36,6 +36,10 @@ public class Mould extends HIntTable{
     private DataDict kmxz; //模具性质
     @ManyToOne
     private DataDict jyhx; //交样选项
+    
+    private String isNewMould;//是否是新模具
+    
+    private Integer mouldPrice;//模具费
 
 	private Byte status; //模具    0:定制1.试模 2.返修,3.可配半键报废,4判定5,彻底报废6,氮化,7,待产,8生产
 	public static enum MODEL_STATUS {  
@@ -63,8 +67,16 @@ public class Mould extends HIntTable{
 	private Admin feeCharge; //厂方负担负责人
 	@Column(length=50)
 	private String mouldFee; //客服负担费用
+	
+	private Integer syxc;//剩余限产
+	
 	private Byte currentState; //当前状态：0:正常1:流程中:
 	private Byte enable; //0正常， 1 已删除
+
+    private Boolean finishedBySelf;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date finishedDate;
+
 	private int mouldRecordCount;
 	@Version  
     private Integer version;
@@ -321,5 +333,45 @@ public class Mould extends HIntTable{
 
     public void setJyhx(DataDict jyhx) {
         this.jyhx = jyhx;
+    }
+
+	public String getIsNewMould() {
+		return isNewMould;
+	}
+
+	public void setIsNewMould(String isNewMould) {
+		this.isNewMould = isNewMould;
+	}
+
+	public Integer getMouldPrice() {
+		return mouldPrice;
+	}
+
+	public void setMouldPrice(Integer mouldPrice) {
+		this.mouldPrice = mouldPrice;
+	}
+
+	public Integer getSyxc() {
+		return syxc;
+	}
+
+	public void setSyxc(Integer syxc) {
+		this.syxc = syxc;
+	}
+
+    public Boolean getFinishedBySelf() {
+        return finishedBySelf;
+    }
+
+    public void setFinishedBySelf(Boolean finishedBySelf) {
+        this.finishedBySelf = finishedBySelf;
+    }
+
+    public Date getFinishedDate() {
+        return finishedDate;
+    }
+
+    public void setFinishedDate(Date finishedDate) {
+        this.finishedDate = finishedDate;
     }
 }

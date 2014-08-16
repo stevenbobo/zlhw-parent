@@ -22,6 +22,8 @@ public class MouldSize extends HIntTable {
     private String size; //规格（111X111这种格式）
     private Integer price; //模具定价(元)
     private Integer pmprice; //配模价(元)
+    
+    private Integer mjclks;//模具出料孔数
 
     @Column(length=50)
     private String bcdw; //包产吨位
@@ -81,5 +83,15 @@ public class MouldSize extends HIntTable {
     public void setCreatetime(Date createtime) {
         this.createtime = createtime;
     }
+
+	public Integer getMjclks() {
+		return mjclks;
+	}
+
+	public void setMjclks(Integer mjclks) {
+		this.mjclks = mjclks;
+	}
+    
+    
 
 }

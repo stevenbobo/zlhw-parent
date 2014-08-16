@@ -86,7 +86,7 @@
                 </tr>
                 <tr>
 
-                    <td>外协公司：</td>
+                    <td>制模单位：</td>
                     <td>
                         <input name="manufacture.dbId" required="true" property="editor" class="mini-combobox"   url="$findAssociationUrl"
                                textField="name" valueField="dbId" onvaluechanged="onWaiXieChanged" />
@@ -97,6 +97,21 @@
                     </td>
 
                 </tr>
+                
+                <tr>
+
+                    <td>模具性质：</td>
+                    <td>
+                        <input property="editor" name="isNewMould" class="mini-combobox" style="width:100%;" data="[{id:1,text:'新模具'}, {id:2, text: '非新模具'}]"/>
+
+                    </td>
+                    <td>模具费：</td>
+                    <td >
+                        <input name="mouldPrice" id="price" readonly="true"  class="mini-textbox" />
+                    </td>
+
+                </tr>
+                
                 <tr>
                     <td>图纸:</td>
                     <td>

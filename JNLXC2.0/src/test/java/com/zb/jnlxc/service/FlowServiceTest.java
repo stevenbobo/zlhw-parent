@@ -30,6 +30,8 @@ public class FlowServiceTest extends AbstractJUnit4SpringContextTests  {
         String path9 = "./jbpm/yangHuaProcess.jpdl.xml";
         String path10 = "./jbpm/packageProcess.jpdl.xml";
         String path11 = "./jbpm/jiYaProcess.jpdl.xml";
+        
+        String path12 = "./jbpm/new_mouldFlow.jpdl.xml";
 
 		String result1 = flowService.deployFlow(path1);
 		String result2 = flowService.deployFlow(path2);
@@ -43,13 +45,12 @@ public class FlowServiceTest extends AbstractJUnit4SpringContextTests  {
         String result9 = flowService.deployFlow(path9);
         String result10 = flowService.deployFlow(path10);
         String result11 = flowService.deployFlow(path11);
+        String result12 = flowService.deployFlow(path12);
 	}
-
+    @Test
     public void testDeployMouldFlow() {
-        String path1 = "./jbpm/mouldFlow.jpdl.xml";
-        String path2 = "./jbpm/mouldProcess.jpdl.xml";
-        String result1 = flowService.deployFlow(path1);
-        String result2 = flowService.deployFlow(path2);
+    	String path12 = "./jbpm/new_mouldFlow.jpdl.xml";
+    	String result12 = flowService.deployFlow(path12);
     }
 
 	public void testDeleteFlow(){

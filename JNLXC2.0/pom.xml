@@ -17,6 +17,7 @@
                 <exclusion>
                     <artifactId>xml-apis</artifactId>
                     <groupId>xml-apis</groupId>
+                    
                 </exclusion>
             </exclusions>
         </dependency>
