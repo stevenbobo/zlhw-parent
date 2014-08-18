@@ -21,6 +21,12 @@ public class MouldFixTask extends HIntTable{
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate; //创建日期
 
+    private int syxc;//剩余限产
+
+    private int zjxc;//增加限产
+    @ManyToOne
+    private ProductTeam productTeam;
+
 	public Mould getMould() {
 		return mould;
 	}
@@ -51,5 +57,29 @@ public class MouldFixTask extends HIntTable{
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public int getSyxc() {
+        return syxc;
+    }
+
+    public void setSyxc(int syxc) {
+        this.syxc = syxc;
+    }
+
+    public int getZjxc() {
+        return zjxc;
+    }
+
+    public void setZjxc(int zjxc) {
+        this.zjxc = zjxc;
+    }
+
+    public ProductTeam getProductTeam() {
+        return productTeam;
+    }
+
+    public void setProductTeam(ProductTeam productTeam) {
+        this.productTeam = productTeam;
     }
 }

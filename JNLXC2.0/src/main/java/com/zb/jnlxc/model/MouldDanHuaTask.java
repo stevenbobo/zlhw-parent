@@ -18,6 +18,12 @@ public class MouldDanHuaTask extends HIntTable{
 
     private Boolean isProcessed = false;//已经处理的
 
+    private String danHuaLuHao;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date startTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date finishTime;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate; //创建日期
 
@@ -51,5 +57,29 @@ public class MouldDanHuaTask extends HIntTable{
 
     public void setProcessed(Boolean processed) {
         isProcessed = processed;
+    }
+
+    public String getDanHuaLuHao() {
+        return danHuaLuHao;
+    }
+
+    public void setDanHuaLuHao(String danHuaLuHao) {
+        this.danHuaLuHao = danHuaLuHao;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getFinishTime() {
+        return finishTime;
+    }
+
+    public void setFinishTime(Date finishTime) {
+        this.finishTime = finishTime;
     }
 }
