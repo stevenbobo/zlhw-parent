@@ -93,10 +93,16 @@ public class MouldAction {
 
     }
 
-        @ResponseBody
+    @ResponseBody
     @RequestMapping("/saveMouldByTaskId")
     public Mould saveMouldByTaskId(Mould mould, String taskId,@ModelAttribute("user") Admin user)  {
         return mouldService.saveMould(mould, taskId,user);
+    }
+
+    @ResponseBody
+    @RequestMapping("/finishMouldBySelf")
+    public void finishMouldBySelf(Integer mouldDbId){
+        mouldService.finishMouldBySelf(mouldDbId);
     }
 
     @ResponseBody
