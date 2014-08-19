@@ -74,8 +74,6 @@ public class Mould extends HIntTable{
 	@Column(length=50)
 	private String mouldFee; //客服负担费用
 	
-
-	
 	private Byte currentState; //当前状态：0:正常1:流程中:
 	private Byte enable; //0正常， 1 已删除
 
