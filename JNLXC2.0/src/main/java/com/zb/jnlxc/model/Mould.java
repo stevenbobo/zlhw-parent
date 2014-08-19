@@ -78,6 +78,35 @@ public class Mould extends HIntTable{
     private Date finishedDate;
 
 	private int mouldRecordCount;
+
+    //外径合格
+    private Boolean waijingOk;
+
+    //总厚合格
+    private Boolean zongHouOk;
+
+    //止口直径合格
+    private Boolean zhiKouZhiJingOk;
+
+    //止口深度合格
+    private Boolean zhiKouShengDuOk;
+
+    //外形倒角合格
+    private Boolean waiXinDaoJiaoOk;
+
+    //模具编码合格
+    private Boolean muJuBianMaOk;
+
+    //销钉合格
+    private Boolean shaoDingOk;
+
+    //提模孔合格
+    private Boolean tiMuKongOk;
+
+    //硬度合格
+    private Boolean yingDuOk;
+
+
 	@Version  
     private Integer version;
 
@@ -373,5 +402,77 @@ public class Mould extends HIntTable{
 
     public void setFinishedDate(Date finishedDate) {
         this.finishedDate = finishedDate;
+    }
+
+    public Boolean getWaijingOk() {
+        return waijingOk;
+    }
+
+    public void setWaijingOk(Boolean waijingOk) {
+        this.waijingOk = waijingOk;
+    }
+
+    public Boolean getZongHouOk() {
+        return zongHouOk;
+    }
+
+    public void setZongHouOk(Boolean zongHouOk) {
+        this.zongHouOk = zongHouOk;
+    }
+
+    public Boolean getZhiKouZhiJingOk() {
+        return zhiKouZhiJingOk;
+    }
+
+    public void setZhiKouZhiJingOk(Boolean zhiKouZhiJingOk) {
+        this.zhiKouZhiJingOk = zhiKouZhiJingOk;
+    }
+
+    public Boolean getZhiKouShengDuOk() {
+        return zhiKouShengDuOk;
+    }
+
+    public void setZhiKouShengDuOk(Boolean zhiKouShengDuOk) {
+        this.zhiKouShengDuOk = zhiKouShengDuOk;
+    }
+
+    public Boolean getWaiXinDaoJiaoOk() {
+        return waiXinDaoJiaoOk;
+    }
+
+    public void setWaiXinDaoJiaoOk(Boolean waiXinDaoJiaoOk) {
+        this.waiXinDaoJiaoOk = waiXinDaoJiaoOk;
+    }
+
+    public Boolean getMuJuBianMaOk() {
+        return muJuBianMaOk;
+    }
+
+    public void setMuJuBianMaOk(Boolean muJuBianMaOk) {
+        this.muJuBianMaOk = muJuBianMaOk;
+    }
+
+    public Boolean getShaoDingOk() {
+        return shaoDingOk;
+    }
+
+    public void setShaoDingOk(Boolean shaoDingOk) {
+        this.shaoDingOk = shaoDingOk;
+    }
+
+    public Boolean getTiMuKongOk() {
+        return tiMuKongOk;
+    }
+
+    public void setTiMuKongOk(Boolean tiMuKongOk) {
+        this.tiMuKongOk = tiMuKongOk;
+    }
+
+    public Boolean getYingDuOk() {
+        return yingDuOk;
+    }
+
+    public void setYingDuOk(Boolean yingDuOk) {
+        this.yingDuOk = yingDuOk;
     }
 }
