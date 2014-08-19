@@ -98,10 +98,6 @@ public class Mould extends HIntTable{
     private String smjx;//试模机型
 
 	private int mouldRecordCount;
-    @ManyToOne
-    private ProductTeam productTeam;//当前所在机台
-
-    private Integer syxc;//剩余限产
 
     //外径合格
     private Boolean waijingOk;
@@ -502,5 +498,69 @@ public class Mould extends HIntTable{
 
     public void setYingDuOk(Boolean yingDuOk) {
         this.yingDuOk = yingDuOk;
+    }
+
+    public String getLastTask() {
+        return lastTask;
+    }
+
+    public void setLastTask(String lastTask) {
+        this.lastTask = lastTask;
+    }
+
+    public String getCurrentTask() {
+        return currentTask;
+    }
+
+    public void setCurrentTask(String currentTask) {
+        this.currentTask = currentTask;
+    }
+
+    public Admin getFixer() {
+        return fixer;
+    }
+
+    public void setFixer(Admin fixer) {
+        this.fixer = fixer;
+    }
+
+    public Admin getSupervisor() {
+        return supervisor;
+    }
+
+    public void setSupervisor(Admin supervisor) {
+        this.supervisor = supervisor;
+    }
+
+    public String getSourceName() {
+        return sourceName;
+    }
+
+    public void setSourceName(String sourceName) {
+        this.sourceName = sourceName;
+    }
+
+    public String getProcessingScheme() {
+        return processingScheme;
+    }
+
+    public void setProcessingScheme(String processingScheme) {
+        this.processingScheme = processingScheme;
+    }
+
+    public String getSmjx() {
+        return smjx;
+    }
+
+    public void setSmjx(String smjx) {
+        this.smjx = smjx;
+    }
+
+    public ProductTeam getProductTeam() {
+        return productTeam;
+    }
+
+    public void setProductTeam(ProductTeam productTeam) {
+        this.productTeam = productTeam;
     }
 }
