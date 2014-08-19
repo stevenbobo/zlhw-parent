@@ -41,6 +41,12 @@ public class Mould extends HIntTable{
     
     private Integer mouldPrice;//模具费
 
+    @Column(length=100)
+    private String lastTask;//上个任务状态
+
+    @Column(length=100)
+    private String currentTask;//上个任务状态
+
 	private Byte status; //模具    0:定制1.试模 2.返修,3.可配半键报废,4判定5,彻底报废6,氮化,7,待产,8生产
 	public static enum MODEL_STATUS {  
 		  定制(0), 试模(1), 返修(2), 可配半键报废(3),判定(4),彻底报废(5),氮化(6),待产(7),生产(8) ;
@@ -68,14 +74,28 @@ public class Mould extends HIntTable{
 	@Column(length=50)
 	private String mouldFee; //客服负担费用
 	
-	private Integer syxc;//剩余限产
+
 	
 	private Byte currentState; //当前状态：0:正常1:流程中:
 	private Byte enable; //0正常， 1 已删除
 
-    private Boolean finishedBySelf;
+    private Boolean finishedBySelf;//本厂生产
     @Temporal(TemporalType.TIMESTAMP)
-    private Date finishedDate;
+    private Date finishedDate;//本厂完成时间
+
+    @ManyToOne
+    private Admin fixer; //指定的修模工
+
+    @ManyToOne
+    private Admin supervisor; //监督人
+
+    @Column(length=100)
+    private String sourceName;//上个任务名称
+
+    @Column(length=50)
+    private String processingScheme;//处理方案
+
+    private String smjx;//试模机型
 
 	private int mouldRecordCount;
 
@@ -107,6 +127,10 @@ public class Mould extends HIntTable{
     private Boolean yingDuOk;
 
 
+    @ManyToOne
+    private ProductTeam productTeam;//当前所在机台
+
+    private Integer syxc;//剩余限产
 	@Version  
     private Integer version;
 
