@@ -16,7 +16,7 @@ public class MouldFixTask extends HIntTable{
     @Column(length=100)
 	private String source;//来源
 
-    private Boolean isProcessed = false;//已经处理的
+    private Boolean isProcessed;//已经处理的
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate; //创建日期
@@ -27,28 +27,28 @@ public class MouldFixTask extends HIntTable{
     @ManyToOne
     private ProductTeam productTeam;
 
-	public Mould getMould() {
-		return mould;
-	}
+    public Mould getMould() {
+        return mould;
+    }
 
-	public void setMould(Mould mould) {
-		this.mould = mould;
-	}
+    public void setMould(Mould mould) {
+        this.mould = mould;
+    }
 
-	public String getSource() {
-		return source;
-	}
+    public String getSource() {
+        return source;
+    }
 
-	public void setSource(String source) {
-		this.source = source;
-	}
+    public void setSource(String source) {
+        this.source = source;
+    }
 
-    public Boolean getProcessed() {
+    public Boolean getIsProcessed() {
         return isProcessed;
     }
 
-    public void setProcessed(Boolean processed) {
-        isProcessed = processed;
+    public void setIsProcessed(Boolean isProcessed) {
+        this.isProcessed = isProcessed;
     }
 
     public Date getCreateDate() {

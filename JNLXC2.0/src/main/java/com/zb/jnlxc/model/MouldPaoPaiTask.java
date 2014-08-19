@@ -52,4 +52,12 @@ public class MouldPaoPaiTask extends HIntTable{
     public void setProcessed(Boolean processed) {
         isProcessed = processed;
     }
+
+    public Boolean getIsProcessed() {
+        return isProcessed;
+    }
+
+    public void setIsProcessed(Boolean isProcessed) {
+        this.isProcessed = isProcessed;
+    }
 }

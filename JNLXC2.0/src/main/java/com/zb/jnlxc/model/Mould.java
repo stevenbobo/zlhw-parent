@@ -42,10 +42,10 @@ public class Mould extends HIntTable{
     private Integer mouldPrice;//模具费
 
     @Column(length=100)
-    private String lastTask;//上个任务状态
+    private String lastTask;//上个任务
 
     @Column(length=100)
-    private String currentTask;//上个任务状态
+    private String currentTask;//当前任务
 
 	private Byte status; //模具    0:定制1.试模 2.返修,3.可配半键报废,4判定5,彻底报废6,氮化,7,待产,8生产
 	public static enum MODEL_STATUS {  
@@ -74,9 +74,8 @@ public class Mould extends HIntTable{
 	@Column(length=50)
 	private String mouldFee; //客服负担费用
 	
-
-	
 	private Byte currentState; //当前状态：0:正常1:流程中:
+
 	private Byte enable; //0正常， 1 已删除
 
     private Boolean finishedBySelf;//本厂生产
@@ -88,9 +87,6 @@ public class Mould extends HIntTable{
 
     @ManyToOne
     private Admin supervisor; //监督人
-
-    @Column(length=100)
-    private String sourceName;//上个任务名称
 
     @Column(length=50)
     private String processingScheme;//处理方案
@@ -530,14 +526,6 @@ public class Mould extends HIntTable{
 
     public void setSupervisor(Admin supervisor) {
         this.supervisor = supervisor;
-    }
-
-    public String getSourceName() {
-        return sourceName;
-    }
-
-    public void setSourceName(String sourceName) {
-        this.sourceName = sourceName;
     }
 
     public String getProcessingScheme() {
