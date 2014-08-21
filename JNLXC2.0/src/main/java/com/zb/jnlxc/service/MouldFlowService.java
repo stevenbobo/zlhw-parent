@@ -193,13 +193,14 @@ public class MouldFlowService extends BaseService<MouldDAO,Mould, Integer> {
         String liaoKuangCode = String.valueOf(maps.get("liaoKuangCode"));
         LiaoKuang liaoKuang = liaoKuangDAO.getBycode(liaoKuangCode);
         if(liaoKuang==null){
-            LiaoKuang liaokuang = new LiaoKuang();
-            liaokuang.setUsing(true);
-            liaokuang.setCode(liaoKuangCode);
-            liaoKuangDAO.create(liaokuang);
-        }else{
-            
+            liaoKuang = new LiaoKuang();
         }
+        liaoKuang.setCode(liaoKuangCode);
+        liaoKuang.setUsing(true);
+        liaoKuangDAO.update(liaoKuang);
+        PaiChanMould paiChanMould = paiChanMouldDAO.getUnJiYaPaiChanMould(mould.getDbId());
+        
+        
 
     }
     
