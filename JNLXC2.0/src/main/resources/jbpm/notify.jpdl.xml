@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process name="notify" xmlns="http://jbpm.org/4.4/jpdl">
+   <start name="start1" g="101,81,48,48">
+      <transition to="通知"/>
+   </start>
+   <task name="通知" form="#{vmform}" g="79,173,92,52">
+          <assignment-handler class="com.zb.jnlxc.JBPM.NotifyHandler"/>
+      <transition to="end1"/>
+   </task>
+   <end name="end1" g="102,276,48,48"/>
+</process>

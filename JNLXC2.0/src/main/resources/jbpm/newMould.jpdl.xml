@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process name="newMould" xmlns="http://jbpm.org/4.4/jpdl">
+
+    <start g="95,-2,48,48" name="start1">
+      <transition to="模具入场验收"/>
+    </start>
+   <task form="/content/flow/newmould/mjrcys.vm" g="61,80,113,52" name="模具入场验收">
+       <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler"/>
+      <transition g="-32,-11" name="通过" to="入厂责任人分配"/>
+      <transition name="报废退模" to="end1" g="255,105;255,290:-50,-22"/>
+   </task>
+   <task form="/content/flow/newmould/rczrrfp.vm" g="47,170,140,52" name="入厂责任人分配">
+      <transition name="确认" to="end1" g="-39,-11"/>
+       <assignment-handler class="com.zb.jnlxc.JBPM.PowerHandler"/>
+   </task>
+   <end name="end1" g="94,267,48,48"/>
+</process>

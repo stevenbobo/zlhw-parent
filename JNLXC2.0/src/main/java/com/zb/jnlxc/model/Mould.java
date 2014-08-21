@@ -47,9 +47,9 @@ public class Mould extends HIntTable{
     @Column(length=100)
     private String currentTask;//当前任务
 
-	private Byte status; //模具    0:定制1.试模 2.返修,3.可配半键报废,4判定5,彻底报废6,氮化,7,待产,8生产
+	private Byte status; //模具    0:定制1.试模 2.返修,3.可配半键报废,4判定5,彻底报废6,氮化,7,待产,8生产，9退模
 	public static enum MODEL_STATUS {  
-		  定制(0), 试模(1), 返修(2), 可配半键报废(3),判定(4),彻底报废(5),氮化(6),待产(7),生产(8) ;
+		  定制(0), 试模(1), 返修(2), 可配半键报废(3),判定(4),彻底报废(5),氮化(6),待产(7),生产(8),退模(9) ;
 		  private byte value;
 		  MODEL_STATUS(int statue){
 			  value=(byte) statue;
