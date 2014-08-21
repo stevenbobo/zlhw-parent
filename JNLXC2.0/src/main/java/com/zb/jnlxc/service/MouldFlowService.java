@@ -50,6 +50,8 @@ public class MouldFlowService extends BaseService<MouldDAO,Mould, Integer> {
     @Resource
     private MouldBaoFeiTaskDAO mouldBaoFeiTaskDAO;
     @Resource
+    private LiaoKuangDAO liaoKuangDAO;
+    @Resource
     private NotifyFlowService notifyFlowService;
     @Resource
     DataDictService dataDictService;
@@ -182,6 +184,23 @@ public class MouldFlowService extends BaseService<MouldDAO,Mould, Integer> {
         mould.setStatus(MODEL_STATUS.待产.getValue());
         update(mould);
         flowService.completeTask(taskId, nextStep, user);
+    }
+    /**
+     * 挤压试模具使用
+     */
+    public void jysmsy(String taskId, Admin user,Map maps,String nextStep){
+        Mould mould = getMouldInfo(taskId);
+        String liaoKuangCode = String.valueOf(maps.get("liaoKuangCode"));
+        LiaoKuang liaoKuang = liaoKuangDAO.getBycode(liaoKuangCode);
+        if(liaoKuang==null){
+            LiaoKuang liaokuang = new LiaoKuang();
+            liaokuang.setUsing(true);
+            liaokuang.setCode(liaoKuangCode);
+            liaoKuangDAO.create(liaokuang);
+        }else{
+            
+        }
+
     }
     
     /**

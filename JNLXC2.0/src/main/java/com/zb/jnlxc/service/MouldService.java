@@ -616,7 +616,6 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
         for (PaiChanMould paiChanMould:list){
             startmouldProcessFlowByKey(paiChanMould);
         }
-
     }
 
     public void selectMould(String mouldList, Integer recordId) {

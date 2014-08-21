@@ -20,6 +20,8 @@ import javax.persistence.Table;
 public class LiaoKuang extends HIntTable {
     @Column(length=30)
     private String code;//料框编号
+    
+    private Boolean using;//使用中
 
     private int jiya_weight;//挤压过磅重量
 
@@ -68,4 +70,14 @@ public class LiaoKuang extends HIntTable {
     public void setCode(String code) {
         this.code = code;
     }
+
+    public Boolean getUsing() {
+        return using;
+    }
+
+    public void setUsing(Boolean using) {
+        this.using = using;
+    }
+    
+    
 }

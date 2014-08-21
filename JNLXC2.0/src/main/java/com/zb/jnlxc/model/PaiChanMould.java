@@ -1,6 +1,5 @@
 package com.zb.jnlxc.model;
 
-import com.ZLHW.base.HTable.BasicModel;
 import com.ZLHW.base.HTable.HIntTable;
 import com.ZLHW.base.table.TableDeclare;
 

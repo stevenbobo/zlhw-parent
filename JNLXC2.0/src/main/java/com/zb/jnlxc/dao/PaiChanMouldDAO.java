@@ -14,4 +14,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class PaiChanMouldDAO extends DAO<PaiChanMould,Integer> {
+    public void getUnJiYaPaiChanMould(){
+        
+    }
 }
