@@ -1,8 +1,8 @@
 package com.zb.jnlxc.dao;
 
 import com.ZLHW.base.dao.DAO;
-import com.zb.jnlxc.model.LiaoKuangPenTu;
-import com.zb.jnlxc.model.LiaoKuangYangHua;
+import com.zb.jnlxc.model.LiaoKuangYanghua;
+
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,5 +13,5 @@ import org.springframework.stereotype.Component;
  * To change this template use File | Settings | File Templates.
  */
 @Component
-public class LiaoKuangYangHuaDAO extends DAO<LiaoKuangYangHua,Integer> {
+public class LiaoKuangYangHuaDAO extends DAO<LiaoKuangYanghua,Integer> {
 }

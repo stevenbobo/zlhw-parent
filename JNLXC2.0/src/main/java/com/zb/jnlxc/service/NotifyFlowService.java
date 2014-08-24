@@ -24,13 +24,14 @@ public class NotifyFlowService {
     @Resource
     FlowService flowService;
     
-    public ProcessInstance startNotify(String notifyId ,Integer senderId, Integer reciverId,Integer reciverGroupId,String vmform,String remark){
+    public ProcessInstance startNotify(String notifyId ,String senderAccount, String reciverAccount,
+    		String reciverGroupName,String vmform,String remark){
         logger.info("开启通知.notifyId={}:",notifyId);
         Map map = new HashMap();
-        map.put("senderId",senderId);
+        map.put("senderAccount",senderAccount);
         map.put("remark",remark);
-        map.put("reciverId", reciverId);
-        map.put("reciverGroupId", reciverGroupId);
+        map.put("reciverAccount", reciverAccount);
+        map.put("reciverGroupName", reciverGroupName);
         map.put("vmform", vmform);
         return flowService.startProcessInstanceByKey("notify",notifyId,map);
     }

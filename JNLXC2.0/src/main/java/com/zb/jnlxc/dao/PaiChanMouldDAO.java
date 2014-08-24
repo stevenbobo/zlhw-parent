@@ -18,12 +18,4 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class PaiChanMouldDAO extends DAO<PaiChanMould,Integer> {
-    public PaiChanMould getUnJiYaPaiChanMould(Integer mouldId){
-        List<PaiChanMould> list = findByHQL("from PaiChanMould t where t,mould.dbId =? and hasJiYa=?", mouldId,true);
-        if(CollectionUtils.isNotEmpty(list)){
-            return list.get(0);
-        }else{
-            return null;
-        }
-    }
 }

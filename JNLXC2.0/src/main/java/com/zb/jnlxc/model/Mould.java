@@ -47,9 +47,9 @@ public class Mould extends HIntTable{
     @Column(length=100)
     private String currentTask;//当前任务
 
-	private Byte status; //模具    0:定制1.试模 2.返修,3.可配半键报废,4判定5,彻底报废6,氮化,7,待产,8生产，9退模
+	private Byte status; //定制(0),已收模(1), 试模(2), 转修处理(3),抛排收模处理(4),合格入库(5),返修(6),报废处理(7),彻底报废(8),氮化(9),已退模(10),泡排收模处理(11) ;
 	public static enum MODEL_STATUS {  
-		  定制(0), 试模(1), 返修(2), 可配半键报废(3),判定(4),彻底报废(5),氮化(6),待产(7),生产(8),退模(9) ;
+		  定制(0),已收模(1), 试模(2), 转修处理(3),抛排收模处理(4),合格入库(5),返修(6),报废处理(7),彻底报废(8),氮化(9),已退模(10),泡排收模处理(11) ;
 		  private byte value;
 		  MODEL_STATUS(int statue){
 			  value=(byte) statue;
@@ -121,6 +121,9 @@ public class Mould extends HIntTable{
 
     //硬度合格
     private Boolean yingDuOk;
+    
+  //卸载模具原因
+    private String xmyy;
 
 
     @ManyToOne
@@ -551,4 +554,14 @@ public class Mould extends HIntTable{
     public void setProductTeam(ProductTeam productTeam) {
         this.productTeam = productTeam;
     }
+
+	public String getXmyy() {
+		return xmyy;
+	}
+
+	public void setXmyy(String xmyy) {
+		this.xmyy = xmyy;
+	}
+    
+    
 }

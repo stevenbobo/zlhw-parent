@@ -18,20 +18,23 @@ import javax.persistence.Table;
 @Table(name="JNLXC_PaiChanMouldLiaoKuang")
 @TableDeclare(comment = "模具排产-料框", tableName = "PaiChanMouldLiaoKuang")
 public class PaiChanMouldLiaoKuang extends HIntTable {
+	
     @ManyToOne
-    PaiChanMould paiChanMould;
+    PaichanMouldOrderDetail paichanMouldOrderDetail;
+    
     @ManyToOne
     LiaoKuang liaoKuang;
 
-    public PaiChanMould getPaiChanMould() {
-        return paiChanMould;
-    }
+    public PaichanMouldOrderDetail getPaichanMouldOrderDetail() {
+		return paichanMouldOrderDetail;
+	}
 
-    public void setPaiChanMould(PaiChanMould paiChanMould) {
-        this.paiChanMould = paiChanMould;
-    }
+	public void setPaichanMouldOrderDetail(
+			PaichanMouldOrderDetail paichanMouldOrderDetail) {
+		this.paichanMouldOrderDetail = paichanMouldOrderDetail;
+	}
 
-    public LiaoKuang getLiaoKuang() {
+	public LiaoKuang getLiaoKuang() {
         return liaoKuang;
     }
 

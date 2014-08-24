@@ -76,7 +76,6 @@ public class PaiDanFlowService {
 	public void distribution(String taskId,Integer moulderId,String remarks,Admin user) {
         Mould mould = getMouldInfo(taskId);
         mould.setMcomment(remarks);
-        mould.setStatus(MODEL_STATUS.生产.getValue());
         mouldDAO.update(mould);
 		Map map = new HashMap();
 		map.put("moulder", adminDAO.getById(moulderId).getAccount());
@@ -92,9 +91,7 @@ public class PaiDanFlowService {
         if(nextStep.equals("氮化")){
             mould.setStatus(MODEL_STATUS.氮化.getValue());
         }else if(nextStep.equals("模具主管")){
-            mould.setStatus(MODEL_STATUS.判定.getValue());
         }else if(nextStep.equals("仓库入库")){
-            mould.setStatus(MODEL_STATUS.待产.getValue());
         }
         mould.setMcomment(remarks);
         mouldDAO.update(mould);
@@ -128,7 +125,6 @@ public class PaiDanFlowService {
             m.setScrap(dataDictService.loadById(scrapDbId));
             m.setStatus(MODEL_STATUS.彻底报废.getValue());
         }else if(nextStep.equals("正常入库")){
-            m.setStatus(MODEL_STATUS.待产.getValue());
         }
 		mouldDAO.update(m);
 		flowService.completeTask(taskId,nextStep,user);
@@ -140,7 +136,6 @@ public class PaiDanFlowService {
 	public void storage(String taskId,String remarks,Admin user){
 		Mould m = getMouldInfo(taskId);
         m.setMcomment(remarks);
-		m.setStatus(MODEL_STATUS.待产.getValue());
 		mouldDAO.update(m);
 		flowService.completeTask(taskId,user);
 	}

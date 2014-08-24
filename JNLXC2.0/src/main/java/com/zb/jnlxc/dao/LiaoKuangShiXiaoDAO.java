@@ -2,7 +2,6 @@ package com.zb.jnlxc.dao;
 
 import com.ZLHW.base.dao.DAO;
 import com.zb.jnlxc.model.LiaoKuangShiXiao;
-import com.zb.jnlxc.model.LiaoKuangYangHua;
 import org.springframework.stereotype.Component;
 
 /**

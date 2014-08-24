@@ -50,6 +50,8 @@ public class MouldFlowService extends BaseService<MouldDAO,Mould, Integer> {
     @Resource
     private MouldBaoFeiTaskDAO mouldBaoFeiTaskDAO;
     @Resource
+    private PaichanMouldOrderDetailDAO paichanMouldOrderDetailDAO;
+    @Resource
     private LiaoKuangDAO liaoKuangDAO;
     @Resource
     private NotifyFlowService notifyFlowService;
@@ -69,7 +71,7 @@ public class MouldFlowService extends BaseService<MouldDAO,Mould, Integer> {
     }
 
     /**
-     * 获取拋拍任务
+     * 获取拋排任务
      * @return
      */
     public Page loadMouldPaoPaiTask(Page page){
@@ -81,7 +83,7 @@ public class MouldFlowService extends BaseService<MouldDAO,Mould, Integer> {
     }
 
     /**
-     * 获取拋拍任务
+     * 获取氮化任务
      * @return
      */
     public Page loadMouldDanHuaTask(Page page){
@@ -121,7 +123,10 @@ public class MouldFlowService extends BaseService<MouldDAO,Mould, Integer> {
         mouldFixTaskDAO.update(mouldFixTask);
     }
 
-    private void ppsmcl(Integer dbId,String nextStep){
+    /**
+     * 抛排收模处理
+     */
+    private void ppsmcl(Integer dbId,String nextStep,Admin admin){
         MouldPaoPaiTask mouldPaoPaiTask = mouldPaoPaiTaskDAO.getById(dbId);
         Mould mould = mouldPaoPaiTask.getMould();
         mould.setLastTask("抛排收模处理");
@@ -134,28 +139,32 @@ public class MouldFlowService extends BaseService<MouldDAO,Mould, Integer> {
             fixMould(mould);
         }else if ("上机".equals(nextStep)){//抛排，上机
             mould.setCurrentTask("挤压班组收模");
-            startMouldProduce(mould);
+            notifyShouMU(mould,admin);
         }else if ("合格入库".equals(nextStep)){//抛排，上机
             mould.setCurrentTask("抛排收模处理");
-            mouldStorage(mould);
+            notifyStorage(mould,admin);
         }
+        update(mould);
         mouldPaoPaiTask.setIsProcessed(true);
         mouldPaoPaiTaskDAO.update(mouldPaoPaiTask);
     }
     
     //退模报废处理
-    private void tmbfcl(Integer dbId,String nextStep,Admin admin, Integer reciverId,Integer reciverGroupId){
+    private void tmbfcl(Integer dbId,String nextStep,Admin admin){
         MouldBaoFeiTask mouldBaoFeiTask = mouldBaoFeiTaskDAO.getById(dbId);
         Mould mould = mouldBaoFeiTask.getMould();
         if("报废".equals(nextStep)){
             mould.setStatus(Mould.MODEL_STATUS.彻底报废.getValue());
         }else if("退模".equals(nextStep)){
-            mould.setStatus(Mould.MODEL_STATUS.退模.getValue());
-            notifyFlowService.startNotify(dbId+"",admin.getDbId(),reciverId,null,"addMould.vm","提醒补模添加模具(发单)");
+            mould.setStatus(Mould.MODEL_STATUS.已退模.getValue());
+            //todo 提醒添加模具
         }else if("返修".equals(nextStep)){
             mould.setStatus(Mould.MODEL_STATUS.定制.getValue());
             startmouldFlowByKey(mould);
         }
+        update(mould);
+        mouldBaoFeiTask.setIsProcessed(true);
+        mouldBaoFeiTaskDAO.update(mouldBaoFeiTask);
     }
     
     /**
@@ -174,34 +183,42 @@ public class MouldFlowService extends BaseService<MouldDAO,Mould, Integer> {
     public void jybzsm(String taskId, Admin user,Map maps,String nextStep) {
         Mould mould = getMouldInfo(taskId);
         flowService.completeTask(taskId, nextStep, user);
+        mould.setStatus(MODEL_STATUS.已收模.getValue());
     }
     
     /**
-     * 挤压模具加温确认
-     */
-    public void jymjjwqr(String taskId, Admin user,Map maps,String nextStep) {
-        Mould mould = getMouldInfo(taskId);
-        mould.setStatus(MODEL_STATUS.待产.getValue());
-        update(mould);
-        flowService.completeTask(taskId, nextStep, user);
-    }
-    /**
      * 挤压试模具使用
      */
-    public void jysmsy(String taskId, Admin user,Map maps,String nextStep){
-        Mould mould = getMouldInfo(taskId);
-        String liaoKuangCode = String.valueOf(maps.get("liaoKuangCode"));
+    public void jysmsy(Integer mouldId, Admin user,Map map,List<PaichanMouldOrderDetail> paichanMouldOrderDetails){
+        Mould mould = getById(mouldId);
+        String liaoKuangCode = String.valueOf(map.get("liaoKuangCode"));
+        //修改料框状态
         LiaoKuang liaoKuang = liaoKuangDAO.getBycode(liaoKuangCode);
         if(liaoKuang==null){
             liaoKuang = new LiaoKuang();
+            liaoKuang.setCode(liaoKuangCode);
+            liaoKuangDAO.create(liaoKuang);
         }
-        liaoKuang.setCode(liaoKuangCode);
         liaoKuang.setUsing(true);
         liaoKuangDAO.update(liaoKuang);
-        PaiChanMould paiChanMould = paiChanMouldDAO.getUnJiYaPaiChanMould(mould.getDbId());
         
+        //保存模具生产记录
+        for(PaichanMouldOrderDetail paichanMouldOrderDetail:paichanMouldOrderDetails){
+        	paichanMouldOrderDetail.setLiaoKuang(liaoKuang);
+        	paichanMouldOrderDetailDAO.create(paichanMouldOrderDetail);
+        }
         
-
+        //获取卸模原因
+        String xmyy = (String)map.get("xmyy");
+        mould.setXmyy(xmyy);
+        if("不卸模".equals(xmyy)){
+        	log.info("不卸模，继续试模具，模具号:{}",mould.getDbId());
+        }else{
+        	log.info("卸模,模具号:{}",mould.getDbId());
+        	mould.setStatus(MODEL_STATUS.抛排收模处理.getValue());
+        	notifyPaoMu(mould,user);
+        }
+        update(mould);
     }
     
     /**
@@ -213,36 +230,81 @@ public class MouldFlowService extends BaseService<MouldDAO,Mould, Integer> {
         String id = mould.getCode()+"_"+mould.getMouldRecordCount();
         ProcessInstance processInstance = flowService.getExecutionService().createProcessInstanceQuery().processInstanceKey(id).uniqueResult();
         flowService.getExecutionService().signalExecutionById(processInstance.getId());
-        mould.setStatus(MODEL_STATUS.生产.getValue());
+        mould.setStatus(MODEL_STATUS.试模.getValue());
         update(mould);
     }
     
 
     /**
-     * 开启上机流程
+     * 通知收模
      * @param mould
      */
-    private void startMouldProduce(Mould mould){
-        
+    private void notifyShouMU(Mould mould,Admin admin){
+    	SimpleDateFormat dateformat1=new SimpleDateFormat("yyyyMMddHHmmss");
         int currentCount = mould.getMouldRecordCount();
         mould.setMouldRecordCount(currentCount+1);
         String id = mould.getCode()+"_"+mould.getMouldRecordCount();
-        Map map = new HashMap();
-        map.put("mouldId", mould.getDbId());
-        flowService.startProcessInstanceByKey("mouldProduce", id, map);
+        String notifyId = id+"-"+dateformat1.format(new Date());
+        notifyFlowService.startNotify(notifyId, admin.getAccount(), "", "挤压班组收模", "/content/flow/newmould/jybzsm.vm" , "挤压班组收模");
+        update(mould);
+    }
+    
+    /**
+     * 通知泡模收模确认
+     * @param mould
+     */
+    private void notifyPaoMu(Mould mould,Admin admin){
+    	SimpleDateFormat dateformat1=new SimpleDateFormat("yyyyMMddHHmmss");
+        int currentCount = mould.getMouldRecordCount();
+        mould.setMouldRecordCount(currentCount+1);
+        String id = mould.getCode()+"_"+mould.getMouldRecordCount();
+        String notifyId = id+"-"+dateformat1.format(new Date());
+        notifyFlowService.startNotify(notifyId, admin.getAccount(), "", "泡模收模确认", "/content/flow/newmould/pmsmqr.vm" , "泡模收模确认");
+        update(mould);
+    }
+    
+    /**
+     * 通知报废退模
+     * @param mould
+     */
+    private void notifyTuiMu(Mould mould,Admin admin){
+    	SimpleDateFormat dateformat1=new SimpleDateFormat("yyyyMMddHHmmss");
+        int currentCount = mould.getMouldRecordCount();
+        mould.setMouldRecordCount(currentCount+1);
+        mould.setStatus(MODEL_STATUS.报废处理.getValue());
+        String id = mould.getCode()+"_"+mould.getMouldRecordCount();
+        String notifyId = id+"-"+dateformat1.format(new Date());
+        notifyFlowService.startNotify(notifyId, admin.getAccount(), "", "报废退模处理", "/content/flow/newmould/bftmcl.vm" , "报废退模处理");
         update(mould);
     }
 
     /**
-     * 模具入库
+     * 模具入库提醒
      * @param mould
      */
-    private void mouldStorage(Mould mould){
+    private void notifyStorage(Mould mould,Admin admin){
         SimpleDateFormat dateformat1=new SimpleDateFormat("yyyyMMdd-HHmmss");
-        String id = mould.getCode()+"_"+dateformat1.format(new Date());
+        String notifyId = mould.getCode()+"_"+dateformat1.format(new Date());
         Map map = new HashMap();
         map.put("mouldId", mould.getDbId());
-        flowService.startProcessInstanceByKey("mould_storage", id, map);
+        notifyFlowService.startNotify(notifyId, admin.getAccount(), "", "合格入库", "/content/flow/newmould/hgrk.vm" , "合格入库");
+    }
+    
+    /**
+     * 模具入库
+     */
+    public void mjrk(String taskId, Admin user,Map map){
+    	Mould mould = getMouldInfo(taskId);
+    	mould.setStatus(MODEL_STATUS.合格入库.getValue());
+    	update(mould);
+    	flowService.completeTask(taskId, user);
+    }
+    
+    public void pmsmqr(String taskId, Admin user,Map map){
+    	Mould mould = getMouldInfo(taskId);
+    	update(mould);
+    	flowService.completeTask(taskId, user);
+    	paoPai(mould);
     }
     
 
@@ -264,6 +326,8 @@ public class MouldFlowService extends BaseService<MouldDAO,Mould, Integer> {
      * @param mould
      */
     private void fixMould(Mould mould){
+    	mould.setStatus(MODEL_STATUS.转修处理.getValue());
+    	update(mould);
         MouldFixTask mouldFixTask = new MouldFixTask();
         mouldFixTask.setSource(mould.getLastTask());
         mouldFixTask.setMould(mould);
@@ -276,6 +340,8 @@ public class MouldFlowService extends BaseService<MouldDAO,Mould, Integer> {
      * 抛排处理
      */
     private void paoPai(Mould mould){
+    	mould.setStatus(MODEL_STATUS.抛排收模处理.getValue());
+    	update(mould);
         MouldPaoPaiTask mouldPaoPaiTask = new MouldPaoPaiTask();
         mouldPaoPaiTask.setSource(mould.getLastTask());
         mouldPaoPaiTask.setMould(mould);
@@ -289,6 +355,8 @@ public class MouldFlowService extends BaseService<MouldDAO,Mould, Integer> {
      * @param mould
      */
     private void danHua(Mould mould){
+    	mould.setStatus(MODEL_STATUS.氮化.getValue());
+    	update(mould);
         MouldDanHuaTask mouldDanHuaTask = new MouldDanHuaTask();
         mouldDanHuaTask.setSource(mould.getLastTask());
         mouldDanHuaTask.setMould(mould);
@@ -302,11 +370,32 @@ public class MouldFlowService extends BaseService<MouldDAO,Mould, Integer> {
      * @param mould
      */
     private void baoFei(Mould mould){
+    	mould.setStatus(MODEL_STATUS.报废处理.getValue());
+    	update(mould);
         MouldBaoFeiTask mouldBaoFeiTask = new MouldBaoFeiTask();
         mouldBaoFeiTask.setSource(mould.getLastTask());
         mouldBaoFeiTask.setMould(mould);
         mouldBaoFeiTask.setCreateDate(new Date());
         mouldBaoFeiTask.setIsProcessed(false);
         mouldBaoFeiTaskDAO.create(mouldBaoFeiTask);
+    }
+    
+    /**
+     * 模具入场验收
+     */
+    public void mjrcys(String taskId, Admin user,Map maps,String nextStep) {
+    	Mould mould = getMouldInfo(taskId);
+    	if("报废退模".equals(nextStep))
+    		baoFei(mould);
+    	flowService.completeTask(taskId,nextStep, user);
+    }
+    
+    /**
+     * 模具入场责任人分配
+     */
+    public void mjrczrrfp(String taskId, Admin user,Map maps,String nextStep) {
+    	Mould mould = getMouldInfo(taskId);
+    	fixMould(mould);
+    	flowService.completeTask(taskId,nextStep, user);
     }
 }

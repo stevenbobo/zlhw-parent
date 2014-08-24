@@ -16,7 +16,7 @@ import java.util.Date;
 @Entity
 @Table(name="JNLXC_LiaoKuang_Yanghua")
 @TableDeclare(comment = "料框", tableName = "LiaoKuangYanghua")
-public class LiaoKuangYangHua extends HIntTable {
+public class LiaoKuangYanghua extends HIntTable {
     @ManyToOne
     private LiaoKuang liaoKuang;//料框
     @ManyToOne

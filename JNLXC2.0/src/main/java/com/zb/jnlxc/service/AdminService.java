@@ -9,6 +9,8 @@ import com.ZLHW.base.Form.Page;
 import com.zb.jnlxc.dao.*;
 import com.zb.jnlxc.form.MiniPageReq;
 import com.zb.util.StringUtils;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
@@ -234,5 +236,14 @@ public class AdminService extends BaseService<AdminDAO,Admin, Integer> {
         Admin admin = this.loadById(dbId);
         admin.setPassword(newPassword);
         this.update(admin);
+    }
+    
+    public Admin getByAccount(String account){
+    	List<Admin> list = this.getByColumn("account",account);
+    	if(CollectionUtils.isNotEmpty(list)){
+    		return list.get(0);
+    	}else{
+    		return null;
+    	}
     }
 }

@@ -251,7 +251,6 @@ public class MouldService extends BaseService<MouldDAO,Mould, Integer>{
 	public void changeToReturn(String taskId,String remmark,Admin user) throws BaseErrorModel{
         Mould mould=this.getMouldInfo(taskId);
         mould.setMcomment(remmark);
-        mould.setStatus(MODEL_STATUS.可配半键报废.getValue());
 		this.update(mould);
 		flowService.completeTask(taskId,user);
 	}
