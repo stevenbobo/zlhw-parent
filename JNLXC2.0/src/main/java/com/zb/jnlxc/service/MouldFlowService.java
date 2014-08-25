@@ -189,7 +189,8 @@ public class MouldFlowService extends BaseService<MouldDAO,Mould, Integer> {
     /**
      * 挤压试模具使用
      */
-    public void jysmsy(Integer mouldId, Admin user,Map map,List<PaichanMouldOrderDetail> paichanMouldOrderDetails){
+    public void jysmsy( Admin user,Map map,List<PaichanMouldOrderDetail> paichanMouldOrderDetails){
+        Integer mouldId = (Integer) map.get("mouldId");
         Mould mould = getById(mouldId);
         String liaoKuangCode = String.valueOf(map.get("liaoKuangCode"));
         //修改料框状态
@@ -205,7 +206,7 @@ public class MouldFlowService extends BaseService<MouldDAO,Mould, Integer> {
         //保存模具生产记录
         for(PaichanMouldOrderDetail paichanMouldOrderDetail:paichanMouldOrderDetails){
         	paichanMouldOrderDetail.setLiaoKuang(liaoKuang);
-            paichanMouldOrderDetail.setMould();
+            paichanMouldOrderDetail.setMould(mould);
         	paichanMouldOrderDetailDAO.create(paichanMouldOrderDetail);
         }
         

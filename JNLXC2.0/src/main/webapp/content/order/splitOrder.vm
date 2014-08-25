@@ -105,12 +105,12 @@
         var setSize = row.setSize;
         var orderQuantity = grid.getCellEditor("orderQuantity", row).getValue();
         var orderWeight = row.orderWeight;
-//        if(orderQuantity>originOrderQuantity){
-//            mini.alert("尺寸:"+setSize+"  能够生产的最大数量为："+originOrderQuantity);
-//            row.orderQuantity = originOrderQuantity;
-//            grid.getCellEditor("orderQuantity", row).setValue(originOrderQuantity)
-//            return;
-//        }
+        if(orderQuantity>originOrderQuantity){
+            mini.alert("尺寸:"+setSize+"  能够生产的最大数量为："+originOrderQuantity);
+            row.orderQuantity = originOrderQuantity;
+            grid.getCellEditor("orderQuantity", row).setValue(originOrderQuantity)
+            return;
+        }
         if(field=='orderQuantity'){
             row.orderWeight=orderQuantity*((row.setSize/1000.0)*kpm)/1000;
             row.orderTotalMeter=(orderQuantity*row.setSize)/1000.0;
