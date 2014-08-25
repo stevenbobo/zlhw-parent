@@ -205,6 +205,7 @@ public class MouldFlowService extends BaseService<MouldDAO,Mould, Integer> {
         //保存模具生产记录
         for(PaichanMouldOrderDetail paichanMouldOrderDetail:paichanMouldOrderDetails){
         	paichanMouldOrderDetail.setLiaoKuang(liaoKuang);
+            paichanMouldOrderDetail.setMould();
         	paichanMouldOrderDetailDAO.create(paichanMouldOrderDetail);
         }
         

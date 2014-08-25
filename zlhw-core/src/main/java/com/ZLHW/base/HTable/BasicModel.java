@@ -1,5 +1,7 @@
 package com.ZLHW.base.HTable;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 import java.io.Serializable;
 
 
@@ -31,4 +33,8 @@ public abstract class BasicModel implements Serializable{
 			return false;
 		}
 	}
+
+    public String toString(){
+        return ToStringBuilder.reflectionToString(this);
+    }
 }
