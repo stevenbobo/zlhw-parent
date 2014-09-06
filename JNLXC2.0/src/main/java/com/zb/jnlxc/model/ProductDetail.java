@@ -10,23 +10,23 @@ import java.util.Date;
  */
 @Entity
 @Table(name="JNLXC_PaichanMouldOrderDetail")
-@TableDeclare(comment = "排产记录表", tableName = "PaichanMouldOrderDetail")
-public class PaichanMouldOrderDetail extends HIntTable {
+@TableDeclare(comment = "鐢熶骇璁板綍", tableName = "ProductDetail")
+public class ProductDetail extends HIntTable {
     @ManyToOne
-    private LiaoKuang liaoKuang; //当前所在的料框
+    private LiaoKuang liaoKuang; //褰撳墠鎵�鍦ㄧ殑鏂欐
     @ManyToOne
-    private Mould mould;//制造所用的模具
+    private Mould mould;//鍒堕�犳墍鐢ㄧ殑妯″叿
     @ManyToOne
-    private PaichanOrderDetail paichanOrderDetail; //订单明细
+    private PaichanOrderDetail paichanOrderDetail; //璁㈠崟鏄庣粏
 
-    private Integer orderTotalMeter; //总米数（米）
-    private Integer compQuantity; //完成数量
-    private Integer compWeight; //完成重量（千克）
+    private Integer orderTotalMeter; //鎬荤背鏁帮紙绫筹級
+    private Integer compQuantity; //瀹屾垚鏁伴噺
+    private Integer compWeight; //瀹屾垚閲嶉噺锛堝崈鍏嬶級
     @Column(length=250)
-    private String remarks; //备注
+    private String remarks; //澶囨敞
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createDate; //创建日期
+    private Date createDate; //鍒涘缓鏃ユ湡
 
     public LiaoKuang getLiaoKuang() {
         return liaoKuang;
