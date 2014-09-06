@@ -19,6 +19,8 @@ public class ProductDetail extends HIntTable {
     @ManyToOne
     private PaichanOrderDetail paichanOrderDetail; //订单明细
 
+    private Byte currentStep;//当前步骤
+
     private Integer orderTotalMeter; //总米数（米）
     private Integer compQuantity; //完成数量
     private Integer compWeight; //完成重量（千克）
@@ -90,5 +92,13 @@ public class ProductDetail extends HIntTable {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public Byte getCurrentStep() {
+        return currentStep;
+    }
+
+    public void setCurrentStep(Byte currentStep) {
+        this.currentStep = currentStep;
     }
 }

@@ -26,4 +26,5 @@ public class LiaoKuangDAO extends DAO<LiaoKuang,Integer> {
             return null;
         }
     }
+
 }

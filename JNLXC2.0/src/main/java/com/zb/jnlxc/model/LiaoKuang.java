@@ -22,46 +22,11 @@ public class LiaoKuang extends HIntTable {
     private String code;//料框编号
     
     private Boolean using;//使用中
+    @Column(length=50)
+    private String currentStep;//挤压,氧化, 喷涂, 时效,打包;
 
-    private int jiya_weight;//挤压过磅重量
-
-    private int shixiao_weight;//时效过磅重量
-
-    private int yanghua_weight;//氧化过磅重量
-
-    private int pengtu_weight;//喷涂过磅重量
-
-    public int getJiya_weight() {
-        return jiya_weight;
-    }
-
-    public void setJiya_weight(int jiya_weight) {
-        this.jiya_weight = jiya_weight;
-    }
-
-    public int getShixiao_weight() {
-        return shixiao_weight;
-    }
-
-    public void setShixiao_weight(int shixiao_weight) {
-        this.shixiao_weight = shixiao_weight;
-    }
-
-    public int getYanghua_weight() {
-        return yanghua_weight;
-    }
-
-    public void setYanghua_weight(int yanghua_weight) {
-        this.yanghua_weight = yanghua_weight;
-    }
-
-    public int getPengtu_weight() {
-        return pengtu_weight;
-    }
-
-    public void setPengtu_weight(int pengtu_weight) {
-        this.pengtu_weight = pengtu_weight;
-    }
+    //步骤 例如：挤压氧化 挤压时效氧化
+    private String steps;
 
     public String getCode() {
         return code;
@@ -78,6 +43,31 @@ public class LiaoKuang extends HIntTable {
     public void setUsing(Boolean using) {
         this.using = using;
     }
-    
-    
+
+    public String getCurrentStep() {
+        return currentStep;
+    }
+
+    public void setCurrentStep(String currentStep) {
+        this.currentStep = currentStep;
+    }
+
+    public String getSteps() {
+        return steps;
+    }
+
+    public void setSteps(String steps) {
+        this.steps = steps;
+    }
+
+    public String getNextStep(){
+        int length = steps.length();
+        int index = steps.indexOf(currentStep);
+        if(index<=length-4){
+            return steps.substring(index+2,index+4);
+        }else {
+            return null;
+        }
+    }
+
 }

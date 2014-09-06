@@ -7,7 +7,6 @@ import com.zb.jnlxc.dao.*;
 import com.zb.jnlxc.model.*;
 import com.zb.jnlxc.model.Mould.MODEL_STATUS;
 
-import org.apache.commons.lang.StringUtils;
 import org.jbpm.api.ProcessInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,7 +49,7 @@ public class MouldFlowService extends BaseService<MouldDAO,Mould, Integer> {
     @Resource
     private MouldBaoFeiTaskDAO mouldBaoFeiTaskDAO;
     @Resource
-    private PaichanMouldOrderDetailDAO paichanMouldOrderDetailDAO;
+    private ProductDetailDAO productDetailDAO;
     @Resource
     private LiaoKuangDAO liaoKuangDAO;
     @Resource
@@ -189,7 +188,7 @@ public class MouldFlowService extends BaseService<MouldDAO,Mould, Integer> {
     /**
      * 挤压试模具使用
      */
-    public void jysmsy( Admin user,Map map,List<PaichanMouldOrderDetail> paichanMouldOrderDetails){
+    public void jysmsy( Admin user,Map map,List<ProductDetail> productDetails){
         Integer mouldId = (Integer) map.get("mouldId");
         Mould mould = getById(mouldId);
         String liaoKuangCode = String.valueOf(map.get("liaoKuangCode"));
@@ -204,10 +203,10 @@ public class MouldFlowService extends BaseService<MouldDAO,Mould, Integer> {
         liaoKuangDAO.update(liaoKuang);
         
         //保存模具生产记录
-        for(PaichanMouldOrderDetail paichanMouldOrderDetail:paichanMouldOrderDetails){
-        	paichanMouldOrderDetail.setLiaoKuang(liaoKuang);
-            paichanMouldOrderDetail.setMould(mould);
-        	paichanMouldOrderDetailDAO.create(paichanMouldOrderDetail);
+        for(ProductDetail productDetail : productDetails){
+        	productDetail.setLiaoKuang(liaoKuang);
+            productDetail.setMould(mould);
+            productDetailDAO.create(productDetail);
         }
         
         //获取卸模原因
